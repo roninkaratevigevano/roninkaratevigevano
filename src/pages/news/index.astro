@@ -1,0 +1,122 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Testata from "../../components/Testata.astro";
+import { dataItaliana } from "../../data/sito";
+
+const tutte = (await getCollection("news")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const categorie = ["News", "Karate", "Kata", "Storia"] as const;
+const conteggio = Object.fromEntries(categorie.map((c) => [c, tutte.filter((n) => n.data.categorie.includes(c)).length]));
+const perAnno = new Map<number, typeof tutte>();
+for (const n of tutte) {
+  const anno = n.data.date.getFullYear();
+  perAnno.set(anno, [...(perAnno.get(anno) ?? []), n]);
+}
+const etichetta: Record<string, string> = { News: "Avvisi e notizie", Karate: "Karate", Kata: "Kata", Storia: "Storia" };
+---
+<Base titolo="News" descrizione="Avvisi, esami, gare e approfondimenti su kata e storia del karate dalla palestra Ronin Karate Vigevano.">
+  <Testata titolo="News" kanji="便り" intro={`${tutte.length} articoli dal 2016 a oggi: avvisi per gli allievi, esami e gare, e gli approfondimenti su kata e storia del karate.`} />
+
+  <section class="sezione chiara archivio" aria-label="Archivio delle news">
+    <div class="wrap">
+      <div class="filtri-news" role="search">
+        <div class="chip" role="group" aria-label="Filtra per argomento">
+          <button type="button" aria-pressed="true" data-cat="">Tutte <span>{tutte.length}</span></button>
+          {categorie.map((c) => <button type="button" aria-pressed="false" data-cat={c}>{etichetta[c]} <span>{conteggio[c]}</span></button>)}
+        </div>
+        <label class="cerca">
+          <span class="vh">Cerca nelle news</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.6 11.2l4.6 4.6-1.4 1.4-4.6-4.6A7 7 0 1 1 10 3Zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/></svg>
+          <input type="search" placeholder="Cerca: esami, Heian, Natale…" data-cerca>
+        </label>
+      </div>
+      <p class="risultati" aria-live="polite" data-risultati></p>
+
+      {[...perAnno.entries()].map(([anno, voci]) => (
+        <section class="anno" data-anno aria-label={`Anno ${anno}`}>
+          <h2 class="anno-titolo">{anno}</h2>
+          <div>
+            {voci.map((n) => (
+              <a class="articolo" href={`/news/${n.id}/`} data-voce data-cat={n.data.categorie.join(" ")} data-testo={`${n.data.title} ${n.data.estratto}`.toLowerCase()}>
+                <time datetime={n.data.date.toISOString().slice(0, 10)}>{dataItaliana(n.data.date, { day: "numeric", month: "short" })}</time>
+                <div><h3>{n.data.title}</h3><p>{n.data.estratto}</p></div>
+                <span class="cat">{n.data.categorie.includes("News") ? "Avviso" : n.data.categorie.filter((c) => c !== "News").join(" e ")}{n.data.video && ", con video"}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+      <div class="vuoto" hidden data-vuoto>
+        <p>Nessun articolo trovato con questi filtri.</p>
+        <button class="pill scura" type="button" data-azzera>Mostra tutte le news</button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .archivio{padding-top:60px}
+  .filtri-news{position:sticky;top:calc(var(--altezza-nav) + 10px);z-index:5;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:12px;border-radius:22px;background:rgba(243,243,243,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 0 0 1px #e0e0e0;transition:top .5s var(--ease)}
+  .chip{display:flex;gap:6px;flex-wrap:wrap}
+  .chip button{min-height:44px;padding:8px 16px;border-radius:999px;border:1px solid #cfcfcf;background:#fff;color:var(--nero);font-weight:600;font-size:15px;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+  .chip button span{color:#888;font-weight:500;margin-left:4px}
+  .chip button[aria-pressed=true]{background:var(--nero);color:#fff;border-color:var(--nero)}
+  .chip button[aria-pressed=true] span{color:#aaa}
+  .cerca{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border-radius:999px;background:#fff;border:1px solid #cfcfcf;flex:1 1 240px;max-width:360px}
+  .cerca:focus-within{border-color:var(--nero)}
+  .cerca svg{width:18px;height:18px;fill:#777;flex:none}
+  .cerca input{border:0;outline:0;background:none;width:100%;font-size:16px;color:var(--nero);min-height:42px}
+  .risultati{margin:18px 4px 0;font-size:15px;color:#666;min-height:1.5em}
+  .anno{display:grid;grid-template-columns:140px 1fr;gap:20px;padding-top:40px}
+  .anno-titolo{margin:0;position:sticky;top:calc(var(--altezza-nav) + 110px);align-self:start;font-weight:800;font-stretch:75%;font-size:clamp(44px,5vw,72px);line-height:1;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px var(--nero)}
+  .archivio .articolo{grid-template-columns:110px 1fr auto}
+  .archivio .articolo:first-child{border-top-color:#bdbdbd}
+  .vuoto{padding:60px 0;text-align:center}
+  .vuoto p{font-size:20px;margin:0 0 18px}
+  @media (max-width:960px){
+    .anno{grid-template-columns:1fr;gap:0}
+    .anno-titolo{position:static;margin-bottom:6px}
+    .archivio .articolo{grid-template-columns:1fr}
+    .filtri-news{position:static}
+    .cerca{max-width:none}
+  }
+</style>
+
+<script>
+  const bottoni = [...document.querySelectorAll<HTMLButtonElement>(".chip button")];
+  const cerca = document.querySelector<HTMLInputElement>("[data-cerca]")!;
+  const voci = [...document.querySelectorAll<HTMLElement>("[data-voce]")];
+  const anni = [...document.querySelectorAll<HTMLElement>("[data-anno]")];
+  const risultati = document.querySelector<HTMLElement>("[data-risultati]")!;
+  const vuoto = document.querySelector<HTMLElement>("[data-vuoto]")!;
+  let cat = "";
+
+  const normalizza = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+  function filtra() {
+    const q = normalizza(cerca.value.trim());
+    let n = 0;
+    voci.forEach((v) => {
+      const ok = (!cat || v.dataset.cat!.split(" ").includes(cat)) && (!q || normalizza(v.dataset.testo!).includes(q));
+      v.hidden = !ok;
+      if (ok) n++;
+    });
+    anni.forEach((a) => (a.hidden = !a.querySelector("[data-voce]:not([hidden])")));
+    vuoto.hidden = n > 0;
+    risultati.textContent = cat || q ? `${n} ${n === 1 ? "articolo" : "articoli"}` : "";
+    const url = new URL(location.href);
+    cat ? url.searchParams.set("cat", cat) : url.searchParams.delete("cat");
+    history.replaceState(null, "", url);
+  }
+  function scegli(c: string) {
+    cat = c;
+    bottoni.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cat === c)));
+    filtra();
+  }
+  bottoni.forEach((b) => b.addEventListener("click", () => scegli(b.dataset.cat!)));
+  let attesa: number;
+  cerca.addEventListener("input", () => { clearTimeout(attesa); attesa = window.setTimeout(filtra, 120); });
+  document.querySelector("[data-azzera]")!.addEventListener("click", () => { cerca.value = ""; scegli(""); });
+  const iniziale = new URLSearchParams(location.search).get("cat");
+  if (iniziale && bottoni.some((b) => b.dataset.cat === iniziale)) scegli(iniziale);
+</script>

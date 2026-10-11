@@ -1,0 +1,330 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Cercatore from "../components/Cercatore.astro";
+import Cinture from "../components/Cinture.astro";
+import Staff from "../components/Staff.astro";
+import ModuloWhatsApp from "../components/ModuloWhatsApp.astro";
+import Mappa from "../components/Mappa.astro";
+import RigaNews from "../components/RigaNews.astro";
+import Orari from "../components/Orari.astro";
+import { associazione, contatti, numeri } from "../data/sito";
+
+const ultime = (await getCollection("news", (n) => n.data.categorie.includes("News")))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "SportsActivityLocation",
+  name: associazione.nome,
+  description: "Associazione sportiva dilettantistica di karate Shotokan, affiliata FIJLKAM.",
+  url: Astro.site?.href,
+  logo: new URL("/img/logo-512.png", Astro.site).href,
+  image: new URL("/img/og.jpg", Astro.site).href,
+  email: associazione.email,
+  telephone: "+39 " + contatti.principale.telefono,
+  sport: "Karate",
+  address: { "@type": "PostalAddress", streetAddress: "Via Mondetti 15", postalCode: "27029", addressLocality: "Vigevano", addressRegion: "PV", addressCountry: "IT" },
+  geo: { "@type": "GeoCoordinates", latitude: associazione.palestra.lat, longitude: associazione.palestra.lng },
+  sameAs: associazione.social.map((s) => s.url),
+};
+---
+<Base schema={schema} classeBody="home">
+  <script is:inline>
+    // Intro con preloader solo alla prima visita della sessione; niente animazioni se l'utente le ha disattivate
+    (function () {
+      var h = document.documentElement;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      h.classList.add("hero-anim");
+      try { if (!sessionStorage.getItem("ronin-intro")) { h.classList.add("intro"); sessionStorage.setItem("ronin-intro", "1"); } } catch (e) {}
+      // sicurezza: se gli script non partono, i contenuti compaiono comunque
+      setTimeout(function () { if (!window.__heroPronto) h.classList.remove("hero-anim", "intro"); }, 4500);
+    })();
+  </script>
+
+  <div class="loader" aria-hidden="true">
+    <svg viewBox="0 0 100 100"><circle class="anello" cx="50" cy="50" r="48"/><circle class="pieno" cx="50" cy="50" r="48"/></svg>
+    <p>Ronin Karate Vigevano</p>
+  </div>
+
+  <section class="hero" aria-labelledby="hero-titolo">
+    <div class="centro" aria-hidden="true"><div class="sole"></div></div>
+    <p class="parola piena" aria-hidden="true">RONIN</p>
+    <p class="parola contorno" aria-hidden="true">RONIN</p>
+    <div class="piedi" aria-hidden="true"><img class="samurai" src="/img/samurai.png" alt="" width="264" height="648" fetchpriority="high"></div>
+    <span class="kanji-lato sx" aria-hidden="true">浪人</span>
+    <span class="kanji-lato dx" aria-hidden="true">空手</span>
+    <div class="hero-basso">
+      <div><h1 id="hero-titolo">A.S.D. Ronin Karate Vigevano</h1><p>Karate Shotokan per ragazze e ragazzi dai 6 anni, agonisti, amatori e adulti.</p></div>
+      <div class="azioni"><a class="pill contorno magnete" href="#corsi">Trova il tuo corso</a></div>
+    </div>
+  </section>
+
+  <section class="manifesto" aria-label="Il nostro modo di intendere il karate">
+    <div class="wrap">
+      <blockquote class="parole display">{associazione.motto}</blockquote>
+      <cite>Gichin Funakoshi, fondatore dello stile Shotokan</cite>
+      <div class="sotto">
+        <p>Siamo un'associazione sportiva dilettantistica senza scopo di lucro. Diffondiamo lo studio del karate Shotokan unendo tradizione e innovazione sportiva.</p>
+        <p>Imparerai a conoscere il tuo corpo, a difenderti, ad allenare la mente, a rispettare le regole e a stare con gli altri.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap nome" aria-labelledby="nome-titolo">
+    <p class="grande" aria-hidden="true">浪人</p>
+    <div>
+      <h2 id="nome-titolo" class="vh">Il nostro nome</h2>
+      <div class="voce" data-rivela><h3>Rōnin <span>浪人</span></h3><p>Letteralmente «uomo onda»: il samurai senza padrone, guerriero errante che impara a bastare a se stesso. È il nome che abbiamo scelto.</p></div>
+      <div class="voce" data-rivela><h3>Karate <span>空手</span></h3><p>«Mano vuota». Insegniamo lo stile Shotokan, codificato dal maestro Gichin Funakoshi, con gli atleti divisi per età e grado.</p></div>
+      <div class="voce" data-rivela><h3>FIJLKAM</h3><p>Siamo affiliati alla Federazione Italiana Judo Lotta Karate Arti Marziali, l'unica per il karate riconosciuta dal CONI.</p></div>
+      <p class="altro" data-rivela><a class="link-freccia" href="/il-dojo/">Il dojo, le regole e la nostra storia</a></p>
+    </div>
+  </section>
+
+  <section class="sezione carbone" id="corsi" aria-labelledby="corsi-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="corsi-titolo" class="display">Trova il tuo corso</h2><p>Indica l'età di chi vuole iniziare e se gli interessano le gare: i corsi adatti salgono in cima.</p></div>
+      <Cercatore />
+    </div>
+  </section>
+
+  <section class="sezione iniziare" aria-labelledby="iniziare-titolo">
+    <div class="wrap griglia-iniziare">
+      <div>
+        <div class="titolo-sez"><h2 id="iniziare-titolo" class="display">Come iniziare</h2></div>
+        <ol class="passi">
+          <li data-rivela><b>Scrivici</b><p>Su WhatsApp o per telefono: ci dici l'età e cosa cerchi, ti consigliamo il gruppo giusto.</p></li>
+          <li data-rivela><b>Vieni in palestra</b><p>Al centro sportivo H2 Sport di via Mondetti 15, nel giorno e all'orario del tuo turno.</p></li>
+          <li data-rivela><b>Prova una lezione</b><p>Ti alleni con il gruppo e conosci gli insegnanti. Poi decidi tu come continuare.</p></li>
+        </ol>
+        <ul class="numeri-ronin" data-rivela>
+          <li><b>{numeri.allievi}</b><span>allievi</span></li>
+          <li><b>{numeri.cintureNere}</b><span>insegnanti cintura nera</span></li>
+          <li><b>{numeri.maestri5dan}</b><span>maestri 5° dan</span></li>
+        </ul>
+      </div>
+      <div class="colonna-orari">
+        <h3 class="orari-titolo">Quando ci alleniamo</h3>
+        <Orari />
+        <a class="pill magnete" href={`https://wa.me/${contatti.principale.wa}?text=${encodeURIComponent("Ciao Gabriele, vorrei prenotare una lezione di prova di karate. Grazie!")}`} target="_blank" rel="noopener">Prenota la lezione di prova</a>
+      </div>
+    </div>
+  </section>
+
+  <Cinture nota="Undici gradi, dalla prima lezione al dan. Gli esami seguono il programma FIJLKAM: a dicembre 2025 sei dei nostri ragazzi hanno conquistato il I e il II dan." />
+
+  <section class="wrap sezione" id="staff" aria-labelledby="staff-titolo" style="padding-top:40px">
+    <div class="titolo-sez"><h2 id="staff-titolo" class="display">Insegnanti</h2><p>Lo staff del Ronin: insegnanti tecnici FIJLKAM e CSI, tutti cintura nera.</p></div>
+    <Staff />
+  </section>
+
+  <section class="foto" aria-label="Foto: esami di dan">
+    <figure><img src="/img/esami-dan.jpg" srcset="/img/esami-dan-900.jpg 900w, /img/esami-dan.jpg 2000w" sizes="100vw" alt="Decine di karateka in karategi bianco schierati sul tatami durante una sessione di esami di dan" width="2000" height="901" loading="lazy"></figure>
+    <p class="didascalia">Esami di dan, dicembre 2022</p>
+  </section>
+
+  <section class="sezione chiara news-home" aria-labelledby="news-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="news-titolo" class="display">Dalla palestra</h2><a class="pill scura magnete" href="/news/">Tutte le news</a></div>
+      {ultime.map((n) => <RigaNews voce={n} />)}
+    </div>
+  </section>
+
+  <section class="contatti-home" aria-labelledby="scrivi-titolo">
+    <div class="nastro" aria-hidden="true">
+      {[0, 1, 2, 3].map(() => <span>Vieni a provare <em>体験</em></span>)}
+    </div>
+    <div class="wrap griglia-contatti">
+      <ModuloWhatsApp />
+      <div class="info" data-rivela>
+        <p class="indirizzo" id="scrivi-titolo">{associazione.palestra.nome}<br>{associazione.palestra.via}, Vigevano (PV)</p>
+        <Mappa />
+        <a class="persona" href={`https://wa.me/${contatti.didattica.wa}`} target="_blank" rel="noopener"><span><b>{contatti.didattica.nome}</b><small>{contatti.didattica.ruolo}</small></span><strong>{contatti.didattica.telefono}</strong></a>
+        <a class="persona" href={`mailto:${associazione.email}`}><span><b>E-mail</b><small>Per tutto il resto</small></span><strong class="piccolo">{associazione.email}</strong></a>
+        <div class="social">{associazione.social.map((s) => <a href={s.url} target="_blank" rel="noopener">{s.nome}</a>)}</div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* ---------- Preloader (solo prima visita) ---------- */
+  .loader{position:fixed;inset:0;z-index:100;background:var(--nero);display:none;place-items:center}
+  .intro .loader{display:grid}
+  .loader svg{width:min(34vmin,240px);height:auto;overflow:visible}
+  .loader circle{fill:none;stroke:var(--rosso);stroke-width:2}
+  .loader .pieno{fill:var(--rosso);stroke:none;transform-origin:50% 50%;transform:scale(0)}
+  .loader p{position:absolute;bottom:32px;left:0;right:0;text-align:center;margin:0;font-size:14px;color:var(--grigio)}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:var(--nero)}
+  .hero .centro{position:absolute;inset:0;z-index:1;display:grid;place-items:center;padding-bottom:8svh;pointer-events:none}
+  .hero .sole{width:min(66svh,84vw);aspect-ratio:1;border-radius:50%;background:var(--rosso);will-change:transform}
+  .hero .parola{position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);margin:0;text-align:center;font-weight:800;font-stretch:75%;font-size:clamp(120px,27vw,460px);line-height:.8;letter-spacing:-.03em;white-space:nowrap;user-select:none}
+  .hero .parola.piena{color:#fff;z-index:0}
+  .hero .parola.contorno{color:transparent;-webkit-text-stroke:1.5px #fff;z-index:2}
+  .hero .piedi{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;z-index:3;pointer-events:none}
+  .hero .samurai{height:min(78svh,700px);width:auto;will-change:transform}
+  .hero .kanji-lato{position:absolute;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:400 clamp(34px,5vh,58px)/1.1 var(--kanji);color:#fff;z-index:4;letter-spacing:.2em}
+  .hero .kanji-lato.sx{left:clamp(18px,4vw,64px)}
+  .hero .kanji-lato.dx{right:clamp(18px,4vw,64px)}
+  .hero-basso{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-between;align-items:end;gap:20px;padding:0 clamp(20px,3vw,44px) 28px}
+  .hero-basso p{margin:0;max-width:30ch;font-size:16px;line-height:1.45;color:#ddd}
+  .hero-basso h1{margin:0 0 6px;font-size:16px;font-weight:700;color:#fff}
+  .hero-anim .hero .parola .ch,.hero-anim .hero .kanji-lato,.hero-anim .hero-basso > *{opacity:0}
+  .hero-anim .hero .sole{transform:scale(0)}
+  .hero-anim .hero .samurai{transform:translateY(30%);opacity:0}
+
+  /* ---------- Manifesto ---------- */
+  .manifesto{position:relative;z-index:2;background:var(--rosso);color:var(--nero);min-height:100svh;display:grid;align-content:center;padding:120px 0}
+  .manifesto blockquote{margin:0;font-size:clamp(40px,7.2vw,118px);max-width:14ch}
+  .manifesto cite{display:block;margin-top:32px;font-style:normal;font-size:18px;font-weight:600}
+  .manifesto .sotto{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:80px;max-width:900px;font-size:19px}
+  .manifesto .sotto p{margin:0}
+
+  /* ---------- Nome ---------- */
+  .nome{padding:160px 0;display:grid;grid-template-columns:auto 1fr;gap:clamp(40px,7vw,120px);align-items:center}
+  .nome .grande{font:400 clamp(160px,26vw,380px)/.9 var(--kanji);color:var(--rosso);writing-mode:vertical-rl;margin:0}
+  .voce{border-top:1px solid var(--linea);padding:28px 0}
+  .voce h3{margin:0 0 10px;font-weight:700;font-size:clamp(30px,3.6vw,52px);line-height:1;letter-spacing:-.02em;display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+  .voce h3 span{font:400 .6em var(--kanji);color:var(--grigio);letter-spacing:.1em}
+  .voce p{margin:0;max-width:52ch;color:#cfcfcf}
+  .nome .altro{border-top:1px solid var(--linea);padding-top:28px;margin:0}
+
+  /* ---------- Foto ---------- */
+  .foto{height:100svh;position:relative;overflow:hidden;margin:0}
+  .foto figure{margin:0;position:absolute;inset:0;clip-path:inset(14% 18% round 24px)}
+  .foto img{width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+  .foto .didascalia{position:absolute;left:clamp(20px,3vw,44px);bottom:28px;z-index:2;margin:0;font-size:15px;background:rgba(0,0,0,.55);padding:8px 14px;border-radius:999px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+
+  /* ---------- News e contatti ---------- */
+  .news-home{border-radius:40px 40px 0 0;position:relative;z-index:2}
+  .iniziare{background:var(--carbone);border-top:1px solid #222}
+  .griglia-iniziare{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .passi{list-style:none;margin:0;padding:0;counter-reset:passo}
+  .passi li{counter-increment:passo;display:grid;grid-template-columns:64px 1fr;gap:4px 18px;padding:22px 0;border-top:1px solid var(--linea)}
+  .passi li::before{content:counter(passo);grid-row:span 2;font-weight:800;font-stretch:75%;font-size:56px;line-height:.85;color:transparent;-webkit-text-stroke:1.5px var(--rosso)}
+  .passi b{font-size:clamp(22px,2vw,28px);font-weight:700;letter-spacing:-.01em}
+  .passi p{margin:0;color:#c5c5c5;max-width:46ch}
+  .numeri-ronin{list-style:none;margin:30px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .numeri-ronin li{padding:18px;border-radius:20px;background:var(--grafite)}
+  .numeri-ronin b{display:block;font-weight:800;font-stretch:80%;font-size:clamp(26px,2.6vw,36px);line-height:1;letter-spacing:-.02em}
+  .numeri-ronin span{font-size:14px;color:#aaa}
+  .orari-titolo{margin:0 0 16px;font-weight:700;font-size:22px}
+  .colonna-orari{position:sticky;top:calc(var(--altezza-nav) + 24px);display:grid;gap:16px}
+  .colonna-orari .pill{width:100%}
+  .contatti-home{background:#fff;color:var(--nero);padding:0 0 110px;overflow:hidden;position:relative;z-index:2}
+  .nastro{display:flex;width:max-content;padding:42px 0;border-bottom:1px solid #e3e3e3}
+  .nastro span{font-weight:800;font-stretch:75%;font-size:clamp(72px,11vw,170px);line-height:1;letter-spacing:-.03em;padding-right:.4em;white-space:nowrap}
+  .nastro em{font:400 .7em var(--kanji);font-style:normal;color:var(--rosso);padding-right:.5em}
+  .griglia-contatti{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);padding-top:80px}
+  .info .indirizzo{font-weight:700;font-size:clamp(26px,2.6vw,38px);line-height:1.15;letter-spacing:-.02em;margin:0 0 20px}
+  .info .mappa{height:300px;margin-bottom:22px}
+  .persona{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;border-radius:16px;background:var(--chiaro);margin-bottom:10px;transition:background .3s,color .3s}
+  .persona:hover{background:var(--nero);color:#fff}
+  .persona b{display:block;font-size:17px}
+  .persona small{color:#777;font-size:14px}
+  .persona:hover small{color:#aaa}
+  .persona strong{font-size:19px;white-space:nowrap}
+  .persona strong.piccolo{font-size:16px}
+  .social{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .social a{min-height:44px;display:inline-flex;align-items:center;padding:8px 18px;border:1px solid #ccc;border-radius:999px;font-size:15px;transition:background .3s,color .3s,border-color .3s}
+  .social a:hover{background:var(--nero);color:#fff;border-color:var(--nero)}
+
+  @media (max-width:960px){
+    .hero .kanji-lato,.hero-basso .azioni{display:none}
+    .hero .samurai{height:min(54svh,440px)}
+    .hero .sole{width:min(56svh,90vw)}
+    .hero .centro{align-items:end;padding-bottom:12svh}
+    .hero .parola{top:40%}
+    .hero-basso{padding-bottom:96px}
+    .manifesto .sotto{grid-template-columns:1fr}
+    .nome{grid-template-columns:1fr;padding:100px 0}
+    .nome .grande{writing-mode:horizontal-tb;font-size:42vw}
+    .griglia-contatti{grid-template-columns:1fr}
+    .griglia-iniziare{grid-template-columns:1fr}
+    .colonna-orari{position:static}
+    .hero .parola{font-size:25vw;font-stretch:88%;letter-spacing:.03em}
+    .hero .parola.contorno{-webkit-text-stroke-width:1.2px}
+  }
+  @media (max-width:420px){.numeri-ronin{grid-template-columns:1fr 1fr}.numeri-ronin li:last-child{grid-column:span 2}}
+  @media (max-width:560px){
+    .persona{flex-direction:column;align-items:start;gap:4px}
+    .persona strong{white-space:normal;word-break:break-word}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .foto figure{clip-path:none}
+    .foto img{transform:none}
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, SplitText, ridotto } from "../scripts/motore.js";
+
+  const root = document.documentElement;
+  const conIntro = root.classList.contains("intro");
+  (window as any).__heroPronto = true;
+
+  if (!ridotto && root.classList.contains("hero-anim")) {
+    gsap.set(".hero .parola", { yPercent: -50 });
+    const splits = [...document.querySelectorAll(".hero .parola")].map((p) => SplitText.create(p, { type: "chars", charsClass: "ch" }));
+
+    const tl = gsap.timeline({ defaults: { ease: "power4.out" }, onComplete: () => root.classList.remove("intro") });
+    if (conIntro) {
+      const anello = document.querySelector(".loader .anello") as SVGCircleElement;
+      const L = 2 * Math.PI * 48;
+      gsap.set(anello, { strokeDasharray: L, strokeDashoffset: L });
+      tl.to(anello, { strokeDashoffset: 0, duration: 1, ease: "power2.inOut" })
+        .to(".loader .pieno", { scale: 1, duration: 0.5, ease: "power2.in" }, "-=.15")
+        .to(".loader", { autoAlpha: 0, duration: 0.5 }, "+=.05");
+    }
+    tl.to(".hero .sole", { scale: 1, duration: conIntro ? 1.4 : 1.1 }, conIntro ? "-=.5" : 0)
+      .to(splits[0].chars, { opacity: 1, yPercent: 0, duration: 1.1, stagger: 0.06, startAt: { yPercent: 60 } }, "-=1")
+      .to(splits[1].chars, { opacity: 1, duration: 0.8, stagger: 0.06 }, "<.15")
+      .to(".hero .samurai", { y: 0, opacity: 1, duration: 1.4 }, "-=1.2")
+      .to(".hero .kanji-lato", { opacity: 1, duration: 1, stagger: 0.15 }, "-=.8")
+      .to(".hero-basso > *", { opacity: 1, duration: 0.8, stagger: 0.1 }, "-=.8");
+
+    // Il sole invade lo schermo e diventa il rosso del manifesto
+    gsap.timeline({ scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true, pin: true, pinSpacing: false } })
+      .fromTo(".hero .sole", { scale: 1 }, { scale: 4.2, ease: "power1.in", immediateRender: false }, 0)
+      .fromTo(".hero .samurai", { yPercent: 0, scale: 1 }, { yPercent: 12, scale: 1.08, ease: "none", immediateRender: false }, 0)
+      .fromTo(".hero .parola", { yPercent: -50, opacity: 1 }, { yPercent: -110, opacity: 0, ease: "none", immediateRender: false }, 0)
+      .fromTo(".hero .piedi, .hero-basso", { opacity: 1 }, { opacity: 0, ease: "none", duration: 0.5, immediateRender: false }, 0.5)
+      .fromTo(".hero .kanji-lato", { opacity: 1 }, { opacity: 0, ease: "none", duration: 0.4, immediateRender: false }, 0);
+  }
+
+  if (!ridotto) {
+    // Manifesto parola per parola
+    document.fonts.ready.then(() => {
+      const frase = SplitText.create(".manifesto .parole", { type: "words" });
+      gsap.fromTo(frase.words, { opacity: 0.14 }, { opacity: 1, stagger: 0.1, ease: "none", scrollTrigger: { trigger: ".manifesto", start: "top 65%", end: "center 45%", scrub: true } });
+      ScrollTrigger.refresh();
+    });
+    gsap.from(".manifesto .sotto p", { y: 40, opacity: 0, stagger: 0.15, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".manifesto .sotto", start: "top 85%" } });
+
+    // Kanji del nome che si scopre come una pennellata
+    gsap.fromTo(".nome .grande", { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", ease: "none", scrollTrigger: { trigger: ".nome", start: "top 75%", end: "center 55%", scrub: true } });
+
+    // Foto che si apre a tutto schermo (bloccata solo su schermi larghi)
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 961px)", () => {
+      gsap.timeline({ scrollTrigger: { trigger: ".foto", start: "top top", end: "+=100%", pin: true, scrub: true } })
+        .to(".foto figure", { clipPath: "inset(0% 0% round 0px)", ease: "none" }, 0)
+        .to(".foto img", { scale: 1, ease: "none" }, 0);
+    });
+    mm.add("(max-width: 960px)", () => {
+      gsap.to(".foto figure", { clipPath: "inset(0% 0% round 0px)", ease: "none", scrollTrigger: { trigger: ".foto", start: "top 90%", end: "center 50%", scrub: true } });
+      gsap.to(".foto img", { scale: 1, ease: "none", scrollTrigger: { trigger: ".foto", start: "top 90%", end: "center 50%", scrub: true } });
+    });
+
+    // Nastro "Vieni a provare": accelera con lo scroll
+    const giro = gsap.to(".nastro", { xPercent: -25, repeat: -1, duration: 14, ease: "none" });
+    ScrollTrigger.create({
+      trigger: ".contatti-home", start: "top bottom", end: "bottom top",
+      onUpdate: (s) => gsap.to(giro, { timeScale: s.direction * (1 + Math.abs(s.getVelocity()) / 600), duration: 0.3, overwrite: true }),
+    });
+  }
+</script>

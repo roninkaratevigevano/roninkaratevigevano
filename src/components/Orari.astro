@@ -1,0 +1,41 @@
+---
+// Settimana con i giorni di lezione evidenziati e i due turni
+import { orari } from "../data/sito";
+interface Props { chiaro?: boolean }
+const { chiaro = false } = Astro.props;
+const settimana = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"];
+---
+<div class:list={["orari-box", { chiaro }]} data-rivela>
+  <ol class="settimana" aria-label={`Giorni di lezione: ${orari.giorni.join(", ")}`}>
+    {settimana.map((g) => (
+      <li class:list={{ si: orari.giorni.includes(g) }} aria-hidden="true">
+        <span class="breve">{g.slice(0, 3)}</span>
+      </li>
+    ))}
+  </ol>
+  <div class="turni">
+    {orari.turni.map((t) => (
+      <div class="turno">
+        <strong>{t.ora}</strong>
+        <span><b>{t.per}</b><small>{t.eta}</small></span>
+      </div>
+    ))}
+  </div>
+  <p class="nota-orari">{orari.nota}</p>
+</div>
+
+<style>
+  .orari-box{border-radius:28px;padding:clamp(22px,3vw,34px);background:var(--grafite);color:#fff}
+  .orari-box.chiaro{background:#fff;color:var(--nero);box-shadow:inset 0 0 0 1px #e2e2e2}
+  .settimana{list-style:none;margin:0 0 26px;padding:0;display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .settimana li{display:grid;place-items:center;aspect-ratio:1;border-radius:14px;background:rgba(127,127,127,.14);font-weight:600;font-size:14px;color:#8a8a8a;text-transform:capitalize}
+  .settimana li.si{background:var(--rosso);color:#fff}
+  .turni{display:grid;gap:10px}
+  .turno{display:flex;align-items:center;gap:18px;padding:14px 0;border-top:1px solid rgba(127,127,127,.25)}
+  .turno strong{font-weight:800;font-stretch:75%;font-size:clamp(44px,5vw,64px);line-height:.9;letter-spacing:-.03em}
+  .turno b{display:block;font-size:18px;font-weight:650}
+  .turno small{color:#9a9a9a;font-size:15px}
+  .chiaro .turno small{color:#666}
+  .nota-orari{margin:14px 0 0;font-size:15px;color:#aaa}
+  .chiaro .nota-orari{color:#555}
+</style>

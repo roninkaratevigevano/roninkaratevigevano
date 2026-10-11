@@ -1,0 +1,24 @@
+---
+import { staff } from "../data/sito";
+---
+<div class="lista-staff" data-staff>
+  {staff.map((p) => (
+    <div class="riga" data-rivela>
+      <b>{p.nome}</b>
+      <span class="ruolo">{p.ruolo}</span>
+      <span class="dan" aria-label={`Cintura nera ${p.dan}° dan`}>
+        {Array.from({ length: p.dan }).map(() => <i aria-hidden="true"></i>)}
+        <small aria-hidden="true">{p.dan}° dan</small>
+      </span>
+    </div>
+  ))}
+</div>
+
+<script>
+  import { gsap, ridotto } from "../scripts/motore.js";
+  if (!ridotto) {
+    document.querySelectorAll("[data-staff]").forEach((lista) => {
+      gsap.from(lista.querySelectorAll(".dan i"), { scaleY: 0, transformOrigin: "bottom", stagger: 0.02, duration: 0.5, ease: "back.out(2)", scrollTrigger: { trigger: lista, start: "top 75%" } });
+    });
+  }
+</script>

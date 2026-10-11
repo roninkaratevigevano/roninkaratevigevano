@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import ModuloWhatsApp from "../components/ModuloWhatsApp.astro";
+import { associazione } from "../data/sito";
+
+const punti = [
+  { titolo: "Della federazione", testo: "Il Metodo Globale Autodifesa è il sistema di difesa personale della FIJLKAM, la federazione di judo, lotta, karate e arti marziali." },
+  { titolo: "Da più discipline", testo: "È nato raccogliendo l'esperienza di maestri di judo, karate, aikido, ju jitsu e lotta." },
+  { titolo: "Proporzionato", testo: "Usa tecniche delle arti marziali, ma non è un corso di arti marziali: insegna a reagire e difendersi in modo proporzionato all'offesa." },
+];
+const domande = [
+  { d: "Per chi è?", r: "Per adulti e ragazzi dai 15 anni, uomini e donne. Non serve aver mai praticato sport da combattimento." },
+  { d: "Quando si svolge?", r: "Il corso si attiva con almeno 2 partecipanti e gli orari si concordano con il gruppo. Scrivici per sapere quando parte il prossimo." },
+  { d: "Dove?", r: `Al ${associazione.palestra.nome}, ${associazione.palestra.via}, Vigevano.` },
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: domande.map((q) => ({ "@type": "Question", name: q.d, acceptedAnswer: { "@type": "Answer", text: q.r } })),
+};
+---
+<Base titolo="Difesa personale a Vigevano · corso MGA" descrizione="Corso di difesa personale a Vigevano con il Metodo Globale Autodifesa (MGA) della FIJLKAM, per adulti e ragazzi dai 15 anni, uomini e donne." schema={schema}>
+  <Testata titolo="Difesa personale a Vigevano" kanji="護身" briciole={[{ href: "/corsi/", testo: "Corsi" }]} intro="Il corso MGA, Metodo Globale Autodifesa della FIJLKAM, per adulti e ragazzi dai 15 anni, uomini e donne, anche senza alcuna esperienza.">
+    <div class="cta-testata"><a class="pill magnete" href="#scrivi">Chiedi quando parte il corso</a></div>
+  </Testata>
+
+  <section class="sezione" aria-labelledby="mga-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="mga-titolo" class="display">Cos'è l'MGA</h2></div>
+      <div class="punti-mga">
+        {punti.map((p) => <div data-rivela><h3>{p.titolo}</h3><p>{p.testo}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione chiara" aria-labelledby="faq-mga">
+    <div class="wrap faq-griglia-b">
+      <div class="titolo-sez"><h2 id="faq-mga" class="display">Come funziona</h2></div>
+      <div class="faq-b">
+        {domande.map((q) => <details data-rivela open><summary>{q.d}<span aria-hidden="true"></span></summary><p>{q.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione bianca" aria-label="Chiedi informazioni sul corso MGA">
+    <div class="stretto"><ModuloWhatsApp titolo="Chiedi informazioni" chi="io" eta={30} corso="Difesa personale MGA" /></div>
+  </section>
+</Base>
+
+<style is:global>
+  .cta-testata{margin-top:30px}
+  .punti-mga{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,40px)}
+  .punti-mga h3{margin:0 0 10px;padding-top:18px;border-top:3px solid var(--rosso);font-weight:750;font-stretch:80%;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.02em}
+  .punti-mga p{margin:0;color:#cfcfcf}
+  .faq-griglia-b{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .faq-b details{border-top:1px solid #d0d0d0}
+  .faq-b details:last-of-type{border-bottom:1px solid #d0d0d0}
+  .faq-b summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:24px 0;font-weight:600;font-size:clamp(19px,1.6vw,22px)}
+  .faq-b summary::-webkit-details-marker{display:none}
+  .faq-b summary span{position:relative;flex:none;width:34px;height:34px;border-radius:50%;background:var(--nero);transition:background .3s,transform .4s var(--ease)}
+  .faq-b summary span::before,.faq-b summary span::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:#fff;transform:translate(-50%,-50%)}
+  .faq-b summary span::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .4s var(--ease)}
+  .faq-b details[open] summary span{background:var(--rosso);transform:rotate(180deg)}
+  .faq-b details[open] summary span::after{transform:translate(-50%,-50%) rotate(0)}
+  .faq-b details p{margin:0 0 26px;max-width:60ch;color:#333}
+  @media (max-width:960px){.punti-mga,.faq-griglia-b{grid-template-columns:1fr}}
+</style>

@@ -1,0 +1,46 @@
+---
+// Dalla bianca alla nera: su schermi larghi la sezione resta ferma e le cinture si colorano scorrendo
+import { cinture } from "../data/sito";
+interface Props { nota?: string }
+const { nota = "Undici gradi, dalla prima lezione al dan. Gli esami seguono il programma FIJLKAM." } = Astro.props;
+---
+<section class="cinture wrap" aria-labelledby="cinture-titolo" data-cinture>
+  <h2 id="cinture-titolo" class="display">Dalla bianca alla nera</h2>
+  <p class="attuale">Cintura <b data-nome-cintura>bianca</b></p>
+  <div class="cintura" role="img" aria-label="Le undici cinture: dalla bianca alla nera, passando per gialla, arancio, verde, blu e marrone con i gradi intermedi">
+    {cinture.map((c) => (
+      <i class:list={[{ due: c.c2, nera: c.nera }]} style={`--c:${c.c};${c.c2 ? `--c2:${c.c2}` : ""}`} data-nome={c.nome}></i>
+    ))}
+  </div>
+  <p class="nota">{nota}</p>
+</section>
+
+<script>
+  import { gsap, ridotto } from "../scripts/motore.js";
+  document.querySelectorAll<HTMLElement>("[data-cinture]").forEach((sez) => {
+    const segmenti = [...sez.querySelectorAll<HTMLElement>(".cintura i")];
+    const nomi = segmenti.map((s) => s.dataset.nome!);
+    const etichetta = sez.querySelector<HTMLElement>("[data-nome-cintura]")!;
+    if (ridotto) { etichetta.textContent = "nera"; return; }
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 961px)", () => {
+      gsap.fromTo(segmenti, { scaleX: 0, opacity: 0.2 }, {
+        scaleX: 1, opacity: 1, stagger: 1, ease: "none",
+        scrollTrigger: {
+          trigger: sez, start: "top top", end: "+=140%", pin: true, scrub: 0.6,
+          onUpdate: (s) => (etichetta.textContent = nomi[Math.min(10, Math.floor(s.progress * 11))]),
+        },
+      });
+    });
+    mm.add("(max-width: 960px)", () => {
+      gsap.fromTo(segmenti, { scaleX: 0 }, {
+        scaleX: 1, stagger: 0.08, duration: 0.4, ease: "power2.out",
+        scrollTrigger: { trigger: sez.querySelector(".cintura"), start: "top 85%" },
+        onStart: () => {
+          const i = { v: 0 };
+          gsap.to(i, { v: 10, duration: 0.08 * 11 + 0.4, ease: "none", onUpdate: () => (etichetta.textContent = nomi[Math.round(i.v)]) });
+        },
+      });
+    });
+  });
+</script>

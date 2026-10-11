@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base titolo="Pagina non trovata">
+  <section class="errore">
+    <div class="sole" aria-hidden="true"></div>
+    <img src="/img/samurai.png" alt="" width="264" height="648" class="samurai-404">
+    <div class="wrap testo-404">
+      <p class="codice display" aria-hidden="true">404</p>
+      <h1 class="display">Questa pagina ha perso la via.</h1>
+      <p>Come un rōnin senza padrone. Forse l'indirizzo è cambiato con il nuovo sito.</p>
+      <div class="azioni-404">
+        <a class="pill" href="/">Torna alla home</a>
+        <a class="pill contorno" href="/news/">Cerca nelle news</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .errore{position:relative;min-height:100svh;display:grid;align-items:center;overflow:hidden;padding:calc(var(--altezza-nav) + 40px) 0 60px}
+  .errore .sole{position:absolute;right:-10vw;top:50%;width:min(70vh,70vw);aspect-ratio:1;border-radius:50%;background:var(--rosso);transform:translateY(-50%)}
+  .samurai-404{position:absolute;right:calc(-10vw + min(35vh,35vw) - 90px);bottom:0;height:70svh;width:auto}
+  .testo-404{position:relative;z-index:2}
+  .codice{margin:0;font-size:clamp(100px,18vw,260px);color:transparent;-webkit-text-stroke:2px #fff}
+  .errore h1{margin:10px 0 18px;font-size:clamp(40px,5vw,76px);max-width:12ch}
+  .errore p{max-width:40ch;color:#ccc}
+  .azioni-404{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  @media (max-width:760px){.samurai-404{opacity:.35}.errore .sole{opacity:.5}}
+</style>

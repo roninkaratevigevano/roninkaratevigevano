@@ -1,0 +1,75 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import ModuloWhatsApp from "../components/ModuloWhatsApp.astro";
+import Mappa from "../components/Mappa.astro";
+import Orari from "../components/Orari.astro";
+import { associazione, contatti, waLink } from "../data/sito";
+const { palestra } = associazione;
+---
+<Base titolo="Contatti e dove siamo" descrizione="Scrivici su WhatsApp per corsi, orari e lezione di prova. Ci trovi al centro sportivo H2 Sport, via Mondetti 15, Vigevano.">
+  <Testata titolo="Contatti" kanji="連絡" intro="Per qualsiasi informazione, dubbio o curiosità. Rispondiamo prima su WhatsApp: puoi scriverci direttamente o comporre il messaggio qui sotto." />
+
+  <section class="sezione bianca" aria-label="Scrivici">
+    <div class="wrap pagina-contatti">
+      <ModuloWhatsApp titolo="Componi il messaggio" />
+      <div class="rubrica">
+        <h2 class="vh">Contatti diretti</h2>
+        <a class="voce-rubrica" href={waLink(contatti.principale.wa)} target="_blank" rel="noopener" data-rivela>
+          <small>{contatti.principale.ruolo}</small><b>{contatti.principale.nome}</b><strong>{contatti.principale.telefono}</strong><span>WhatsApp</span>
+        </a>
+        <a class="voce-rubrica" href={waLink(contatti.didattica.wa)} target="_blank" rel="noopener" data-rivela>
+          <small>{contatti.didattica.ruolo}</small><b>{contatti.didattica.nome}</b><strong>{contatti.didattica.telefono}</strong><span>WhatsApp</span>
+        </a>
+        <a class="voce-rubrica" href={`mailto:${associazione.email}`} data-rivela>
+          <small>Per tutto il resto</small><b>E-mail</b><strong class="email">{associazione.email}</strong><span>Scrivi</span>
+        </a>
+        <div class="social-grande" data-rivela>
+          {associazione.social.map((s) => <a href={s.url} target="_blank" rel="noopener">{s.nome}</a>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione" aria-labelledby="dove-titolo">
+    <div class="wrap dove">
+      <div>
+        <div class="titolo-sez"><h2 id="dove-titolo" class="display">Dove siamo</h2></div>
+        <p class="indirizzo-grande" data-rivela>{palestra.nome}<br>{palestra.via}<br>{palestra.citta}</p>
+        <p data-rivela><a class="pill magnete" href={palestra.mappe} target="_blank" rel="noopener">Indicazioni stradali</a></p>
+        <div class="orari-contatti"><Orari /></div>
+        <dl class="dati" data-rivela>
+          <div><dt>Sede legale</dt><dd>{associazione.sedeLegale}</dd></div>
+          <div><dt>Partita IVA</dt><dd>{associazione.piva}</dd></div>
+        </dl>
+      </div>
+      <Mappa />
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .pagina-contatti{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .rubrica{display:grid;gap:12px}
+  .voce-rubrica{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:24px;border-radius:22px;background:var(--chiaro);transition:background .3s,color .3s}
+  .voce-rubrica:hover{background:var(--nero);color:#fff}
+  .voce-rubrica small{grid-column:1/-1;color:#777;font-size:14px}
+  .voce-rubrica b{font-size:22px;font-weight:650}
+  .voce-rubrica strong{grid-column:1;font-weight:750;font-stretch:85%;font-size:clamp(26px,2.6vw,36px);letter-spacing:-.01em;line-height:1.1}
+  .voce-rubrica strong.email{font-size:clamp(18px,1.8vw,24px);word-break:break-word}
+  .voce-rubrica span{grid-column:2;grid-row:2/4;align-self:center;padding:8px 14px;border-radius:999px;background:var(--rosso);color:#fff;font-size:14px;font-weight:600}
+  .social-grande{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .social-grande a{min-height:56px;display:grid;place-items:center;border-radius:18px;border:1px solid #d0d0d0;font-weight:600;transition:background .3s,color .3s}
+  .social-grande a:hover{background:var(--nero);color:#fff}
+  .dove{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .dove .mappa{min-height:460px}
+  .indirizzo-grande{margin:0 0 26px;font-weight:700;font-size:clamp(28px,3vw,44px);line-height:1.15;letter-spacing:-.02em}
+  .orari-contatti{margin-top:36px}
+  .dati{margin:36px 0 0;display:grid;gap:14px;color:#ccc}
+  .dati dt{font-size:14px;color:var(--grigio)}
+  .dati dd{margin:0}
+  @media (max-width:960px){
+    .pagina-contatti,.dove{grid-template-columns:1fr}
+    .dove .mappa{min-height:360px}
+  }
+</style>

@@ -1,0 +1,69 @@
+---
+// Compone un messaggio WhatsApp con anteprima: nessun dato passa dal sito
+import { contatti, corsi } from "../data/sito";
+interface Props { titolo?: string; chi?: "mio figlio" | "mia figlia" | "io"; eta?: number; corso?: string }
+const { titolo = "Scrivici su WhatsApp", chi = "mio figlio", eta = 10, corso } = Astro.props;
+const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>`;
+---
+<form class="modulo" id="scrivi" data-modulo data-wa={contatti.principale.wa} data-nascondi-wa>
+  <h2 class="display">{titolo}</h2>
+  <p class="sub">Compila e invia: il messaggio arriva a {contatti.principale.nome} ({contatti.principale.ruolo.toLowerCase()}), che ti risponde con giorni e orari.</p>
+  <div class="campi">
+    <label class="campo">Il tuo nome<input name="nome" autocomplete="given-name" placeholder="Es. Laura" maxlength="40"></label>
+    <label class="campo">Chi vuole iniziare
+      <select name="chi">
+        <option value="mio figlio" selected={chi === "mio figlio"}>Mio figlio</option>
+        <option value="mia figlia" selected={chi === "mia figlia"}>Mia figlia</option>
+        <option value="io" selected={chi === "io"}>Io</option>
+      </select>
+    </label>
+    <label class="campo">Età<input name="eta" type="number" min="4" max="99" value={eta} inputmode="numeric"></label>
+    <label class="campo">Corso
+      <select name="corso">
+        {corsi.map((c) => <option selected={c.nome === corso}>{c.nome}</option>)}
+        <option>Non lo so ancora</option>
+      </select>
+    </label>
+  </div>
+  <div class="bolla" aria-live="polite" data-bolla></div>
+  <button class="pill" type="submit"><Fragment set:html={iconaWa} />Invia su WhatsApp</button>
+  <p class="nota-privacy">Si apre WhatsApp con il testo pronto: puoi modificarlo prima di inviarlo. Il sito non salva nulla.</p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-modulo]").forEach((form) => {
+    const campo = (n: string) => form.elements.namedItem(n) as HTMLInputElement | HTMLSelectElement;
+    const bolla = form.querySelector<HTMLElement>("[data-bolla]")!;
+
+    function testo() {
+      const nome = campo("nome").value.trim();
+      const chi = campo("chi").value;
+      const eta = campo("eta").value || "?";
+      const corso = campo("corso").value;
+      const chiInizia = chi === "io" ? `Vorrei iniziare karate, ho ${eta} anni` : `Vorrei far iniziare karate a ${chi} di ${eta} anni`;
+      const frase = corso === "Non lo so ancora" ? "Non so ancora quale corso scegliere." : `Mi interessa il corso ${corso}.`;
+      return `Ciao Gabriele${nome ? `, sono ${nome}` : ""}.\n${chiInizia}. ${frase}\nPotete dirmi giorni, orari e come fare una lezione di prova? Grazie!`;
+    }
+    const aggiorna = () => (bolla.textContent = testo());
+
+    function precompila(eta: number, corso: string) {
+      campo("eta").value = String(eta);
+      campo("chi").value = eta >= 18 ? "io" : campo("chi").value === "io" ? "mio figlio" : campo("chi").value;
+      if ([...(campo("corso") as HTMLSelectElement).options].some((o) => o.value === corso)) campo("corso").value = corso;
+      aggiorna();
+    }
+
+    form.addEventListener("input", aggiorna);
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      window.open(`https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(testo())}`, "_blank", "noopener");
+    });
+    window.addEventListener("ronin:corso", (e) => {
+      const d = (e as CustomEvent).detail;
+      precompila(d.eta, d.corso);
+    });
+    const p = new URLSearchParams(location.search);
+    if (p.get("eta")) precompila(Math.max(4, Math.min(99, +p.get("eta")! || 10)), p.get("corso") || "Non lo so ancora");
+    aggiorna();
+  });
+</script>

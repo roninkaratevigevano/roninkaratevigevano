@@ -1,0 +1,121 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import Orari from "../components/Orari.astro";
+import ModuloWhatsApp from "../components/ModuloWhatsApp.astro";
+import { associazione, numeri, orari, safeguarding } from "../data/sito";
+
+const giorni = orari.giorni.map((g) => g.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " e $1");
+const turnoBambini = orari.turni[0].ora;
+const benefici = [
+  { titolo: "Il corpo", testo: "Coordinazione motoria e spaziale, postura, equilibrio: si impara a conoscere e controllare il proprio corpo." },
+  { titolo: "La mente", testo: "Concentrazione e costanza: ogni cintura è un obiettivo da preparare con impegno, lezione dopo lezione." },
+  { titolo: "Le regole", testo: "Il saluto all'inizio e alla fine, il dōjō kun, il rispetto per il maestro e per i compagni." },
+  { titolo: "Gli altri", testo: "Ci si allena in gruppo, con bambini della stessa età e dello stesso grado." },
+];
+const domande = [
+  { d: "Da che età?", r: "Dai 6 anni, maschi e femmine. Fino ai 14 anni si fa parte del gruppo ragazzi." },
+  { d: "Quando sono le lezioni?", r: `${giorni.charAt(0).toUpperCase() + giorni.slice(1)} alle ${turnoBambini}, al ${associazione.palestra.nome} di ${associazione.palestra.via}. Si sceglie quante volte venire a settimana.` },
+  { d: "Il karate rende i bambini aggressivi?", r: "Il karate tradizionale insegna il contrario: l'ultima regola del dōjō kun è «trattieni la violenza». Si impara a controllarsi e a rispettare gli altri." },
+  { d: "Cosa serve?", r: "In palestra si pratica con il karategi, l'uniforme bianca. Per la prima lezione vi diciamo noi cosa portare." },
+  { d: "Serve il certificato medico?", r: "Sì, il certificato medico per attività sportiva non agonistica. Vi diciamo noi quando portarlo." },
+  { d: "Si può detrarre la spesa?", r: "Sì, se si paga in modo tracciabile, con bonifico o assegno bancario." },
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: domande.map((q) => ({ "@type": "Question", name: q.d, acceptedAnswer: { "@type": "Answer", text: q.r } })),
+};
+---
+<Base titolo="Karate per bambini a Vigevano" descrizione={`Karate per bambini e ragazzi dai 6 ai 14 anni a Vigevano: ${giorni} alle ${turnoBambini}, insegnanti cintura nera FIJLKAM. Prenota una lezione di prova.`} schema={schema}>
+  <Testata titolo="Karate per bambini a Vigevano" kanji="子供" briciole={[{ href: "/corsi/", testo: "Corsi" }]} intro={`Dai 6 anni, ragazze e ragazzi. Lezioni ${giorni} alle ${turnoBambini}, al ${associazione.palestra.nome} di ${associazione.palestra.via}.`}>
+    <div class="cta-testata"><a class="pill magnete" href="#scrivi">Prenota una lezione di prova</a></div>
+  </Testata>
+
+  <section class="sezione" aria-labelledby="perche-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="perche-titolo" class="display">Cosa impara</h2><p>«Imparerai a conoscere il tuo corpo, a difenderti, ad allenare la mente, a rispettare le regole e a stare con gli altri.»</p></div>
+      <div class="benefici">
+        {benefici.map((b) => <div data-rivela><h3>{b.titolo}</h3><p>{b.testo}</p></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione carbone" aria-labelledby="come-titolo">
+    <div class="wrap griglia-bimbi">
+      <div>
+        <div class="titolo-sez"><h2 id="come-titolo" class="display">Come lavoriamo</h2></div>
+        <div class="fasce-bimbi">
+          <div data-rivela><span>6 – 7 anni</span><p>Introduciamo i concetti base con un approccio ludico, curando la coordinazione motoria e spaziale.</p></div>
+          <div data-rivela><span>8 – 14 anni</span><p>Ci concentriamo su postura e tecnica, con lo studio dei kata di base e del kumite, all'inizio con bersagli fittizi.</p></div>
+          <div data-rivela><span>Esami</span><p>Le cinture si conquistano con gli esami di grado, secondo il programma della FIJLKAM, l'unica federazione per il karate riconosciuta dal CONI.</p></div>
+        </div>
+      </div>
+      <div class="colonna-destra">
+        <h3 class="sotto-titolo">Orari</h3>
+        <Orari />
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione bianca" aria-labelledby="fiducia-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="fiducia-titolo" class="display">In buone mani</h2><p>Quello che un genitore vuole sapere prima di iscrivere un figlio.</p></div>
+      <div class="fiducia">
+        <div data-rivela><b>{numeri.cintureNere}</b><p>insegnanti tecnici FIJLKAM e CSI, tutti cintura nera, {numeri.maestri5dan} dei quali 5° dan.</p><a class="link-freccia" href="/il-dojo/">Conosci lo staff</a></div>
+        <div data-rivela><b>Safeguarding</b><p>Un responsabile per la tutela dei minori, {safeguarding.responsabile}, con codice di condotta e regolamento pubblici.</p><a class="link-freccia" href="/safeguarding/">Leggi i documenti</a></div>
+        <div data-rivela><b>Senza scopo di lucro</b><p>Siamo un'associazione sportiva dilettantistica: le attività sono riservate ai soci.</p><a class="link-freccia" href="/il-dojo/">Chi siamo</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione chiara" aria-labelledby="faq-bimbi">
+    <div class="wrap faq-griglia-b">
+      <div class="titolo-sez"><h2 id="faq-bimbi" class="display">Domande dei genitori</h2></div>
+      <div class="faq-b">
+        {domande.map((q) => <details data-rivela><summary>{q.d}<span aria-hidden="true"></span></summary><p>{q.r}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione bianca" aria-label="Prenota una lezione di prova">
+    <div class="stretto"><ModuloWhatsApp titolo="Prenota la prova" chi="mio figlio" eta={8} corso="Ragazzi" /></div>
+  </section>
+</Base>
+
+<style is:global>
+  .cta-testata{margin-top:30px}
+  .benefici{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,40px)}
+  .benefici h3{margin:0 0 10px;padding-top:18px;border-top:3px solid var(--rosso);font-weight:750;font-stretch:80%;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.02em}
+  .benefici p{margin:0;color:#cfcfcf}
+  .griglia-bimbi{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .fasce-bimbi{display:grid;gap:0}
+  .fasce-bimbi div{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--linea)}
+  .fasce-bimbi span{font-weight:750;font-stretch:80%;font-size:26px;line-height:1.1;color:var(--rosso)}
+  .fasce-bimbi p{margin:0;color:#cfcfcf}
+  .sotto-titolo{margin:0 0 16px;font-weight:700;font-size:22px}
+  .colonna-destra{position:sticky;top:calc(var(--altezza-nav) + 24px)}
+  .fiducia{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .fiducia div{padding:28px;border-radius:24px;background:var(--chiaro);display:flex;flex-direction:column;gap:10px}
+  .fiducia b{font-weight:800;font-stretch:80%;font-size:clamp(34px,3.4vw,52px);line-height:1;letter-spacing:-.02em}
+  .fiducia p{margin:0 0 6px;color:#333}
+  .fiducia .link-freccia{margin-top:auto;align-self:flex-start}
+  .faq-griglia-b{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .faq-b details{border-top:1px solid #d0d0d0}
+  .faq-b details:last-of-type{border-bottom:1px solid #d0d0d0}
+  .faq-b summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:24px 0;font-weight:600;font-size:clamp(19px,1.6vw,22px)}
+  .faq-b summary::-webkit-details-marker{display:none}
+  .faq-b summary span{position:relative;flex:none;width:34px;height:34px;border-radius:50%;background:var(--nero);transition:background .3s,transform .4s var(--ease)}
+  .faq-b summary span::before,.faq-b summary span::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:#fff;transform:translate(-50%,-50%)}
+  .faq-b summary span::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .4s var(--ease)}
+  .faq-b details[open] summary span{background:var(--rosso);transform:rotate(180deg)}
+  .faq-b details[open] summary span::after{transform:translate(-50%,-50%) rotate(0)}
+  .faq-b details p{margin:0 0 26px;max-width:60ch;color:#333}
+  @media (max-width:960px){
+    .benefici{grid-template-columns:1fr 1fr}
+    .griglia-bimbi,.faq-griglia-b,.fiducia{grid-template-columns:1fr}
+    .colonna-destra{position:static}
+    .fasce-bimbi div{grid-template-columns:1fr;gap:6px}
+  }
+  @media (max-width:560px){.benefici{grid-template-columns:1fr}}
+</style>

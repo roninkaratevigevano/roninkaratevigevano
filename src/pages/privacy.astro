@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import { associazione } from "../data/sito";
+---
+<Base titolo="Privacy" descrizione="Come il sito di Ronin Karate Vigevano tratta i dati di chi lo visita.">
+  <Testata titolo="Privacy" kanji="秘密" intro="Questo sito è pensato per raccogliere meno dati possibile." />
+  <section class="sezione bianca">
+    <div class="stretto prosa">
+      <h2>Titolare</h2>
+      <p>{associazione.nome}, sede legale in {associazione.sedeLegale}, P. IVA {associazione.piva}. Contatto: <a href={`mailto:${associazione.email}`}>{associazione.email}</a>.</p>
+      <h2>Cookie e statistiche</h2>
+      <p>Il sito non usa cookie di profilazione né strumenti di statistica. I caratteri tipografici e gli script sono caricati dal sito stesso, senza servizi esterni.</p>
+      <h2>Contenuti di terze parti</h2>
+      <p>La mappa di Google Maps e i video di YouTube vengono caricati solo se premi il pulsante dedicato. Da quel momento si applicano le informative di Google. La scelta di mostrare la mappa viene ricordata solo sul tuo dispositivo.</p>
+      <h2>Messaggi WhatsApp</h2>
+      <p>Il modulo «Scrivici su WhatsApp» prepara il testo direttamente nel tuo browser e apre WhatsApp: il sito non salva né invia i dati inseriti. Il messaggio arriva all'associazione solo se decidi di inviarlo dall'app.</p>
+      <h2>Diritti</h2>
+      <p>Per qualsiasi richiesta sui tuoi dati puoi scrivere a <a href={`mailto:${associazione.email}`}>{associazione.email}</a>.</p>
+    </div>
+  </section>
+</Base>

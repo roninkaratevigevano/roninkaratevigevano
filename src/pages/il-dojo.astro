@@ -1,0 +1,162 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import Cinture from "../components/Cinture.astro";
+import Staff from "../components/Staff.astro";
+import { associazione, dojoKun } from "../data/sito";
+
+const approfondimenti = (await getCollection("news", (n) => n.data.categorie.some((c) => c === "Storia" || c === "Kata" || c === "Karate")))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const inEvidenza = ["gichin-funakoshi", "ronin", "dojo-kun", "niju-kun", "gli-stili-del-karate", "il-saluto", "il-kiai", "le-origini-del-tode-divenuto-poi-karate"]
+  .map((id) => approfondimenti.find((n) => n.id === id))
+  .filter(Boolean);
+---
+<Base titolo="Il dojo" descrizione="Chi siamo: A.S.D. Ronin Karate Vigevano, karate Shotokan tra tradizione e sport. Il dōjō kun, le cinture, gli insegnanti.">
+  <Testata titolo="Il dojo" kanji="道場" intro="Ronin Karate Vigevano è un'associazione sportiva dilettantistica senza scopo di lucro. Diffondiamo lo studio del karate Shotokan unendo tradizione e innovazione sportiva." />
+
+  <section class="sezione wrap chi" aria-labelledby="chi-titolo">
+    <h2 id="chi-titolo" class="vh">Chi siamo</h2>
+    <p class="grande-testo" data-rivela>Puoi praticare il karate già dai 6 anni, che tu sia un ragazzo o una ragazza: imparerai a conoscere il tuo corpo, a difenderti, ad allenare la mente, a rispettare le regole e a stare con gli altri.</p>
+    <div class="tre">
+      <div data-rivela><h3>Rōnin <span>浪人</span></h3><p>Letteralmente «uomo alla deriva» o «uomo onda»: il samurai senza padrone, guerriero errante. Nel Giappone feudale era il samurai che aveva perso il proprio signore e viaggiava da solo, contando solo su se stesso.</p></div>
+      <div data-rivela><h3>Karate <span>空手</span></h3><p>«Mano vuota». Insegniamo lo stile Shotokan, codificato dal maestro Gichin Funakoshi (1868-1957) e da suo figlio Yoshitaka, che portò il karate da Okinawa al resto del Giappone.</p></div>
+      <div data-rivela><h3>FIJLKAM</h3><p>Siamo affiliati alla Federazione Italiana Judo Lotta Karate Arti Marziali, l'unica per il karate riconosciuta dal CONI. Gli esami di grado seguono il suo programma.</p><img src="/img/fijlkam.png" alt="Logo FIJLKAM" width="200" height="81" loading="lazy" class="fijlkam-chiaro"></div>
+    </div>
+  </section>
+
+  <section class="kun" id="dojo-kun" aria-labelledby="kun-titolo">
+    <svg class="filtri-svg" aria-hidden="true" width="0" height="0">
+      <filter id="inchiostro" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="7"/><feDisplacementMap id="spostamento" in="SourceGraphic" scale="0"/></filter>
+    </svg>
+    <div class="wrap kun-testa">
+      <h2 id="kun-titolo" class="display">Dōjō kun <span class="etichetta-kanji">道場訓</span></h2>
+      <p>Le cinque regole del dojo. A fine lezione l'allievo più anziano di grado le enuncia e tutti le ripetono nella posizione del saluto.</p>
+    </div>
+    <div class="wrap kun-corpo">
+      <div class="palco" aria-hidden="true">
+        {dojoKun.map((r) => <span class:list={["carattere", { lungo: r.kanji.length > 1 }]}>{r.kanji}</span>)}
+      </div>
+      <ol class="regole">
+        {dojoKun.map((r, i) => (
+          <li class="regola">
+            <span class="num">{["Prima", "Seconda", "Terza", "Quarta", "Quinta"][i]} regola</span>
+            <h3>{r.titolo}</h3>
+            <p>{r.testo}</p>
+            <em lang="ja-Latn">{r.romaji}</em>
+          </li>
+        ))}
+      </ol>
+      <div class="puntini" aria-hidden="true">{dojoKun.map((_, i) => <i class:list={{ on: i === 0 }}></i>)}</div>
+    </div>
+  </section>
+
+  <Cinture />
+
+  <section class="wrap sezione" aria-labelledby="staff-titolo" style="padding-top:40px">
+    <div class="titolo-sez"><h2 id="staff-titolo" class="display">Lo staff del Ronin</h2><p>Insegnanti tecnici FIJLKAM e CSI, tutti cintura nera. Gabriele Miceli e Daniele Palermo hanno ottenuto il 5° dan agli esami nazionali di dicembre 2025.</p></div>
+    <Staff />
+  </section>
+
+  <section class="sezione chiara" aria-labelledby="studio-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="studio-titolo" class="display">Da studiare</h2><a class="pill scura magnete" href="/news/?cat=Storia">Tutti gli approfondimenti</a></div>
+      <div class="studio">
+        {inEvidenza.map((n) => n && (
+          <a class="carta-studio" href={`/news/${n.id}/`} data-rivela>
+            <span class="cat">{n.data.categorie.filter((c) => c !== "News").join(" e ") || "Karate"}</span>
+            <h3>{n.data.title}</h3>
+            <p>{n.data.estratto}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cita" aria-label="Citazione">
+    <div class="wrap"><blockquote class="display" data-righe>{associazione.motto}</blockquote><cite>Gichin Funakoshi</cite></div>
+  </section>
+</Base>
+
+<style is:global>
+  .chi .grande-testo{margin:0 0 70px;max-width:26ch;font-weight:600;font-stretch:90%;font-size:clamp(30px,3.6vw,54px);line-height:1.12;letter-spacing:-.02em}
+  .chi .tre{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,4vw,60px)}
+  .chi h3{margin:0 0 12px;padding-top:20px;border-top:1px solid var(--linea);font-weight:700;font-size:clamp(26px,2.4vw,36px);display:flex;gap:14px;align-items:baseline}
+  .chi h3 span{font:400 .65em var(--kanji);color:var(--rosso)}
+  .chi p{margin:0;color:#cfcfcf}
+  .fijlkam-chiaro{margin-top:22px;background:#fff;border-radius:14px;padding:12px 16px;width:200px}
+
+  .kun{position:relative;background:var(--carbone);overflow:hidden;padding:clamp(90px,10vw,130px) 0}
+  .filtri-svg{position:absolute}
+  .kun-testa{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:50px}
+  .kun-testa h2{margin:0;font-size:clamp(44px,6.4vw,104px)}
+  .kun-testa p{margin:0;max-width:44ch;color:var(--grigio)}
+  .kun-corpo{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .palco{position:relative;height:56svh}
+  .carattere{position:absolute;inset:0;display:grid;place-items:center;font:400 clamp(150px,22vw,330px)/1 var(--kanji);color:#fff;filter:url(#inchiostro)}
+  .carattere.lungo{font-size:clamp(110px,14vw,220px)}
+  .regole{list-style:none;margin:0;padding:0;position:relative;height:56svh}
+  .regola{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center}
+  .regola .num{font-weight:700;font-size:15px;color:var(--rosso);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+  .regola .num::after{content:"";width:60px;height:1px;background:#444}
+  .regola h3{margin:0 0 16px;font-weight:700;font-stretch:85%;font-size:clamp(32px,3.6vw,56px);line-height:1.05;letter-spacing:-.02em;max-width:16ch}
+  .regola p{margin:0;color:#c5c5c5;max-width:42ch}
+  .regola em{display:block;margin-top:14px;color:#7d7d7d;font-size:15px}
+  .puntini{position:absolute;right:0;top:50%;transform:translateY(-50%);display:grid;gap:12px}
+  .puntini i{width:8px;height:8px;border-radius:50%;background:#444;transition:background .3s,transform .3s}
+  .puntini i.on{background:var(--rosso);transform:scale(1.5)}
+
+  .studio{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .carta-studio{display:flex;flex-direction:column;gap:10px;padding:24px;border-radius:22px;background:#fff;min-height:240px;transition:transform .4s var(--molla),background .3s,color .3s}
+  .carta-studio:hover{transform:translateY(-6px);background:var(--nero);color:#fff}
+  .carta-studio .cat{font-size:13px;font-weight:700;color:var(--rosso)}
+  .carta-studio h3{margin:0;font-weight:700;font-stretch:85%;font-size:26px;line-height:1.05;letter-spacing:-.02em}
+  .carta-studio p{margin:auto 0 0;font-size:15px;color:#555;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .carta-studio:hover p{color:#bbb}
+
+  .cita{background:var(--rosso);color:var(--nero);padding:clamp(90px,12vw,170px) 0}
+  .cita blockquote{margin:0;font-size:clamp(40px,7vw,110px);max-width:15ch}
+  .cita cite{display:block;margin-top:24px;font-style:normal;font-weight:600}
+
+  @media (max-width:960px){
+    .chi .tre{grid-template-columns:1fr}
+    .kun-corpo{grid-template-columns:1fr}
+    .palco,.puntini{display:none}
+    .regole{height:auto;display:grid;gap:44px}
+    .regola{position:static}
+    .studio{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){.studio{grid-template-columns:1fr}}
+</style>
+
+<script>
+  import { gsap, ridotto } from "../scripts/motore.js";
+  if (!ridotto) {
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 961px)", () => {
+      const car = gsap.utils.toArray<HTMLElement>(".carattere");
+      const reg = gsap.utils.toArray<HTMLElement>(".regola");
+      const pun = gsap.utils.toArray<HTMLElement>(".puntini i");
+      const disp = document.getElementById("spostamento");
+      gsap.set([...car.slice(1), ...reg.slice(1)], { autoAlpha: 0 });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".kun", start: "top top", end: () => "+=" + innerHeight * 4, pin: true, scrub: 0.8, invalidateOnRefresh: true,
+          onUpdate: (s) => { const i = Math.min(4, Math.floor(s.progress * 5)); pun.forEach((p, k) => p.classList.toggle("on", k === i)); },
+        },
+      });
+      for (let i = 1; i < car.length; i++) {
+        tl.to(car[i - 1], { autoAlpha: 0, scale: 0.92, duration: 0.4 }, i)
+          .to(reg[i - 1], { autoAlpha: 0, y: -40, duration: 0.4 }, i)
+          .fromTo(car[i], { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.5 }, i + 0.3)
+          .fromTo(reg[i], { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.5 }, i + 0.3)
+          .fromTo(disp, { attr: { scale: 90 } }, { attr: { scale: 0 }, duration: 0.6, ease: "power2.out", immediateRender: false }, i + 0.3);
+      }
+      tl.to({}, { duration: 0.6 });
+      return () => gsap.set([...car, ...reg], { clearProps: "all" });
+    });
+    mm.add("(max-width: 960px)", () => {
+      gsap.utils.toArray<HTMLElement>(".regola").forEach((r) => gsap.from(r, { y: 40, autoAlpha: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: r, start: "top 88%" } }));
+    });
+  }
+</script>
