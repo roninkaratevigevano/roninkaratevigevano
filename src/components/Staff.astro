@@ -2,17 +2,21 @@
 import { staff } from "../data/sito";
 ---
 <div class="lista-staff" data-staff>
-  {staff.map((p) => (
+  {staff.map((p, i) => (
+    <Fragment>
+    {i === 2 && <h3 class="staff-sottotitolo">Gli altri insegnanti tecnici dello staff</h3>}
     <div class="riga" data-rivela>
       <b>{p.nome}</b>
       <span class="ruolo">{p.ruolo}</span>
-      <span class="dan" aria-label={`Cintura nera ${p.dan}° dan`}>
+      <span class="dan" role="img" aria-label={`Cintura nera ${p.dan}° Dan`}>
         {Array.from({ length: p.dan }).map(() => <i aria-hidden="true"></i>)}
-        <small aria-hidden="true">{p.dan}° dan</small>
+        <small aria-hidden="true">Cintura nera<br><b>{p.dan}° Dan</b></small>
       </span>
     </div>
+    </Fragment>
   ))}
 </div>
+<p class="staff-formazione">Tutti i nostri istruttori vantano percorsi formativi abilitanti sostenuti presso la FIJLKAM (Federazione Italiana Judo Lotta Karate Arti Marziali) e/o l'Ente di Promozione Sportiva CSI.</p>
 
 <script>
   import { gsap, ridotto } from "../scripts/motore.js";

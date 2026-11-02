@@ -1,22 +1,48 @@
 ---
 import Base from "../layouts/Base.astro";
 import Testata from "../components/Testata.astro";
-import { associazione } from "../data/sito";
+import { associazione, contatti, telLink } from "../data/sito";
 ---
-<Base titolo="Privacy" descrizione="Come il sito di Ronin Karate Vigevano tratta i dati di chi lo visita.">
-  <Testata titolo="Privacy" kanji="秘密" intro="Questo sito è pensato per raccogliere meno dati possibile." />
+<Base titolo="Privacy policy" descrizione="Informativa sui dati personali: navigazione, modulo per WhatsApp ed email, telefono e contenuti esterni del sito Ronin Karate Vigevano.">
+  <Testata titolo="Privacy policy" kanji="秘密" intro="Quali dati trattiamo, perché e come puoi esercitare i tuoi diritti. Informativa ai sensi dell'art. 13 del Regolamento (UE) 2016/679 (GDPR)." />
   <section class="sezione bianca">
     <div class="stretto prosa">
-      <h2>Titolare</h2>
-      <p>{associazione.nome}, sede legale in {associazione.sedeLegale}, P. IVA {associazione.piva}. Contatto: <a href={`mailto:${associazione.email}`}>{associazione.email}</a>.</p>
-      <h2>Cookie e statistiche</h2>
-      <p>Il sito non usa cookie di profilazione né strumenti di statistica. I caratteri tipografici e gli script sono caricati dal sito stesso, senza servizi esterni.</p>
-      <h2>Contenuti di terze parti</h2>
-      <p>La mappa di Google Maps e i video di YouTube vengono caricati solo se premi il pulsante dedicato. Da quel momento si applicano le informative di Google. La scelta di mostrare la mappa viene ricordata solo sul tuo dispositivo.</p>
-      <h2>Messaggi WhatsApp</h2>
-      <p>Il modulo «Scrivici su WhatsApp» prepara il testo direttamente nel tuo browser e apre WhatsApp: il sito non salva né invia i dati inseriti. Il messaggio arriva all'associazione solo se decidi di inviarlo dall'app.</p>
-      <h2>Diritti</h2>
-      <p>Per qualsiasi richiesta sui tuoi dati puoi scrivere a <a href={`mailto:${associazione.email}`}>{associazione.email}</a>.</p>
+      <h2>1. Titolare e contatti</h2>
+      <p>Il titolare del trattamento è {associazione.nome}, con sede legale in {associazione.sedeLegale}, P. IVA {associazione.piva}. Per informazioni sui dati personali scrivi a <a href={`mailto:${associazione.email}`}>{associazione.email}</a> oppure chiama <a href={telLink(contatti.principale.wa)}>{contatti.principale.telefono}</a>.</p>
+      <p>Questa informativa riguarda la navigazione e le richieste di informazioni sui corsi. Iscrizione, certificazioni mediche e segnalazioni di safeguarding richiedono una gestione distinta: per questi trattamenti chiedi all'associazione l'informativa specifica. Per le segnalazioni usa esclusivamente il contatto indicato nella pagina <a href="/safeguarding/">Safeguarding</a>, evitando il modulo sui corsi.</p>
+
+      <h2>2. Navigazione e sicurezza</h2>
+      <p>Il fornitore di hosting può trattare i dati tecnici necessari a erogare e proteggere il sito, come indirizzo IP, data e ora della richiesta, pagina richiesta, informazioni sul browser e messaggi di errore. La finalità è rendere disponibili le pagine, prevenire abusi e individuare problemi. La base giuridica è il legittimo interesse alla disponibilità e alla sicurezza del sito (art. 6, par. 1, lett. f GDPR).</p>
+      <p>Il sito non installa analytics, pixel pubblicitari o sistemi di profilazione. Font, script e immagini delle pagine sono ospitati insieme al sito.</p>
+
+      <h2 id="contatti">3. Modulo, WhatsApp, email e telefono</h2>
+      <p>Per rispondere alle richieste trattiamo i dati che scegli di comunicarci: nome, numero di telefono o indirizzo email, età della persona interessata, corso e contenuto del messaggio. Li usiamo per dare informazioni e concordare una lezione di prova. La base giuridica è l'esecuzione di misure precontrattuali su tua richiesta (art. 6, par. 1, lett. b GDPR). Per altre comunicazioni la base è il legittimo interesse a dare seguito alla richiesta (art. 6, par. 1, lett. f GDPR).</p>
+      <p>Il modulo compone il messaggio esclusivamente nel browser e non salva i campi né li invia a un server del sito. Nome ed età sono necessari per preparare una richiesta utile; puoi aggiungere corso e testo libero. Il tasto WhatsApp apre il servizio con il messaggio pronto; il tasto email apre il programma di posta configurato sul dispositivo con destinatario, oggetto e testo. Aprendo il servizio il testo viene comunicato a quest'ultimo; l'associazione lo riceve solo dopo che premi invio nell'app scelta.</p>
+      <p>La casella di presa visione conferma la lettura dell'informativa: non è un consenso al marketing. Non usiamo i contatti per newsletter o pubblicità. Il conferimento è facoltativo, ma senza recapito e informazioni necessarie potremmo non riuscire a rispondere. Puoi anche contattarci direttamente per telefono.</p>
+      <p>Non inserire dati sanitari, documenti o informazioni riservate. Per un minore deve scrivere un genitore o tutore: indica il tuo nome e l'età del minore, evitando il suo nome completo. I dati relativi al minore sono quindi forniti dal genitore o tutore, e vengono usati per orientare la richiesta verso un corso adatto. Il genitore o tutore può rivolgersi al titolare anche per esercitare, ove ne abbia titolo, i diritti relativi ai dati del minore.</p>
+
+      <h2>4. Cookie e servizi esterni</h2>
+      <p>Un cookie tecnico ricorda le preferenze sui servizi esterni. Google Maps viene caricato solo autorizzando la sua categoria; i video di YouTube richiedono il consenso alla categoria video e la selezione del contenuto. Il consenso è facoltativo e revocabile da “Preferenze cookie” nel footer (art. 6, par. 1, lett. a GDPR e art. 122 del Codice in materia di protezione dei dati personali). Consulta la <a href="/cookie-policy/">Cookie policy</a>.</p>
+      <p>Instagram, Facebook, TikTok, WhatsApp e le indicazioni stradali sono semplici link esterni, senza feed, chat o pixel integrati. Visitandoli si applicano le informative dei rispettivi servizi.</p>
+
+      <h2>5. Fornitori e destinatari</h2>
+      <p>Accedono ai dati le persone autorizzate dell'associazione e i fornitori necessari ai servizi utilizzati, nei rispettivi ruoli. La configurazione del progetto prevede Vercel per l'hosting; la casella email dell'associazione è Gmail. WhatsApp gestisce le conversazioni avviate su quel canale. Google riceve dati quando autorizzi Maps o YouTube. Ove previsto, i fornitori devono essere nominati responsabili ai sensi dell'art. 28 GDPR.</p>
+      <p>GitHub ospita il codice sorgente e supporta la pubblicazione: non riceve i campi del modulo e non viene usato per raccogliere o archiviare richieste di contatto. I messaggi non vengono pubblicati nel repository.</p>
+      <p>Informative: <a href="https://vercel.com/legal/privacy-notice" target="_blank" rel="noopener noreferrer">Vercel</a>, <a href="https://policies.google.com/privacy?hl=it" target="_blank" rel="noopener noreferrer">Google</a>, <a href="https://www.whatsapp.com/legal/privacy-policy-eea" target="_blank" rel="noopener noreferrer">WhatsApp</a> e <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+
+      <h2>6. Trasferimenti fuori dallo Spazio economico europeo</h2>
+      <p>I servizi indicati possono comportare trattamenti anche fuori dallo Spazio economico europeo. Quando applicabile, i trasferimenti devono basarsi su una decisione di adeguatezza della Commissione europea o sulle garanzie degli artt. 46 e seguenti GDPR, come le clausole contrattuali standard. Le condizioni sono descritte nelle informative e negli accordi dei fornitori. Puoi chiedere al titolare informazioni sulle garanzie applicabili ai tuoi dati.</p>
+
+      <h2>7. Conservazione</h2>
+      <p>Conserviamo richieste e recapiti per il tempo necessario a gestire la conversazione e dare seguito alla richiesta. Dopo la sua conclusione restano soltanto i dati necessari per obblighi di legge, attività successive richieste dall'interessato o tutela di un diritto, nei relativi termini applicabili. Per i dati di iscrizione si applica l'informativa dedicata al rapporto associativo.</p>
+      <p>I dati tecnici dell'hosting seguono i tempi previsti dal servizio e dalle sue impostazioni di sicurezza. Le preferenze cookie durano 185 giorni, salvo modifica o cancellazione anticipata; la memoria dell'introduzione animata dura per la sessione della scheda. Il modulo non conserva messaggi: dopo l'invio risiedono nei canali di comunicazione utilizzati.</p>
+
+      <h2>8. Diritti</h2>
+      <p>Nei casi previsti dal GDPR puoi chiedere accesso, rettifica, cancellazione, limitazione e portabilità dei dati (artt. 15–20), nonché opporti ai trattamenti fondati sul legittimo interesse (art. 21). Puoi revocare il consenso in ogni momento, senza pregiudicare la liceità dei trattamenti precedenti.</p>
+      <p>Per esercitare i diritti scrivi a <a href={`mailto:${associazione.email}?subject=${encodeURIComponent("Richiesta privacy - esercizio dei diritti")}`}>{associazione.email}</a>, indicando la richiesta e il recapito utilizzato per contattarci. La richiesta è gratuita, salve le eccezioni previste dal GDPR. Per identificarti possono essere chieste solo le informazioni ulteriori necessarie.</p>
+      <p>Il riscontro va fornito senza ingiustificato ritardo e, di regola, entro un mese dal ricevimento. Nei casi previsti dall'art. 12 GDPR il termine può essere prorogato fino a ulteriori due mesi; dell'eventuale proroga e dei motivi deve essere data comunicazione entro il primo mese.</p>
+      <p>Puoi presentare reclamo al <a href="https://www.garanteprivacy.it/" target="_blank" rel="noopener noreferrer">Garante per la protezione dei dati personali</a> o all'autorità di controllo competente. Il sito non effettua profilazione né decisioni basate unicamente su trattamenti automatizzati con effetti giuridici o analogamente significativi.</p>
+      <p class="aggiornamento">Ultimo aggiornamento: 2 novembre 2026 · Versione 1.1.</p>
     </div>
   </section>
 </Base>

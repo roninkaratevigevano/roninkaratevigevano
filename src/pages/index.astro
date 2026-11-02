@@ -2,13 +2,13 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Cercatore from "../components/Cercatore.astro";
-import Cinture from "../components/Cinture.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 import Staff from "../components/Staff.astro";
 import ModuloWhatsApp from "../components/ModuloWhatsApp.astro";
 import Mappa from "../components/Mappa.astro";
 import RigaNews from "../components/RigaNews.astro";
 import Orari from "../components/Orari.astro";
-import { associazione, contatti, numeri } from "../data/sito";
+import { associazione, contatti, numeri, provaWhatsApp, telLink } from "../data/sito";
 
 const ultime = (await getCollection("news", (n) => n.data.categorie.includes("News")))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -57,7 +57,7 @@ const schema = {
     <span class="kanji-lato dx" aria-hidden="true">空手</span>
     <div class="hero-basso">
       <div><h1 id="hero-titolo">A.S.D. Ronin Karate Vigevano</h1><p>Karate Shotokan per ragazze e ragazzi dai 6 anni, agonisti, amatori e adulti.</p></div>
-      <div class="azioni"><a class="pill contorno magnete" href="#corsi">Trova il tuo corso</a></div>
+      <div class="azioni"><a class="pill magnete" href={provaWhatsApp} target="_blank" rel="noopener">Prova su WhatsApp</a><a class="pill contorno" href={telLink(contatti.principale.wa)}>Chiama</a></div>
     </div>
   </section>
 
@@ -108,15 +108,14 @@ const schema = {
       <div class="colonna-orari">
         <h3 class="orari-titolo">Quando ci alleniamo</h3>
         <Orari />
-        <a class="pill magnete" href={`https://wa.me/${contatti.principale.wa}?text=${encodeURIComponent("Ciao Gabriele, vorrei prenotare una lezione di prova di karate. Grazie!")}`} target="_blank" rel="noopener">Prenota la lezione di prova</a>
+        <a class="pill magnete" href={provaWhatsApp} target="_blank" rel="noopener">Prenota la prova su WhatsApp</a>
+        <a class="pill contorno" href={telLink(contatti.principale.wa)}>Chiama Gabriele · {contatti.principale.telefono}</a>
       </div>
     </div>
   </section>
 
-  <Cinture nota="Undici gradi, dalla prima lezione al dan. Gli esami seguono il programma FIJLKAM: a dicembre 2025 sei dei nostri ragazzi hanno conquistato il I e il II dan." />
-
-  <section class="wrap sezione" id="staff" aria-labelledby="staff-titolo" style="padding-top:40px">
-    <div class="titolo-sez"><h2 id="staff-titolo" class="display">Insegnanti</h2><p>Lo staff del Ronin: insegnanti tecnici FIJLKAM e CSI, tutti cintura nera.</p></div>
+  <section class="wrap sezione" id="staff" aria-labelledby="staff-titolo">
+    <div class="titolo-sez"><h2 id="staff-titolo" class="display">Insegnanti</h2><p>Otto insegnanti tecnici, tutti cintura nera. Conosci le persone che ti accompagnano sul tatami.</p></div>
     <Staff />
   </section>
 
@@ -132,6 +131,13 @@ const schema = {
     </div>
   </section>
 
+  <section class="sezione social-home" aria-labelledby="social-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="social-titolo" class="display">Ci vediamo anche qui.</h2><p>Segui il Ronin: allenamenti, novità e momenti insieme, dentro e fuori dal dojo.</p></div>
+      <SocialLinks formato="schede" />
+    </div>
+  </section>
+
   <section class="contatti-home" aria-labelledby="scrivi-titolo">
     <div class="nastro" aria-hidden="true">
       {[0, 1, 2, 3].map(() => <span>Vieni a provare <em>体験</em></span>)}
@@ -142,8 +148,9 @@ const schema = {
         <p class="indirizzo" id="scrivi-titolo">{associazione.palestra.nome}<br>{associazione.palestra.via}, Vigevano (PV)</p>
         <Mappa />
         <a class="persona" href={`https://wa.me/${contatti.didattica.wa}`} target="_blank" rel="noopener"><span><b>{contatti.didattica.nome}</b><small>{contatti.didattica.ruolo}</small></span><strong>{contatti.didattica.telefono}</strong></a>
-        <a class="persona" href={`mailto:${associazione.email}`}><span><b>E-mail</b><small>Per tutto il resto</small></span><strong class="piccolo">{associazione.email}</strong></a>
-        <div class="social">{associazione.social.map((s) => <a href={s.url} target="_blank" rel="noopener">{s.nome}</a>)}</div>
+        <a class="persona" href={telLink(contatti.didattica.wa)}><span><b>Preferisci parlarne?</b><small>Chiama Roberto</small></span><strong>{contatti.didattica.telefono}</strong></a>
+        <SocialLinks />
+        <p class="email-secondaria">Per documenti e richieste via email:<br><a href={`mailto:${associazione.email}`}>{associazione.email}</a></p>
       </div>
     </div>
   </section>
@@ -228,10 +235,6 @@ const schema = {
   .persona small{color:#777;font-size:14px}
   .persona:hover small{color:#aaa}
   .persona strong{font-size:19px;white-space:nowrap}
-  .persona strong.piccolo{font-size:16px}
-  .social{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-  .social a{min-height:44px;display:inline-flex;align-items:center;padding:8px 18px;border:1px solid #ccc;border-radius:999px;font-size:15px;transition:background .3s,color .3s,border-color .3s}
-  .social a:hover{background:var(--nero);color:#fff;border-color:var(--nero)}
 
   @media (max-width:960px){
     .hero .kanji-lato,.hero-basso .azioni{display:none}

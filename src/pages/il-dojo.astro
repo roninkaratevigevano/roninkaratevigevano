@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Testata from "../components/Testata.astro";
-import Cinture from "../components/Cinture.astro";
 import Staff from "../components/Staff.astro";
 import { associazione, dojoKun } from "../data/sito";
 
@@ -12,7 +11,7 @@ const inEvidenza = ["gichin-funakoshi", "ronin", "dojo-kun", "niju-kun", "gli-st
   .map((id) => approfondimenti.find((n) => n.id === id))
   .filter(Boolean);
 ---
-<Base titolo="Il dojo" descrizione="Chi siamo: A.S.D. Ronin Karate Vigevano, karate Shotokan tra tradizione e sport. Il dōjō kun, le cinture, gli insegnanti.">
+<Base titolo="Il dojo" descrizione="Chi siamo: A.S.D. Ronin Karate Vigevano, karate Shotokan tra tradizione e sport. Il dōjō kun e gli otto insegnanti tecnici.">
   <Testata titolo="Il dojo" kanji="道場" intro="Ronin Karate Vigevano è un'associazione sportiva dilettantistica senza scopo di lucro. Diffondiamo lo studio del karate Shotokan unendo tradizione e innovazione sportiva." />
 
   <section class="sezione wrap chi" aria-labelledby="chi-titolo">
@@ -51,10 +50,8 @@ const inEvidenza = ["gichin-funakoshi", "ronin", "dojo-kun", "niju-kun", "gli-st
     </div>
   </section>
 
-  <Cinture />
-
-  <section class="wrap sezione" aria-labelledby="staff-titolo" style="padding-top:40px">
-    <div class="titolo-sez"><h2 id="staff-titolo" class="display">Lo staff del Ronin</h2><p>Insegnanti tecnici FIJLKAM e CSI, tutti cintura nera. Gabriele Miceli e Daniele Palermo hanno ottenuto il 5° dan agli esami nazionali di dicembre 2025.</p></div>
+  <section class="wrap sezione" id="staff" aria-labelledby="staff-titolo">
+    <div class="titolo-sez"><h2 id="staff-titolo" class="display">Lo staff del Ronin</h2><p>Otto insegnanti tecnici, tutti cintura nera, per accompagnarti dalla prima lezione al perfezionamento della tecnica.</p></div>
     <Staff />
   </section>
 

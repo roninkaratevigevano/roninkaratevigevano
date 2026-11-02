@@ -17,7 +17,7 @@ Per pubblicare basta caricare la cartella `dist/` su un qualsiasi hosting static
 
 | Cosa | File |
 |---|---|
-| Telefoni, e-mail, indirizzo, social, staff, corsi, cinture, dōjō kun | `src/data/sito.ts` |
+| Telefoni, e-mail, indirizzo, social, staff, corsi, dōjō kun | `src/data/sito.ts` |
 | Orari dei turni | `src/data/sito.ts` → `orari` |
 | News e articoli | `src/content/news/*.md` |
 | Immagini degli articoli e PDF | `public/media/` |
@@ -50,6 +50,11 @@ Gli articoli sono stati importati una sola volta da WordPress con `npm run impor
 ## Scelte tecniche
 
 - **Menu mobile**: è fuori dall'header (un elemento fixed dentro un genitore con transform o blur verrebbe tagliato), blocca lo scroll della pagina, rende inerte il contenuto sotto e si chiude con Esc, con un link o allargando la finestra.
-- **Privacy**: Google Maps e YouTube si caricano solo dopo il clic. Il modulo WhatsApp prepara il testo nel browser e non salva nulla.
+- **Privacy**: banner e preferenze con vanilla-cookieconsent, ospitato localmente. Maps e YouTube sono categorie distinte, disattivate per impostazione predefinita. La revoca rimuove gli iframe. Preferenze salvate per 185 giorni; nessun analytics o pixel.
+- **Modulo contatti**: nome ed età obbligatori, scelta per sé/figlio/figlia, corso, domanda facoltativa (massimo 1.000 caratteri), presa visione privacy. L'anteprima è composta nel browser; WhatsApp è il canale principale, l'email un'alternativa tramite `mailto:`. Entrambi aprono una bozza, senza invio automatico. Non servono backend, servizi form o credenziali. L'email richiede un client di posta configurato. I campi non sono memorizzati in cookie/storage né pubblicati su GitHub.
 - **Animazioni**: si disattivano se il dispositivo chiede movimento ridotto. Se gli script non partono, i contenuti compaiono comunque. L'intro con il preloader parte solo alla prima visita della sessione.
 - **Telefono**: niente sezioni bloccate durante lo scroll, solo animazioni brevi; pulsante WhatsApp fisso, che si nasconde vicino al modulo e al footer.
+
+## Prima della pubblicazione
+
+Leggere `docs/verifica-pubblicazione.md`: include le verifiche tecniche, l'inventario cookie e i dati organizzativi da confermare con l'associazione. Privacy, cookie e termini sono bozze da validare dal titolare. GitHub ospita il codice; la configurazione corrente usa Vercel per l'hosting. Il progetto rimane statico e il modulo funziona senza endpoint di invio.

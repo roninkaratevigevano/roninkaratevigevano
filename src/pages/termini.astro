@@ -1,0 +1,24 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import { associazione } from "../data/sito";
+---
+<Base titolo="Termini d'uso" descrizione="Utilizzo del sito, richieste di una lezione di prova e contenuti di Ronin Karate Vigevano.">
+  <Testata titolo="Termini d'uso" kanji="礼" intro="Le informazioni utili per usare il sito e contattare l'associazione." />
+  <section class="sezione bianca">
+    <div class="stretto prosa">
+      <h2>Il sito dell'associazione</h2>
+      <p>Il sito è gestito da {associazione.nome}, con sede legale in {associazione.sedeLegale}, P. IVA {associazione.piva}. Presenta associazione, insegnanti, corsi, orari e notizie. Per informazioni usa la pagina <a href="/contatti/">Contatti</a> o scrivi a <a href={`mailto:${associazione.email}`}>{associazione.email}</a>.</p>
+      <h2>Corsi e lezione di prova</h2>
+      <p>Un messaggio o una telefonata è una richiesta di informazioni o disponibilità: non costituisce una prenotazione confermata, un'iscrizione o un acquisto. Giorno, orario e condizioni della prova vengono concordati con l'associazione. Per un minore deve contattarci un genitore o tutore.</p>
+      <p>Le attività sono riservate ai soci. Iscrizione, tesseramento e requisiti per la pratica sportiva sono gestiti direttamente dall'associazione. Il sito non offre pagamenti online o contratti di vendita a distanza.</p>
+      <h2>Informazioni e aggiornamenti</h2>
+      <p>Orari, disponibilità e programmi possono cambiare durante la stagione. Prima di venire in palestra chiedi conferma ai recapiti ufficiali. Le notizie d'archivio si riferiscono alla propria data e possono descrivere attività di stagioni passate.</p>
+      <h2>Uso dei contenuti</h2>
+      <p>Testi, fotografie, loghi e altri materiali appartengono all'associazione o ai rispettivi aventi diritto. Restano consentiti gli usi previsti dalla legge; per ulteriori riproduzioni o riutilizzi contatta l'associazione. I contenuti sul karate hanno finalità informative e non sostituiscono l'insegnamento in palestra o valutazioni professionali sulla salute.</p>
+      <h2>Servizi esterni e dati personali</h2>
+      <p>I servizi esterni collegati applicano le proprie condizioni e informative. Per questo sito consulta la <a href="/privacy/">Privacy policy</a> e la <a href="/cookie-policy/">Cookie policy</a>. Puoi modificare le preferenze sui servizi integrati dal footer.</p>
+      <p class="aggiornamento">Ultimo aggiornamento: 2 novembre 2026.</p>
+    </div>
+  </section>
+</Base>

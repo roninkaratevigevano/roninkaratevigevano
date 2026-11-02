@@ -72,29 +72,6 @@ if (waFisso) {
   document.querySelectorAll("[data-nascondi-wa]").forEach((el) => io.observe(el));
 }
 
-/* ---------- Video YouTube e mappa: si caricano solo al clic ---------- */
-const iconaPlay = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
-document.querySelectorAll(".yt[data-yt]").forEach((box) => {
-  const id = box.dataset.yt;
-  box.innerHTML = `<button type="button" class="consenso"><span class="play">${iconaPlay}</span><strong>Guarda il video</strong><p>Il video viene caricato da YouTube, che potrebbe usare cookie.</p></button>`;
-  box.querySelector("button").addEventListener("click", () => {
-    box.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="Video YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
-  }, { once: true });
-});
-
-function leggi(chiave) { try { return localStorage.getItem(chiave); } catch { return null; } }
-function scrivi(chiave, valore) { try { localStorage.setItem(chiave, valore); } catch { /* archivio non disponibile */ } }
-function caricaMappa(box) {
-  box.innerHTML = `<iframe src="${box.dataset.src}" title="Mappa: ${box.dataset.titolo || "palestra"}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>`;
-}
-document.querySelectorAll(".mappa[data-src]").forEach((box) => {
-  if (leggi("ronin-mappa") === "si") return caricaMappa(box);
-  box.querySelector("button")?.addEventListener("click", () => {
-    scrivi("ronin-mappa", "si");
-    document.querySelectorAll(".mappa[data-src]").forEach(caricaMappa);
-  });
-});
-
 /* ---------- Animazioni ---------- */
 if (!ridotto) {
   // cursore e pulsanti magnetici solo con mouse

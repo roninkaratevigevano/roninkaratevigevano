@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 
 export const GET: APIRoute = async ({ site }) => {
-  const pagine = ["/", "/il-dojo/", "/corsi/", "/karate-bambini-vigevano/", "/difesa-personale-vigevano/", "/news/", "/contatti/", "/safeguarding/", "/privacy/"];
+  const pagine = ["/", "/il-dojo/", "/corsi/", "/karate-bambini-vigevano/", "/difesa-personale-vigevano/", "/news/", "/contatti/", "/safeguarding/", "/privacy/", "/cookie-policy/", "/termini/"];
   const news = await getCollection("news");
   const url = [
     ...pagine.map((p) => `<url><loc>${new URL(p, site)}</loc></url>`),

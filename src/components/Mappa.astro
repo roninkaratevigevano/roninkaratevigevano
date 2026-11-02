@@ -1,12 +1,12 @@
 ---
-// Google Maps si carica solo dopo il consenso (Google usa cookie); la scelta viene ricordata sul dispositivo
+// Il gestore privacy carica Google Maps soltanto con il consenso alla categoria "maps".
 import { associazione } from "../data/sito";
 const { palestra } = associazione;
 ---
 <div class="mappa" data-src={palestra.embed} data-titolo={`${palestra.via}, Vigevano`}>
   <div class="consenso">
-    <p>La mappa è fornita da Google Maps, che potrebbe usare cookie.</p>
-    <button class="pill" type="button">Mostra la mappa</button>
+    <p>Google Maps è disattivato. Per mostrarlo puoi autorizzare i suoi cookie nelle preferenze. <a href="/cookie-policy/">Informazioni sui cookie</a>.</p>
+    <button class="pill" type="button" data-attiva-mappa>Scegli e mostra la mappa</button>
     <a class="link-freccia" href={palestra.mappe} target="_blank" rel="noopener">Apri in Google Maps</a>
   </div>
 </div>

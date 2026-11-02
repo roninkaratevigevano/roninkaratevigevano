@@ -2,7 +2,8 @@
 import "@fontsource-variable/bricolage-grotesque/standard.css";
 import "@fontsource/zen-antique/400.css";
 import "../styles/global.css";
-import { associazione, contatti, safeguarding, waLink } from "../data/sito";
+import { associazione, contatti, safeguarding, provaWhatsApp, telLink } from "../data/sito";
+import SocialLinks from "../components/SocialLinks.astro";
 
 interface Props {
   titolo?: string;
@@ -75,7 +76,8 @@ const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 1
       </ul>
     </nav>
     <div class="nav-azioni">
-      <a class="pill magnete" href="/contatti/#scrivi">Prenota una prova</a>
+      <a class="nav-chiama" href={telLink(contatti.principale.wa)}><Fragment set:html={iconaTel} />Chiama</a>
+      <a class="pill magnete" href={provaWhatsApp} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />Prenota una prova</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-mobile">
         <span class="linee" aria-hidden="true"><i></i><i></i></span><span class="testo">Menu</span>
       </button>
@@ -92,7 +94,8 @@ const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 1
       </ul>
     </nav>
     <div class="piede">
-      <a class="pill" href={waLink(contatti.principale.wa)} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />Scrivi su WhatsApp</a>
+      <div class="azioni-contatto"><a class="pill" href={provaWhatsApp} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />WhatsApp</a><a class="pill contorno" href={telLink(contatti.principale.wa)}><Fragment set:html={iconaTel} />Chiama</a></div>
+      <SocialLinks />
       <p>{associazione.palestra.nome}, {associazione.palestra.via}, Vigevano</p>
     </div>
   </div>
@@ -112,7 +115,8 @@ const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 1
         <div>
           <h2>Palestra</h2>
           <p>{associazione.palestra.nome}<br>{associazione.palestra.via}<br>{associazione.palestra.citta}</p>
-          <p style="margin-top:12px"><a href={`mailto:${associazione.email}`}>{associazione.email}</a></p>
+          <div class="footer-contatti"><a href={provaWhatsApp} target="_blank" rel="noopener">Scrivici su WhatsApp ↗</a><a href={telLink(contatti.principale.wa)}>Chiama {contatti.principale.telefono}</a></div>
+          <p class="email-secondaria"><a href={`mailto:${associazione.email}`}>{associazione.email}</a></p>
         </div>
         <div>
           <h2>Pagine</h2>
@@ -123,7 +127,6 @@ const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 1
             <li><a href="/difesa-personale-vigevano/">Difesa personale</a></li>
             <li><a href="/news/">News</a></li>
             <li><a href="/contatti/">Contatti</a></li>
-            <li><a href="/privacy/">Privacy</a></li>
           </ul>
         </div>
         <div>
@@ -135,21 +138,21 @@ const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 1
       <p class="grande" aria-hidden="true">RONIN KARATE</p>
       <div class="basso">
         <span>Le attività svolte dall'associazione sono riservate ai soli soci.</span>
-        <span class="social-footer">
-          {associazione.social.map((s) => <a href={s.url} target="_blank" rel="noopener">{s.nome}</a>)}
-        </span>
+        <SocialLinks />
       </div>
+      <nav class="legale-footer" aria-label="Informazioni legali"><a href="/privacy/">Privacy policy</a><a href="/cookie-policy/">Cookie policy</a><button type="button" data-cc="show-preferencesModal">Preferenze cookie</button><a href="/termini/">Termini d'uso</a></nav>
     </div>
   </footer>
 
   <div class="wa-fisso">
-    <a class="pill chiama" href={`tel:+39${contatti.principale.telefono.replace(/\s/g, "")}`} aria-label={`Chiama ${contatti.principale.nome}`}><Fragment set:html={iconaTel} /></a>
-    <a class="pill" href={waLink(contatti.principale.wa)} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />Scrivici su WhatsApp</a>
+    <a class="pill chiama" href={telLink(contatti.principale.wa)} aria-label={`Chiama ${contatti.principale.nome}`}><Fragment set:html={iconaTel} />Chiama</a>
+    <a class="pill" href={provaWhatsApp} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />WhatsApp</a>
   </div>
   <div class="cursore" aria-hidden="true"><span class="anello"></span><span class="punto"></span></div>
 
   <script>
     import "../scripts/base.js";
+    import "../scripts/privacy.js";
   </script>
 </body>
 </html>

@@ -17,9 +17,9 @@ export const associazione = {
     lng: 8.86022,
   },
   social: [
-    { nome: "Instagram", url: "https://www.instagram.com/roninkaratevigevano" },
-    { nome: "Facebook", url: "https://www.facebook.com/roninkaratevigevano" },
-    { nome: "TikTok", url: "https://www.tiktok.com/@ronin.karate.vige" },
+    { nome: "Instagram", url: "https://www.instagram.com/roninkaratevigevano", descrizione: "Allenamenti e vita di squadra", account: "@roninkaratevigevano" },
+    { nome: "Facebook", url: "https://www.facebook.com/roninkaratevigevano", descrizione: "Notizie e appuntamenti del Ronin", account: "Ronin Karate Vigevano" },
+    { nome: "TikTok", url: "https://www.tiktok.com/@ronin.karate.vige", descrizione: "Il karate, un video alla volta", account: "@ronin.karate.vige" },
   ],
 };
 
@@ -40,13 +40,14 @@ export const safeguarding = {
 };
 
 export const staff = [
-  { nome: "Gabriele Miceli", ruolo: "Presidente ASD · Insegnante tecnico FIJLKAM / CSI", dan: 5 },
-  { nome: "Roberto de Vincenzi", ruolo: "Insegnante tecnico FIJLKAM", dan: 5 },
-  { nome: "Daniele Palermo", ruolo: "Insegnante tecnico FIJLKAM / CSI · Responsabile safeguarding", dan: 5 },
-  { nome: "Luca Del Moro", ruolo: "Insegnante tecnico FIJLKAM / CSI", dan: 3 },
-  { nome: "Andrea Colognese", ruolo: "Insegnante tecnico FIJLKAM", dan: 3 },
-  { nome: "Stefano Piacentini", ruolo: "Insegnante tecnico CSI", dan: 3 },
-  { nome: "Alessandro Lombardo", ruolo: "Insegnante tecnico FIJLKAM", dan: 2 },
+  { nome: "Gabriele Miceli", ruolo: "Presidente ASD · Insegnante tecnico", dan: 5 },
+  { nome: "Roberto de Vincenzi", ruolo: "Insegnante e direttore tecnico", dan: 5 },
+  { nome: "Daniele Palermo", ruolo: "Insegnante tecnico · Responsabile safeguarding", dan: 5 },
+  { nome: "Luca Del Moro", ruolo: "Insegnante tecnico", dan: 3 },
+  { nome: "Andrea Colognese", ruolo: "Insegnante tecnico", dan: 3 },
+  { nome: "Stefano Piacentini", ruolo: "Insegnante tecnico", dan: 3 },
+  { nome: "Stefano Lombardi", ruolo: "Insegnante tecnico · Laureato in Scienze Motorie", dan: 3 },
+  { nome: "Alessandro Lombardo", ruolo: "Insegnante tecnico", dan: 2 },
 ];
 
 // gare: "si" = solo per chi vuole gareggiare, "no" = senza gare, "tutti" = entrambi
@@ -111,27 +112,13 @@ export const orari = {
   nota: "Si sceglie quante volte venire: da 1 a 4 lezioni a settimana.",
 };
 
-export const numeri = { allievi: "Quasi 90", cintureNere: 7, maestri5dan: 3 };
+export const numeri = { allievi: "Quasi 90", cintureNere: staff.length, maestri5dan: staff.filter((p) => p.dan === 5).length };
 
 export const fasce = [
   { titolo: "6 – 7 anni", testo: "Concetti base con un approccio ludico, curando la coordinazione motoria e spaziale." },
   { titolo: "8 – 14 anni", testo: "Postura e tecnica, kata di base e kumite, all'inizio con bersagli fittizi." },
   { titolo: "Dai 14 anni", testo: "Kata di base e superiori, kumite tra allievi con le protezioni, preparazione atletica." },
   { titolo: "Adulti", testo: "Pratica su misura per età e struttura, con preparazione fisica, tecnica, storia e cultura." },
-];
-
-export const cinture = [
-  { nome: "bianca", c: "#f2f2f2" },
-  { nome: "gialla", c: "#f5c816" },
-  { nome: "gialla-arancio", c: "#f5c816", c2: "#f08a1c" },
-  { nome: "arancio", c: "#f08a1c" },
-  { nome: "arancio-verde", c: "#f08a1c", c2: "#2f9a48" },
-  { nome: "verde", c: "#2f9a48" },
-  { nome: "verde-blu", c: "#2f9a48", c2: "#2463b8" },
-  { nome: "blu", c: "#2463b8" },
-  { nome: "blu-marrone", c: "#2463b8", c2: "#6b4024" },
-  { nome: "marrone", c: "#6b4024" },
-  { nome: "nera", c: "#1b1b1b", nera: true },
 ];
 
 export const dojoKun = [
@@ -144,6 +131,9 @@ export const dojoKun = [
 
 export const waLink = (numero: string, testo?: string) =>
   `https://wa.me/${numero}${testo ? `?text=${encodeURIComponent(testo)}` : ""}`;
+
+export const provaWhatsApp = waLink(contatti.principale.wa, "Ciao Gabriele, vorrei informazioni sui corsi e prenotare una lezione di prova di karate. Grazie!");
+export const telLink = (numero: string) => `tel:+${numero}`;
 
 export const dataItaliana = (d: Date, opzioni: Intl.DateTimeFormatOptions = { day: "numeric", month: "long", year: "numeric" }) =>
   d.toLocaleDateString("it-IT", { ...opzioni, timeZone: "Europe/Rome" });
