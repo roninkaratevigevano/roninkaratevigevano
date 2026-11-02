@@ -145,13 +145,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
 input[type=range]:active::-webkit-slider-thumb{transform:scale(1.2)}
 input[type=range]::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(227,35,43,.35)}
 .scala{display:flex;justify-content:space-between;font-size:13px;color:#777}
-.gruppo{margin-top:30px}
-.gruppo .lbl{display:block;font-weight:600;margin-bottom:12px}
-.scelta{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:5px;border-radius:999px;background:var(--grafite)}
-.scelta button{position:relative;z-index:1;min-height:44px;border:0;background:none;color:#bbb;padding:10px;border-radius:999px;font-weight:600;cursor:pointer;transition:color .3s}
-.scelta button[aria-pressed=true]{color:#fff}
-.scelta .slitta{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:999px;background:var(--rosso);transition:transform .5s var(--molla)}
-.scelta.destra .slitta{transform:translateX(100%)}
 .esito{margin:28px 0 18px;font-size:19px;min-height:3.2em;color:#ddd}
 .esito b{color:#fff}
 .elenco-corsi{border-bottom:1px solid var(--linea)}

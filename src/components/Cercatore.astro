@@ -1,5 +1,5 @@
 ---
-// "Trova il tuo corso": età + interesse per le gare, i corsi adatti salgono in cima
+// "Trova il tuo corso": i corsi adatti all'età salgono in cima.
 import { corsi, orari } from "../data/sito";
 interface Props { linkDettagli?: boolean }
 const { linkDettagli = true } = Astro.props;
@@ -10,20 +10,12 @@ const { linkDettagli = true } = Astro.props;
     <label for="eta-cercatore">Età di chi inizia: <span data-eta-testo>10 anni</span></label>
     <input type="range" id="eta-cercatore" min="6" max="70" value="10" data-eta>
     <div class="scala" aria-hidden="true"><span>6</span><span>14</span><span>30</span><span>50</span><span>70+</span></div>
-    <div class="gruppo">
-      <span class="lbl" id="gare-lbl">Interessano le gare?</span>
-      <div class="scelta" role="group" aria-labelledby="gare-lbl" data-scelta>
-        <span class="slitta" aria-hidden="true"></span>
-        <button type="button" aria-pressed="true" data-gare="no">Solo pratica</button>
-        <button type="button" aria-pressed="false" data-gare="si">Sì, le gare</button>
-      </div>
-    </div>
     <p class="esito" aria-live="polite" data-esito></p>
     <a class="pill magnete" href="/contatti/#scrivi" data-chiedi>Chiedi informazioni su questo corso</a>
   </div>
   <div class="elenco-corsi" data-elenco>
     {corsi.map((c) => (
-      <article class="corso" data-min={c.min} data-max={c.max} data-gare={c.gare} data-nome={c.nome} data-turno={c.turno ?? ""}>
+      <article class="corso" data-min={c.min} data-max={c.max} data-indicazione={c.suIndicazione ? "si" : "no"} data-nome={c.nome} data-turno={c.turno ?? ""}>
         <h3>{linkDettagli ? <a href={`/corsi/#${c.id}`}>{c.nome}</a> : c.nome}</h3>
         <span class="eta">{c.eta}</span>
         <p>{c.breve}</p>
@@ -43,11 +35,9 @@ const { linkDettagli = true } = Astro.props;
     const grande = box.querySelector<HTMLElement>("[data-eta-grande]")!;
     const etaTesto = box.querySelector<HTMLElement>("[data-eta-testo]")!;
     const esito = box.querySelector<HTMLElement>("[data-esito]")!;
-    const scelta = box.querySelector<HTMLElement>("[data-scelta]")!;
     const elenco = box.querySelector<HTMLElement>("[data-elenco]")!;
     const chiedi = box.querySelector<HTMLAnchorElement>("[data-chiedi]")!;
     const corsi = [...elenco.querySelectorAll<HTMLElement>(".corso")];
-    let gare = "no";
     let consigliato = "";
 
     const etichetta = (a: number) => (a >= 70 ? "70+" : String(a));
@@ -61,8 +51,7 @@ const { linkDettagli = true } = Astro.props;
       const stato = anima && !ridotto ? Flip.getState(corsi) : null;
       const adatti: string[] = [];
       corsi.forEach((c) => {
-        const g = c.dataset.gare;
-        const ok = a >= +c.dataset.min! && a <= +c.dataset.max! && (g === "tutti" || g === gare);
+        const ok = a >= +c.dataset.min! && a <= +c.dataset.max! && c.dataset.indicazione !== "si";
         c.classList.toggle("ok", ok);
         c.classList.toggle("no", !ok);
         if (ok) adatti.push(c.dataset.nome!);
@@ -72,7 +61,7 @@ const { linkDettagli = true } = Astro.props;
       consigliato = adatti[0] || "";
       const primo = corsi.find((c) => c.dataset.nome === consigliato);
       const ora = primo?.dataset.turno ?? "";
-      const quando = /^\d/.test(ora) ? ` Si allena ${box.dataset.giorni} alle ${ora}.` : "";
+      const quando = /^\d/.test(ora) ? ` Allenamento: ${box.dataset.giorni} alle ${ora}.` : "";
       esito.innerHTML = adatti.length
         ? `Per ${etichetta(a)} anni: <b>${adatti.join(", ")}</b>.${quando}`
         : "Scrivici: troviamo insieme il percorso giusto.";
@@ -84,14 +73,6 @@ const { linkDettagli = true } = Astro.props;
     eta.addEventListener("input", () => {
       aggiorna(true);
       if (!ridotto) gsap.fromTo(grande, { scale: 1.08 }, { scale: 1, duration: 0.4, ease: "power3.out" });
-    });
-    scelta.addEventListener("click", (e) => {
-      const b = (e.target as HTMLElement).closest("button");
-      if (!b) return;
-      gare = b.dataset.gare!;
-      scelta.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-      scelta.classList.toggle("destra", gare === "si");
-      aggiorna(true);
     });
     chiedi.addEventListener("click", () => {
       window.dispatchEvent(new CustomEvent("ronin:corso", { detail: { eta: Math.min(+eta.value, 99), corso: consigliato || "Non lo so ancora" } }));

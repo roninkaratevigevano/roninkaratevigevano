@@ -11,19 +11,19 @@ const domande = [
   { d: "Da che età si può iniziare?", r: "Dai 6 anni, ragazze e ragazzi. Gli allievi sono divisi per età e grado, così ognuno impara con il proprio gruppo." },
   { d: "Quando si svolgono le lezioni?", r: `${giorni.charAt(0).toUpperCase() + giorni.slice(1)}: alle ${orari.turni[0].ora} bambini e ragazzi, alle ${orari.turni[1].ora} ragazzi grandi e adulti. La stagione segue il calendario scolastico, da metà settembre a giugno.` },
   { d: "Quanto costa?", r: "Gli abbonamenti dipendono da quante volte a settimana vieni e per quanto tempo. Scrivici l'età e la frequenza che preferisci e ti spieghiamo tutto." },
-  { d: "Serve il certificato medico?", r: "Sì, per praticare serve il certificato medico per attività sportiva: non agonistica per chi si allena, agonistica per chi fa le gare. Ti diciamo noi quando portarlo." },
+  { d: "Serve il certificato medico?", r: "Sì, per praticare serve il certificato medico per attività sportiva. Ti indichiamo quale certificato portare e quando consegnarlo." },
   { d: "Cosa serve per allenarsi?", r: "In palestra si pratica con il karategi, l'uniforme bianca del karate. Per la prima lezione chiedi a Gabriele cosa portare." },
   { d: "Bisogna essere soci?", r: "Sì: le attività dell'associazione sono riservate ai soci. Per l'iscrizione e il tesseramento il riferimento è Gabriele Miceli." },
   { d: "Come si paga? Si può detrarre?", r: "Con bonifico o in reception. La detrazione delle spese sportive dei figli dipende dai requisiti fiscali applicabili: servono un pagamento tracciabile e la documentazione richiesta. Chiedici le modalità accettate e i dati da comunicare per la ricevuta." },
-  { d: "Si fanno esami e gare?", r: "Gli esami di grado seguono il programma FIJLKAM, dalla cintura bianca fino al dan. Le gare sono per chi vuole: c'è un corso agonisti e un corso specifico di preparazione." },
+  { d: "Si fanno esami di grado?", r: "Gli esami di grado seguono il programma FIJLKAM, dalla cintura bianca fino al dan. È previsto anche un corso di preparazione agli esami, su indicazione degli insegnanti." },
 ];
 ---
-<Base titolo="Corsi e orari" descrizione="Corsi di karate Shotokan a Vigevano: ragazzi dai 6 ai 14 anni, agonisti, amatori, adulti e difesa personale MGA. Orari e lezione di prova." schema={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: domande.map((q) => ({ "@type": "Question", name: q.d, acceptedAnswer: { "@type": "Answer", text: q.r } })) }}>
-  <Testata titolo="Corsi" kanji="稽古" intro="Sei corsi, divisi per età e grado. Dai bambini di 6 anni agli adulti che non hanno mai praticato, fino agli agonisti." />
+<Base titolo="Corsi e orari" descrizione="Corsi di karate Shotokan a Vigevano: ragazzi dai 6 ai 14 anni, amatori, adulti e difesa personale MGA. Orari e lezione di prova." schema={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: domande.map((q) => ({ "@type": "Question", name: q.d, acceptedAnswer: { "@type": "Answer", text: q.r } })) }}>
+  <Testata titolo="Corsi" kanji="稽古" intro={`${corsi.length} corsi, divisi per età e grado. Dai bambini di 6 anni agli adulti che non hanno mai praticato.`} />
 
   <section class="sezione carbone" aria-labelledby="trova-titolo">
     <div class="wrap">
-      <div class="titolo-sez"><h2 id="trova-titolo" class="display">Trova il tuo corso</h2><p>Indica l'età di chi vuole iniziare e se gli interessano le gare.</p></div>
+      <div class="titolo-sez"><h2 id="trova-titolo" class="display">Trova il tuo corso</h2><p>Indica l'età di chi vuole iniziare: i corsi adatti salgono in cima.</p></div>
       <Cercatore />
     </div>
   </section>

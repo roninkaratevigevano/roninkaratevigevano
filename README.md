@@ -2,6 +2,8 @@
 
 Sito statico costruito con [Astro](https://astro.build). Animazioni con GSAP e Lenis, caratteri ospitati in locale (nessun servizio esterno caricato senza consenso).
 
+Indirizzo Vercel: https://roninkaratevigevano.vercel.app/ (dominio aggiunto al progetto esistente `ronin-karate-vigevano`).
+
 ## Comandi
 
 ```bash
@@ -49,6 +51,7 @@ Gli articoli sono stati importati una sola volta da WordPress con `npm run impor
 
 ## Scelte tecniche
 
+- **Corsi**: il cercatore propone i corsi in base all'età. Preparazione esami e approfondimento kata rimangono disponibili su indicazione degli insegnanti e non vengono consigliati automaticamente a chi inizia. L'offerta attuale non include un corso agonisti o preparazione alle gare; le notizie storiche rimangono nell'archivio.
 - **Menu mobile**: è fuori dall'header (un elemento fixed dentro un genitore con transform o blur verrebbe tagliato), blocca lo scroll della pagina, rende inerte il contenuto sotto e si chiude con Esc, con un link o allargando la finestra.
 - **Privacy**: banner e preferenze con vanilla-cookieconsent, ospitato localmente. Maps e YouTube sono categorie distinte, disattivate per impostazione predefinita. La revoca rimuove gli iframe. Preferenze salvate per 185 giorni; nessun analytics o pixel.
 - **Modulo contatti**: nome ed età obbligatori, scelta per sé/figlio/figlia, corso, domanda facoltativa (massimo 1.000 caratteri), presa visione privacy. L'anteprima è composta nel browser; WhatsApp è il canale principale, l'email un'alternativa tramite `mailto:`. Entrambi aprono una bozza, senza invio automatico. Non servono backend, servizi form o credenziali. L'email richiede un client di posta configurato. I campi non sono memorizzati in cookie/storage né pubblicati su GitHub.

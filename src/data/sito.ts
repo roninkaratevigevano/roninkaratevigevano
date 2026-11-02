@@ -50,10 +50,10 @@ export const staff = [
   { nome: "Alessandro Lombardo", ruolo: "Insegnante tecnico", dan: 2 },
 ];
 
-// gare: "si" = solo per chi vuole gareggiare, "no" = senza gare, "tutti" = entrambi
+// Gli approfondimenti su indicazione non vengono consigliati automaticamente per la sola età.
 export const corsi = [
   {
-    id: "ragazzi", nome: "Ragazzi", eta: "6 – 14 anni", min: 6, max: 14, gare: "tutti", segno: "6–14", turno: "18:00",
+    id: "ragazzi", nome: "Ragazzi", eta: "6 – 14 anni", min: 6, max: 14, segno: "6–14", turno: "18:00",
     breve: "Fino a 7 anni si impara giocando, curando coordinazione motoria e spaziale. Dagli 8 anni postura, tecnica, kata di base e kumite con bersagli.",
     dettagli: [
       "Dai 6 ai 7 anni i concetti base passano dal gioco, con particolare attenzione alla coordinazione motoria e spaziale.",
@@ -61,39 +61,31 @@ export const corsi = [
     ],
   },
   {
-    id: "agonisti", nome: "Agonisti", eta: "dai 14 anni", min: 14, max: 99, gare: "si", segno: "14+", turno: "19:00",
-    breve: "Kata di base e superiori, kumite tra allievi con le protezioni, preparazione atletica per le gare.",
-    dettagli: [
-      "Studio tecnico approfondito, con kata di base e superiori.",
-      "Kumite tra allievi con le adeguate protezioni e preparazione atletica per le competizioni.",
-    ],
+    id: "amatori", nome: "Amatori", eta: "dai 14 anni", min: 14, max: 99, segno: "14+", turno: "19:00",
+    breve: "Lo studio tecnico completo del karate, per chi vuole praticare con continuità.",
+    dettagli: ["Un percorso di pratica del karate che unisce tecnica, preparazione fisica e costanza nell'allenamento."],
   },
   {
-    id: "amatori", nome: "Amatori", eta: "dai 14 anni", min: 14, max: 99, gare: "no", segno: "14+", turno: "19:00",
-    breve: "Lo studio tecnico completo del karate, senza l'obbligo delle competizioni.",
-    dettagli: ["Lo stesso percorso tecnico, per chi vuole praticare con continuità senza dover gareggiare."],
-  },
-  {
-    id: "adulti", nome: "Adulti", eta: "adulti", min: 18, max: 99, gare: "no", segno: "18+", turno: "19:00",
+    id: "adulti", nome: "Adulti", eta: "adulti", min: 18, max: 99, segno: "18+", turno: "19:00",
     breve: "Per chi ha già praticato e per chi parte da zero: preparazione fisica, tecnica accurata, storia e cultura della disciplina.",
     dettagli: [
       "Lo studio è commisurato alle potenzialità di ognuno in base a età e struttura.",
-      "Adatto sia a chi ha trascorsi agonistici nel karate o in altre discipline, sia a chi non ha mai praticato alcuna attività.",
+      "Adatto sia a chi ha già praticato karate o altre discipline, sia a chi non ha mai praticato alcuna attività.",
       "Curiamo la preparazione fisica senza tralasciare la tecnica, affrontando anche i risvolti culturali e storici della disciplina.",
     ],
   },
   {
-    id: "specifico", nome: "Specifico esami e gare", eta: "su indicazione", min: 8, max: 99, gare: "si", segno: "型",
-    breve: "Preparazione mirata agli esami di grado e alle competizioni.",
-    dettagli: ["Un corso dedicato per preparare esami di grado e gare, su indicazione degli insegnanti."],
+    id: "specifico", nome: "Preparazione esami", eta: "su indicazione", min: 8, max: 99, suIndicazione: true, segno: "型",
+    breve: "Preparazione mirata agli esami di grado, su indicazione degli insegnanti.",
+    dettagli: ["Un corso dedicato per preparare gli esami di grado, su indicazione degli insegnanti."],
   },
   {
-    id: "kata", nome: "Approfondimento kata", eta: "avanzato", min: 14, max: 99, gare: "tutti", segno: "道",
+    id: "kata", nome: "Approfondimento kata", eta: "avanzato", min: 14, max: 99, suIndicazione: true, segno: "道",
     breve: "Lo studio dei kata superiori, per chi ha già esperienza.",
     dettagli: ["Un corso avanzato di approfondimento dei kata, per chi ha già una buona base tecnica."],
   },
   {
-    id: "mga", nome: "Difesa personale MGA", eta: "dai 15 anni", min: 15, max: 99, gare: "no", segno: "護身", turno: "da concordare",
+    id: "mga", nome: "Difesa personale MGA", eta: "dai 15 anni", min: 15, max: 99, segno: "護身", turno: "da concordare",
     breve: "Metodo Globale Autodifesa: difesa personale pratica per adulti, uomini e donne, anche senza esperienza.",
     dettagli: [
       "Il Metodo Globale Autodifesa insegna a riconoscere e gestire le situazioni di pericolo con tecniche semplici ed efficaci.",
