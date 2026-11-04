@@ -1,0 +1,144 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import Cercatore from "../components/Cercatore.astro";
+import Orari from "../components/Orari.astro";
+import { corsi, fasce, contatti, waLink, orari } from "../data/sito";
+const pagine: Record<string, string> = { ragazzi: "/karate-bambini-vigevano/", mga: "/difesa-personale-vigevano/" };
+const giorni = orari.giorni.map((g) => g.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " e $1");
+
+const domande = [
+  { d: "Da che età si può iniziare?", r: "Dai 6 anni, ragazze e ragazzi. Gli allievi sono divisi per età e grado, così ognuno impara con il proprio gruppo." },
+  { d: "Quando si svolgono le lezioni?", r: `${giorni.charAt(0).toUpperCase() + giorni.slice(1)}: alle ${orari.turni[0].ora} bambini e ragazzi, alle ${orari.turni[1].ora} ragazzi grandi e adulti. La stagione segue il calendario scolastico, da metà settembre a giugno.` },
+  { d: "Quanto costa?", r: "Gli abbonamenti dipendono da quante volte a settimana vieni e per quanto tempo. Scrivici l'età e la frequenza che preferisci e ti spieghiamo tutto." },
+  { d: "Serve il certificato medico?", r: "Sì, per praticare serve il certificato medico per attività sportiva. Ti indichiamo quale certificato portare e quando consegnarlo." },
+  { d: "Cosa serve per allenarsi?", r: "In palestra si pratica con il karategi, l'uniforme bianca del karate. Per la prima lezione chiedi a Gabriele cosa portare." },
+  { d: "Bisogna essere soci?", r: "Sì: le attività dell'associazione sono riservate ai soci. Per l'iscrizione e il tesseramento il riferimento è Gabriele Miceli." },
+  { d: "Come si paga? Si può detrarre?", r: "Con bonifico o in reception. La detrazione delle spese sportive dei figli dipende dai requisiti fiscali applicabili: servono un pagamento tracciabile e la documentazione richiesta. Chiedici le modalità accettate e i dati da comunicare per la ricevuta." },
+  { d: "Si fanno esami di grado?", r: "Gli esami di grado seguono il programma FIJLKAM, dalla cintura bianca fino al dan. È previsto anche un corso di preparazione agli esami, su indicazione degli insegnanti." },
+];
+---
+<Base titolo="Corsi e orari" descrizione="Corsi di karate Shotokan a Vigevano: ragazzi dai 6 ai 14 anni, amatori, adulti e difesa personale MGA. Orari e lezione di prova." schema={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: domande.map((q) => ({ "@type": "Question", name: q.d, acceptedAnswer: { "@type": "Answer", text: q.r } })) }}>
+  <Testata titolo="Corsi" kanji="稽古" intro={`${corsi.length} corsi, divisi per età e grado. Dai bambini di 6 anni agli adulti che non hanno mai praticato.`} />
+
+  <section class="sezione carbone" aria-labelledby="trova-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="trova-titolo" class="display">Trova il tuo corso</h2><p>Indica l'età di chi vuole iniziare: i corsi adatti salgono in cima.</p></div>
+      <Cercatore />
+    </div>
+  </section>
+
+  <section class="sezione" aria-labelledby="dettagli-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="dettagli-titolo" class="display">I corsi nel dettaglio</h2></div>
+      <div class="schede">
+        {corsi.map((c) => (
+          <article class="scheda" id={c.id} data-rivela>
+            <div class="segno" aria-hidden="true">{c.segno}</div>
+            <div class="corpo">
+              <span class="tag">{c.eta}</span>
+              <h3 class="display">{c.nome}</h3>
+              <ul>{c.dettagli.map((d) => <li>{d}</li>)}</ul>
+              <div class="azioni-scheda">
+                <a class="pill contorno magnete" href={`/contatti/?eta=${Math.max(6, c.min)}&corso=${encodeURIComponent(c.nome)}#scrivi`}>Chiedi informazioni</a>
+                {pagine[c.id] && <a class="link-freccia" href={pagine[c.id]}>Scopri di più</a>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione carbone" id="orari" aria-labelledby="orari-titolo">
+    <div class="wrap griglia-orari">
+      <div>
+        <div class="titolo-sez"><h2 id="orari-titolo" class="display">Orari</h2><p>Lezioni quattro giorni a settimana, in due turni divisi per età.</p></div>
+        <Orari />
+      </div>
+      <div class="info-orari">
+        <h3>Come funzionano i turni</h3>
+        <ul>
+          <li>Ogni allievo si allena nel turno della sua fascia d'età, con il proprio gruppo.</li>
+          <li>Si sceglie quante volte venire a settimana, da 1 a 4.</li>
+          <li>La stagione segue il calendario scolastico, da metà settembre a giugno, con le pause per le festività.</li>
+        </ul>
+        <a class="pill" href={waLink(contatti.principale.wa, "Ciao Gabriele, vorrei sapere qual è il turno giusto per iniziare karate. Grazie!")} target="_blank" rel="noopener">Chiedi qual è il tuo turno</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sezione" aria-labelledby="metodo-titolo">
+    <div class="wrap">
+      <div class="titolo-sez"><h2 id="metodo-titolo" class="display">Come insegniamo</h2><p>Insegnamento e apprendimento omogenei e ben strutturati, fascia per fascia.</p></div>
+      <ol class="percorso">
+        {fasce.map((f) => <li data-rivela><h3>{f.titolo}</h3><p>{f.testo}</p></li>)}
+      </ol>
+    </div>
+  </section>
+
+  <section class="sezione chiara" aria-labelledby="faq-titolo">
+    <div class="wrap faq-griglia">
+      <div class="titolo-sez"><h2 id="faq-titolo" class="display">Prima di iniziare</h2></div>
+      <div class="faq">
+        {domande.map((q) => (
+          <details data-rivela>
+            <summary>{q.d}<span aria-hidden="true"></span></summary>
+            <p>{q.r}</p>
+          </details>
+        ))}
+        <div class="orari" data-rivela>
+          <h3>Vuoi provare?</h3>
+          <p>Scrivici l'età di chi vuole iniziare: ti diciamo il turno giusto e quando venire per la prima lezione.</p>
+          <a class="pill" href={waLink(contatti.principale.wa, "Ciao Gabriele, vorrei prenotare una lezione di prova di karate. Grazie!")} target="_blank" rel="noopener">Prenota la lezione di prova</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .schede{border-bottom:1px solid var(--linea)}
+  .scheda{display:grid;grid-template-columns:minmax(200px,.8fr) 1.2fr;gap:clamp(24px,5vw,80px);padding:clamp(40px,5vw,70px) 0;border-top:1px solid var(--linea);scroll-margin-top:calc(var(--altezza-nav) + 20px)}
+  .scheda .segno{font-weight:800;font-stretch:75%;font-size:clamp(110px,15vw,240px);line-height:.8;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px #5a5a5a;transition:color .5s,-webkit-text-stroke-color .5s}
+  .scheda:hover .segno,.scheda:target .segno{color:var(--rosso);-webkit-text-stroke-color:var(--rosso)}
+  .scheda .tag{display:inline-block;margin-bottom:14px;padding:5px 12px;border:1px solid #444;border-radius:999px;font-size:14px;color:#ddd}
+  .scheda h3{margin:0 0 18px;font-size:clamp(36px,4.4vw,64px)}
+  .scheda ul{margin:0 0 26px;padding:0;list-style:none;display:grid;gap:10px;max-width:60ch;color:#cfcfcf}
+  .scheda li{padding-left:22px;position:relative}
+  .scheda li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:10px;border-radius:50%;background:var(--rosso)}
+  .azioni-scheda{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+  .percorso{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;counter-reset:fase}
+  .percorso li{border-top:3px solid var(--rosso);padding-top:22px}
+  .percorso h3{margin:0 0 10px;font-weight:750;font-stretch:80%;font-size:clamp(28px,2.6vw,40px);line-height:1;letter-spacing:-.02em}
+  .percorso p{margin:0;color:#cfcfcf;font-size:17px}
+  .griglia-orari{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:end}
+  .info-orari{padding:clamp(24px,3vw,36px);border-radius:28px;background:#fff;color:var(--nero)}
+  .info-orari h3{margin:0 0 14px;font-weight:750;font-stretch:80%;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.02em}
+  .info-orari ul{margin:0 0 24px;padding:0;list-style:none;display:grid;gap:12px}
+  .info-orari li{padding-left:22px;position:relative;color:#333}
+  .info-orari li::before{content:"";position:absolute;left:0;top:.65em;width:10px;height:10px;border-radius:50%;background:var(--rosso)}
+  .griglia-orari .titolo-sez h2{font-size:clamp(44px,5vw,80px)}
+  .faq-griglia{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .faq details{border-top:1px solid #d0d0d0}
+  .faq details:last-of-type{border-bottom:1px solid #d0d0d0}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;align-items:center;padding:24px 0;font-weight:600;font-size:clamp(19px,1.6vw,22px)}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary span{position:relative;flex:none;width:34px;height:34px;border-radius:50%;background:var(--nero);transition:background .3s,transform .4s var(--ease)}
+  .faq summary span::before,.faq summary span::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;background:#fff;transform:translate(-50%,-50%)}
+  .faq summary span::after{transform:translate(-50%,-50%) rotate(90deg);transition:transform .4s var(--ease)}
+  .faq details[open] summary span{background:var(--rosso);transform:rotate(180deg)}
+  .faq details[open] summary span::after{transform:translate(-50%,-50%) rotate(0)}
+  .faq details p{margin:0 0 26px;max-width:60ch;color:#333}
+  .faq summary:hover{color:var(--rosso-scuro)}
+  .orari{margin-top:40px;padding:30px;border-radius:24px;background:var(--nero);color:#fff}
+  .orari h3{margin:0 0 8px;font-weight:750;font-stretch:80%;font-size:32px;letter-spacing:-.02em}
+  .orari p{margin:0 0 22px;color:#ccc;max-width:52ch}
+  @media (max-width:960px){
+    .scheda{grid-template-columns:1fr;gap:10px}
+    .scheda .segno{font-size:110px}
+    .percorso{grid-template-columns:1fr 1fr}
+    .faq-griglia,.griglia-orari{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){.percorso{grid-template-columns:1fr}}
+</style>

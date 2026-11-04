@@ -1,0 +1,87 @@
+---
+// Prepara un messaggio locale da aprire in WhatsApp o nel programma email.
+import { associazione, contatti, corsi, provaWhatsApp, telLink } from "../data/sito";
+interface Props { titolo?: string; chi?: "mio figlio" | "mia figlia" | "io"; eta?: number; corso?: string }
+const { titolo = "Facciamo il primo passo?", chi = "mio figlio", eta, corso } = Astro.props;
+const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>`;
+---
+<form class="modulo" id="scrivi" data-modulo data-wa={contatti.principale.wa} data-email={associazione.email} data-nascondi-wa action={provaWhatsApp.split("?")[0]} method="get" target="_blank" rel="noopener">
+  <h2 class="display">{titolo}</h2>
+  <p class="sub">Dicci per chi cerchi un corso. Prepariamo il messaggio per {contatti.principale.nome}: scegli WhatsApp o email e invialo dall'app. I campi con * sono obbligatori.</p>
+  <div class="campi">
+    <label class="campo">Il tuo nome *<input data-nome="nome" autocomplete="given-name" placeholder="Es. Laura" maxlength="60" required aria-describedby="nota-minori"></label>
+    <label class="campo">Chi vuole iniziare
+      <select data-nome="chi">
+        <option value="mio figlio" selected={chi === "mio figlio"}>Mio figlio</option>
+        <option value="mia figlia" selected={chi === "mia figlia"}>Mia figlia</option>
+        <option value="io" selected={chi === "io"}>Io</option>
+      </select>
+    </label>
+    <label class="campo">Età di chi vuole iniziare *<input data-nome="eta" type="number" min="4" max="99" step="1" value={eta} placeholder="Es. 10" inputmode="numeric" required></label>
+    <label class="campo">Corso
+      <select data-nome="corso">
+        <option selected={!corso}>Non lo so ancora</option>
+        {corsi.map((c) => <option selected={c.nome === corso}>{c.nome}</option>)}
+      </select>
+    </label>
+  </div>
+  <p class="nota-campo" id="nota-minori">Per un minore scrive un genitore o tutore: indica il tuo nome e la sua età.</p>
+  <label class="campo messaggio-libero">Cosa vorresti sapere? <span class="facoltativo">(facoltativo)</span><textarea data-nome="messaggio" rows="4" maxlength="1000" placeholder="Es. Mio figlio non ha mai praticato: possiamo venire a fare una prova?" aria-describedby="nota-messaggio"></textarea></label>
+  <p class="nota-campo" id="nota-messaggio">Non inserire dati sanitari o informazioni riservate. Massimo 1.000 caratteri.</p>
+  <div class="bolla" aria-live="polite" data-bolla></div>
+  <label class="presa-visione"><input data-nome="privacy" type="checkbox" required><span>Ho letto l'<a href="/privacy/#contatti" target="_blank" rel="noopener">informativa privacy</a> e chiedo di essere ricontattato per questa richiesta. *</span></label>
+  <div class="azioni-contatto"><button class="pill" type="submit" data-canale="whatsapp"><Fragment set:html={iconaWa} />Apri WhatsApp</button><button class="pill contorno-chiaro" type="submit" data-canale="email" formaction={`mailto:${associazione.email}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm9 8 8-6H4Zm-8 6h16V8.5l-8 6-8-6Z"/></svg>Prepara email</button></div>
+  <p class="nota-privacy">Il sito prepara il testo nel browser e non salva i campi. Si aprirà l'app scelta con il messaggio compilato: l'invio finale spetta a te. La presa visione non è un consenso al marketing.</p>
+  <p class="nota-privacy">L'email richiede un programma di posta configurato. Preferisci parlare? <a href={telLink(contatti.principale.wa)}>Chiama {contatti.principale.telefono}</a>.</p>
+  <noscript><p class="nota-privacy">Per usare l'anteprima abilita JavaScript, oppure <a href={provaWhatsApp} target="_blank" rel="noopener">scrivici direttamente su WhatsApp</a> o <a href={`mailto:${associazione.email}`}>apri il programma email</a>.</p></noscript>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-modulo]").forEach((form) => {
+    // I campi non hanno name: anche senza JavaScript non finiscono nella query string.
+    const campo = (n: string) => form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[data-nome="${n}"]`)!;
+    const bolla = form.querySelector<HTMLElement>("[data-bolla]")!;
+
+    function testo() {
+      const nome = campo("nome").value.trim();
+      const chi = campo("chi").value;
+      const eta = campo("eta").value || "…";
+      const corso = campo("corso").value;
+      const chiInizia = chi === "io" ? `Vorrei iniziare karate, ho ${eta} anni` : `Vorrei far iniziare karate a ${chi} di ${eta} anni`;
+      const frase = corso === "Non lo so ancora" ? "Non so ancora quale corso scegliere." : `Mi interessa il corso ${corso}.`;
+      const domanda = campo("messaggio").value.trim();
+      return `Ciao Gabriele, sono ${nome || "…"}.\n${chiInizia}. ${frase}\n${domanda ? `\n${domanda}\n` : ""}\nPotete dirmi giorni, orari e come fare una lezione di prova? Grazie!`;
+    }
+    const aggiorna = () => (bolla.textContent = testo());
+
+    function precompila(eta: number, corso: string) {
+      campo("eta").value = String(eta);
+      campo("chi").value = eta >= 18 ? "io" : campo("chi").value === "io" ? "mio figlio" : campo("chi").value;
+      if ([...(campo("corso") as HTMLSelectElement).options].some((o) => o.value === corso)) campo("corso").value = corso;
+      aggiorna();
+    }
+
+    form.addEventListener("input", () => {
+      (campo("nome") as HTMLInputElement).setCustomValidity(campo("nome").value.trim() ? "" : "Inserisci il tuo nome.");
+      aggiorna();
+    });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const canale = (e.submitter as HTMLButtonElement | null)?.dataset.canale;
+      if (canale === "email") {
+        const oggetto = "Informazioni e lezione di prova · Ronin Karate Vigevano";
+        window.open(`mailto:${form.dataset.email}?subject=${encodeURIComponent(oggetto)}&body=${encodeURIComponent(testo().replace(/\n/g, "\r\n"))}`, "_self");
+      } else {
+        window.open(`https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(testo())}`, "_blank", "noopener,noreferrer");
+      }
+    });
+    window.addEventListener("ronin:corso", (e) => {
+      const d = (e as CustomEvent).detail;
+      precompila(d.eta, d.corso);
+    });
+    const p = new URLSearchParams(location.search);
+    if (p.get("eta")) precompila(Math.max(4, Math.min(99, +p.get("eta")! || 10)), p.get("corso") || "Non lo so ancora");
+    aggiorna();
+  });
+</script>

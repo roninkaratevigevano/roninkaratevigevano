@@ -1,0 +1,51 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+import { safeguarding } from "../data/sito";
+---
+<Base titolo="Safeguarding" descrizione="Responsabile Safeguarding, codice di condotta, modello organizzativo e regolamento dell'A.S.D. Ronin Karate Vigevano.">
+  <Testata titolo="Safeguarding" kanji="安全" intro="Come previsto dalle disposizioni di legge e federali, l'associazione ha nominato un Responsabile Safeguarding e adottato un modello organizzativo, un codice di condotta e un regolamento, per favorire l'inclusione e la correttezza nei rapporti all'interno del sodalizio sportivo." />
+
+  <section class="sezione bianca" aria-label="Responsabile e documenti">
+    <div class="wrap sg">
+      <div class="responsabile" data-rivela>
+        <small>Responsabile Safeguarding</small>
+        <h2 class="display">{safeguarding.responsabile}</h2>
+        <p>Per segnalazioni o domande sulla tutela di atlete e atleti, in particolare dei minori, puoi scrivere direttamente al responsabile.</p>
+        <a class="pill" href={`mailto:${safeguarding.email}?subject=${encodeURIComponent("Safeguarding - Ronin Karate Vigevano")}`}>Scrivi a {safeguarding.email}</a>
+      </div>
+      <div>
+        <h2 class="sg-titolo">Documenti</h2>
+        <ul class="documenti">
+          {safeguarding.documenti.map((d) => (
+            <li data-rivela>
+              <a href={d.file} target="_blank" rel="noopener">
+                <span><b>{d.titolo}</b><small>{d.nota}</small></span>
+                <span class="formato">PDF</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="nota-sg">I documenti si aprono in una nuova scheda. Pubblicati il 19 dicembre 2024.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .sg{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,80px);align-items:start}
+  .responsabile{padding:clamp(28px,4vw,44px);border-radius:28px;background:var(--nero);color:#fff;position:sticky;top:calc(var(--altezza-nav) + 30px)}
+  .responsabile small{color:var(--grigio);font-size:15px}
+  .responsabile h2{margin:8px 0 18px;font-size:clamp(40px,4.6vw,70px)}
+  .responsabile p{margin:0 0 26px;color:#ccc}
+  .responsabile .pill{word-break:break-all}
+  .sg-titolo{margin:0 0 20px;font-weight:750;font-stretch:80%;font-size:clamp(32px,3.4vw,48px);letter-spacing:-.02em}
+  .documenti{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .documenti a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 24px;border-radius:20px;background:var(--chiaro);transition:background .3s,color .3s}
+  .documenti a:hover{background:var(--nero);color:#fff}
+  .documenti b{display:block;font-size:19px;font-weight:650}
+  .documenti small{color:#777}
+  .documenti .formato{flex:none;padding:6px 12px;border-radius:999px;background:var(--rosso);color:#fff;font-size:13px;font-weight:700}
+  .nota-sg{margin:18px 0 0;font-size:14px;color:#666}
+  @media (max-width:960px){.sg{grid-template-columns:1fr}.responsabile{position:static}}
+</style>

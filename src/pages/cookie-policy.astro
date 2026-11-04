@@ -1,0 +1,36 @@
+---
+import Base from "../layouts/Base.astro";
+import Testata from "../components/Testata.astro";
+---
+<Base titolo="Cookie policy" descrizione="Cookie tecnici e preferenze per Google Maps e YouTube: scegli i servizi facoltativi sul sito Ronin Karate Vigevano.">
+  <Testata titolo="Cookie policy" kanji="選択" intro="Mappe e video sono facoltativi. Puoi navigare, chiamare e scriverci anche rifiutando tutti i cookie non necessari." />
+  <section class="sezione bianca">
+    <div class="stretto prosa">
+      <h2>Che cosa sono i cookie</h2>
+      <p>I cookie sono piccoli file memorizzati nel browser. Altri strumenti, come la memoria di sessione, ricordano informazioni sul dispositivo. Gli strumenti tecnici necessari al sito non richiedono consenso preventivo e sono descritti qui. Google Maps e YouTube sono invece disattivati per impostazione predefinita e richiedono il consenso alla rispettiva categoria. Il sito non installa analytics o pixel pubblicitari.</p>
+      <h2>Strumenti usati dal sito</h2>
+      <div class="tabella-legale" role="region" aria-label="Elenco di cookie e memorie tecniche" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Strumento o servizio e fornitore</th><th scope="col">Finalità</th><th scope="col">Durata</th><th scope="col">Categoria e consenso</th></tr></thead>
+          <tbody>
+            <tr><td><code>ronin_consensi</code><br>Questo sito, cookie proprietario</td><td>Ricorda le categorie accettate o rifiutate e la versione dell'informativa.</td><td>185 giorni dalla scelta o modifica.</td><td>Tecnico. Non richiede consenso.</td></tr>
+            <tr><td><code>ronin-intro</code><br>Questo sito, sessionStorage</td><td>Evita di ripetere l'introduzione animata. Non è un identificatore pubblicitario.</td><td>Sessione della scheda.</td><td>Tecnico. Non richiede consenso.</td></tr>
+            <tr><td>Google Maps<br>Domini di Google e relativi fornitori</td><td>Mostra la mappa della palestra; può usare cookie e identificatori di terze parti.</td><td>Variabile per cookie, browser e account; dettagli nella policy di Google.</td><td>Servizio esterno facoltativo. Richiede consenso alla categoria Google Maps.</td></tr>
+            <tr><td>YouTube<br>youtube-nocookie.com e domini collegati di Google/YouTube</td><td>Riproduce i video selezionati in modalità privacy avanzata; durante la riproduzione può usare cookie e altri identificatori.</td><td>Variabile per strumento e servizio; dettagli nella policy di Google.</td><td>Servizio esterno facoltativo. Richiede consenso alla categoria Video YouTube e selezione del video.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>I nomi e le durate degli strumenti esterni dipendono anche dalle scelte del fornitore. Consulta le <a href="https://policies.google.com/technologies/cookies?hl=it" target="_blank" rel="noopener noreferrer">informazioni sui cookie di Google</a> e la <a href="https://policies.google.com/privacy?hl=it" target="_blank" rel="noopener noreferrer">Privacy policy di Google</a>. Prima dell'autorizzazione nessun iframe di Maps o YouTube viene inserito nella pagina.</p>
+      <h2>Come scegliere e cambiare idea</h2>
+      <p>Nel banner puoi accettare tutti i servizi facoltativi, rifiutarli o personalizzare separatamente Google Maps e YouTube. La X del banner equivale a rifiutare i servizi facoltativi. Scorrere o continuare a navigare non costituisce consenso. Le opzioni facoltative sono inizialmente disattivate.</p>
+      <p>La scelta dura 185 giorni. In questo periodo il banner non viene riproposto, salvo modifiche che richiedano una nuova scelta o cancellazione della preferenza dal browser. Puoi sempre riaprire le impostazioni dal footer o dal pulsante seguente.</p>
+      <p><button class="pill scura" type="button" data-cc="show-preferencesModal">Gestisci le preferenze cookie</button></p>
+      <p>Revocando il consenso, mappe e video vengono rimossi dalla pagina e non vengono caricati nuovamente. Per eliminare cookie già impostati su domini di terzi usa le impostazioni del browser: il sito non può cancellarli direttamente. Cancellando il cookie delle preferenze dovrai scegliere di nuovo alla visita successiva.</p>
+      <noscript><p>Con JavaScript disattivato i servizi integrati restano bloccati e il pannello non è disponibile. I collegamenti esterni continuano a funzionare.</p></noscript>
+      <h2>Social, email e WhatsApp</h2>
+      <p>I pulsanti per Instagram, Facebook, TikTok, WhatsApp e le indicazioni stradali sono link esterni. Non caricano feed, chat o pixel durante la navigazione. I tasti del modulo aprono soltanto l'app scelta con il messaggio pronto: non viene chiamato un servizio di invio email dal sito.</p>
+      <p>Per titolare, destinatari, trasferimenti, conservazione e diritti consulta la <a href="/privacy/">Privacy policy</a>. Riferimento: <a href="https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/9677876" target="_blank" rel="noopener noreferrer">Linee guida del Garante su cookie e altri strumenti di tracciamento</a>.</p>
+      <p class="aggiornamento">Ultimo aggiornamento: 2 novembre 2026 · Versione 1.1.</p>
+    </div>
+  </section>
+</Base>

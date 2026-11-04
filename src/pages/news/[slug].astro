@@ -1,0 +1,121 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { dataItaliana } from "../../data/sito";
+
+export async function getStaticPaths() {
+  const tutte = (await getCollection("news")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  return tutte.map((voce, i) => ({
+    params: { slug: voce.id },
+    props: { voce, piuNuova: tutte[i - 1], piuVecchia: tutte[i + 1], tutte },
+  }));
+}
+interface Props { voce: CollectionEntry<"news">; piuNuova?: CollectionEntry<"news">; piuVecchia?: CollectionEntry<"news">; tutte: CollectionEntry<"news">[] }
+const { voce, piuNuova, piuVecchia, tutte } = Astro.props;
+const { Content } = await render(voce);
+const { title, date, categorie, estratto, copertina } = voce.data;
+
+const parole = (voce.body ?? "").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
+const minuti = Math.max(1, Math.round(parole / 200));
+const tema = categorie.find((c) => c !== "News");
+const correlate = tutte
+  .filter((n) => n.id !== voce.id && (tema ? n.data.categorie.includes(tema) : n.data.categorie.includes("News")))
+  .slice(0, 3);
+const immagine = copertina && !/logo/.test(copertina) ? copertina : undefined;
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  datePublished: date.toISOString(),
+  description: estratto,
+  inLanguage: "it",
+  publisher: { "@type": "Organization", name: "A.S.D. Ronin Karate Vigevano", logo: { "@type": "ImageObject", url: new URL("/img/logo-512.png", Astro.site).href } },
+  ...(immagine ? { image: new URL(immagine, Astro.site).href } : {}),
+};
+---
+<Base titolo={title} descrizione={estratto} immagine={immagine} tipo="article" schema={schema}>
+  <header class="testa-articolo">
+    <div class="stretto">
+      <nav class="briciole" aria-label="Percorso"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/news/">News</a></nav>
+      <div class="meta">
+        <time datetime={date.toISOString().slice(0, 10)}>{dataItaliana(date)}</time>
+        {categorie.map((c) => <a class="tag" href={`/news/?cat=${c}`}>{c === "News" ? "Avvisi" : c}</a>)}
+        <span class="lettura">{minuti} min di lettura</span>
+      </div>
+      <h1 class="display" data-righe>{title}</h1>
+    </div>
+  </header>
+
+  <article class="sezione bianca corpo-articolo">
+    <div class="stretto prosa">
+      <Content />
+    </div>
+    <div class="stretto azioni-articolo">
+      <a class="link-freccia" href="/news/">Tutte le news</a>
+      <button class="pill contorno-chiaro" type="button" data-condividi data-titolo={title}>Condividi</button>
+    </div>
+  </article>
+
+  <nav class="sezione chiara navigazione-articoli" aria-label="Altri articoli">
+    <div class="wrap">
+      <div class="prec-succ">
+        {piuVecchia ? <a href={`/news/${piuVecchia.id}/`} class="vicino"><small>Articolo precedente</small><b>{piuVecchia.data.title}</b></a> : <span></span>}
+        {piuNuova && <a href={`/news/${piuNuova.id}/`} class="vicino destra"><small>Articolo successivo</small><b>{piuNuova.data.title}</b></a>}
+      </div>
+      {correlate.length > 0 && (
+        <>
+          <h2 class="correlate-titolo">{tema ? `Altro su ${tema === "Storia" ? "storia del karate" : tema.toLowerCase()}` : "Altri avvisi"}</h2>
+          <div class="correlate">
+            {correlate.map((n) => (
+              <a class="carta-studio" href={`/news/${n.id}/`}>
+                <span class="cat">{dataItaliana(n.data.date, { month: "long", year: "numeric" })}</span>
+                <h3>{n.data.title}</h3>
+                <p>{n.data.estratto}</p>
+              </a>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </nav>
+</Base>
+
+<style is:global>
+  .testa-articolo{padding:calc(var(--altezza-nav) + clamp(50px,8vw,110px)) 0 clamp(40px,6vw,70px);position:relative;overflow:hidden}
+  .testa-articolo::before{content:"";position:absolute;right:-12vw;top:-10vw;width:36vw;aspect-ratio:1;border-radius:50%;background:var(--rosso);opacity:.9}
+  .testa-articolo .stretto{position:relative}
+  .testa-articolo .briciole{display:flex;gap:8px;font-size:14px;color:var(--grigio);margin-bottom:22px}
+  .testa-articolo .briciole a:hover{color:#fff}
+  .testa-articolo .meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:22px;font-size:15px;color:#ccc}
+  .testa-articolo .tag{display:inline-flex;align-items:center;min-height:44px;padding:4px 16px;border-radius:999px;border:1px solid #555;font-size:13px;color:#fff}
+  .testa-articolo .tag:hover{background:#fff;color:#000}
+  .testa-articolo .lettura{color:var(--grigio)}
+  .testa-articolo h1{margin:0;font-size:clamp(40px,6vw,84px);max-width:16ch}
+  .corpo-articolo{border-radius:32px 32px 0 0;padding-top:clamp(50px,7vw,90px)}
+  .azioni-articolo{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:50px;padding-top:26px;border-top:1px solid #e3e3e3;color:var(--nero)}
+  .navigazione-articoli{padding-top:70px}
+  .prec-succ{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .vicino{display:block;padding:24px;border-radius:22px;background:#fff;transition:background .3s,color .3s}
+  .vicino:hover{background:var(--nero);color:#fff}
+  .vicino.destra{text-align:right}
+  .vicino small{display:block;color:#888;margin-bottom:6px}
+  .vicino b{font-size:20px;font-weight:650;line-height:1.2}
+  .correlate-titolo{margin:70px 0 24px;font-weight:750;font-stretch:80%;font-size:clamp(30px,3.4vw,48px);letter-spacing:-.02em}
+  .correlate{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:760px){
+    .prec-succ,.correlate{grid-template-columns:1fr}
+    .testa-articolo::before{width:60vw;right:-30vw;top:-20vw}
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-condividi]").forEach((b) => {
+    b.addEventListener("click", async () => {
+      const dati = { title: b.dataset.titolo, url: location.href };
+      try {
+        if (navigator.share) await navigator.share(dati);
+        else { await navigator.clipboard.writeText(location.href); b.textContent = "Link copiato"; setTimeout(() => (b.textContent = "Condividi"), 2000); }
+      } catch { /* condivisione annullata */ }
+    });
+  });
+</script>

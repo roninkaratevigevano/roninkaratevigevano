@@ -1,0 +1,19 @@
+---
+// Intestazione delle pagine interne: titolo grande, sole rosso e kanji verticale
+interface Props { titolo: string; kanji: string; intro?: string; briciole?: { href: string; testo: string }[] }
+const { titolo, kanji, intro, briciole = [] } = Astro.props;
+---
+<section class="testata">
+  <div class="sole-piccolo" aria-hidden="true"></div>
+  <span class="kanji-testata" aria-hidden="true">{kanji}</span>
+  <div class="wrap">
+    <nav class="briciole" aria-label="Percorso">
+      <a href="/">Home</a>
+      {briciole.map((b) => <><span aria-hidden="true">/</span><a href={b.href}>{b.testo}</a></>)}
+      <span aria-hidden="true">/</span><span aria-current="page">{titolo}</span>
+    </nav>
+    <h1 class="display" data-righe>{titolo}</h1>
+    {intro && <p class="intro">{intro}</p>}
+    <slot />
+  </div>
+</section>

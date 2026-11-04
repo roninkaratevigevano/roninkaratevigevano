@@ -1,0 +1,158 @@
+---
+import "@fontsource-variable/bricolage-grotesque/standard.css";
+import "@fontsource/zen-antique/400.css";
+import "../styles/global.css";
+import { associazione, contatti, safeguarding, provaWhatsApp, telLink } from "../data/sito";
+import SocialLinks from "../components/SocialLinks.astro";
+
+interface Props {
+  titolo?: string;
+  descrizione?: string;
+  immagine?: string;
+  tipo?: "website" | "article";
+  schema?: object;
+  classeBody?: string;
+}
+const {
+  titolo,
+  descrizione = "Karate Shotokan a Vigevano per ragazze e ragazzi dai 6 anni, amatori e adulti. A.S.D. Ronin Karate, affiliata FIJLKAM.",
+  immagine = "/img/og.jpg",
+  tipo = "website",
+  schema,
+  classeBody = "",
+} = Astro.props;
+
+// Finché il sito è sull'indirizzo provvisorio di Vercel non va indicizzato (il vecchio sito è ancora online)
+const indicizza = !Astro.site?.hostname.endsWith("vercel.app");
+const titoloCompleto = titolo ? `${titolo} · Ronin Karate Vigevano` : "Ronin Karate Vigevano · Karate Shotokan dai 6 anni";
+const canonico = new URL(Astro.url.pathname, Astro.site);
+const immagineAssoluta = new URL(immagine, Astro.site);
+const percorso = Astro.url.pathname;
+const attivo = (href: string) => (href === "/" ? percorso === "/" : percorso.startsWith(href)) ? "page" : undefined;
+
+const voci = [
+  { href: "/il-dojo/", testo: "Il dojo", kanji: "道場" },
+  { href: "/corsi/", testo: "Corsi", kanji: "稽古" },
+  { href: "/news/", testo: "News", kanji: "便り" },
+  { href: "/contatti/", testo: "Contatti", kanji: "連絡" },
+];
+const iconaTel = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1z"/></svg>`;
+const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg>`;
+---
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{titoloCompleto}</title>
+  <meta name="description" content={descrizione}>
+  <link rel="canonical" href={canonico}>
+  <meta name="theme-color" content="#000000">
+  {!indicizza && <meta name="robots" content="noindex, nofollow">}
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="sitemap" href="/sitemap.xml">
+  <meta property="og:type" content={tipo}>
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="Ronin Karate Vigevano">
+  <meta property="og:title" content={titoloCompleto}>
+  <meta property="og:description" content={descrizione}>
+  <meta property="og:url" content={canonico}>
+  <meta property="og:image" content={immagineAssoluta}>
+  <meta name="twitter:card" content="summary_large_image">
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+</head>
+<body class={classeBody}>
+  <a class="salta" href="#contenuto">Vai al contenuto</a>
+
+  <header class="nav">
+    <a class="marchio" href="/" aria-label="Ronin Karate Vigevano, pagina iniziale">
+      <img src="/img/logo-96.png" alt="" width="42" height="42">
+      <span>Ronin Karate<small>Vigevano</small></span>
+    </a>
+    <nav aria-label="Principale">
+      <ul class="nav-link">
+        {voci.map((v) => <li><a href={v.href} aria-current={attivo(v.href)}>{v.testo}</a></li>)}
+      </ul>
+    </nav>
+    <div class="nav-azioni">
+      <a class="nav-chiama" href={telLink(contatti.principale.wa)}><Fragment set:html={iconaTel} />Chiama</a>
+      <a class="pill magnete" href={provaWhatsApp} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />Prenota una prova</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-mobile">
+        <span class="linee" aria-hidden="true"><i></i><i></i></span><span class="testo">Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Il menu mobile sta fuori dall'header: un elemento fixed dentro un genitore con transform/blur verrebbe tagliato -->
+  <div class="menu-mobile" id="menu-mobile" inert>
+    <nav aria-label="Menu mobile">
+      <ul>
+        <li><a href="/" aria-current={attivo("/")}>Home <span>浪人</span></a></li>
+        {voci.map((v) => <li><a href={v.href} aria-current={attivo(v.href)}>{v.testo} <span>{v.kanji}</span></a></li>)}
+        <li><a href="/safeguarding/" aria-current={attivo("/safeguarding/")}>Safeguarding <span>安全</span></a></li>
+      </ul>
+    </nav>
+    <div class="piede">
+      <div class="azioni-contatto"><a class="pill" href={provaWhatsApp} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />WhatsApp</a><a class="pill contorno" href={telLink(contatti.principale.wa)}><Fragment set:html={iconaTel} />Chiama</a></div>
+      <SocialLinks />
+      <p>{associazione.palestra.nome}, {associazione.palestra.via}, Vigevano</p>
+    </div>
+  </div>
+
+  <main id="contenuto" tabindex="-1">
+    <slot />
+  </main>
+
+  <footer class="footer" data-nascondi-wa>
+    <div class="wrap">
+      <div class="griglia">
+        <div>
+          <h2>{associazione.nome}</h2>
+          <p>Associazione sportiva dilettantistica senza scopo di lucro<br>P. IVA {associazione.piva}<br>Sede legale: {associazione.sedeLegale}</p>
+          <img class="fijlkam" src="/img/fijlkam.png" alt="Affiliata FIJLKAM" width="170" height="69" loading="lazy">
+        </div>
+        <div>
+          <h2>Palestra</h2>
+          <p>{associazione.palestra.nome}<br>{associazione.palestra.via}<br>{associazione.palestra.citta}</p>
+          <div class="footer-contatti"><a href={provaWhatsApp} target="_blank" rel="noopener">Scrivici su WhatsApp ↗</a><a href={telLink(contatti.principale.wa)}>Chiama {contatti.principale.telefono}</a></div>
+          <p class="email-secondaria"><a href={`mailto:${associazione.email}`}>{associazione.email}</a></p>
+        </div>
+        <div>
+          <h2>Pagine</h2>
+          <ul>
+            <li><a href="/il-dojo/">Il dojo</a></li>
+            <li><a href="/corsi/">Corsi</a></li>
+            <li><a href="/karate-bambini-vigevano/">Karate per bambini</a></li>
+            <li><a href="/difesa-personale-vigevano/">Difesa personale</a></li>
+            <li><a href="/news/">News</a></li>
+            <li><a href="/contatti/">Contatti</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Safeguarding</h2>
+          <p>Responsabile: {safeguarding.responsabile}<br><a href={`mailto:${safeguarding.email}`}>{safeguarding.email}</a></p>
+          <p style="margin-top:12px"><a class="link-freccia" href="/safeguarding/">Documenti e informazioni</a></p>
+        </div>
+      </div>
+      <p class="grande" aria-hidden="true">RONIN KARATE</p>
+      <div class="basso">
+        <span>Le attività svolte dall'associazione sono riservate ai soli soci.</span>
+        <SocialLinks />
+      </div>
+      <nav class="legale-footer" aria-label="Informazioni legali"><a href="/privacy/">Privacy policy</a><a href="/cookie-policy/">Cookie policy</a><button type="button" data-cc="show-preferencesModal">Preferenze cookie</button><a href="/termini/">Termini d'uso</a></nav>
+    </div>
+  </footer>
+
+  <div class="wa-fisso">
+    <a class="pill chiama" href={telLink(contatti.principale.wa)} aria-label={`Chiama ${contatti.principale.nome}`}><Fragment set:html={iconaTel} />Chiama</a>
+    <a class="pill" href={provaWhatsApp} target="_blank" rel="noopener"><Fragment set:html={iconaWa} />WhatsApp</a>
+  </div>
+  <div class="cursore" aria-hidden="true"><span class="anello"></span><span class="punto"></span></div>
+
+  <script>
+    import "../scripts/base.js";
+    import "../scripts/privacy.js";
+  </script>
+</body>
+</html>

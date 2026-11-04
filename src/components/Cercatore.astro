@@ -1,0 +1,82 @@
+---
+// "Trova il tuo corso": i corsi adatti all'età salgono in cima.
+import { corsi, orari } from "../data/sito";
+interface Props { linkDettagli?: boolean }
+const { linkDettagli = true } = Astro.props;
+---
+<div class="cercatore" data-cercatore data-giorni={orari.giorni.map((g) => g.toLowerCase()).join(", ").replace(/, ([^,]*)$/, " e $1")}>
+  <div class="comandi">
+    <div class="numero-eta" aria-hidden="true"><output data-eta-grande>10</output><span>anni</span></div>
+    <label for="eta-cercatore">Età di chi inizia: <span data-eta-testo>10 anni</span></label>
+    <input type="range" id="eta-cercatore" min="6" max="70" value="10" data-eta>
+    <div class="scala" aria-hidden="true"><span>6</span><span>14</span><span>30</span><span>50</span><span>70+</span></div>
+    <p class="esito" aria-live="polite" data-esito></p>
+    <a class="pill magnete" href="/contatti/#scrivi" data-chiedi>Chiedi informazioni su questo corso</a>
+  </div>
+  <div class="elenco-corsi" data-elenco>
+    {corsi.map((c) => (
+      <article class="corso" data-min={c.min} data-max={c.max} data-indicazione={c.suIndicazione ? "si" : "no"} data-nome={c.nome} data-turno={c.turno ?? ""}>
+        <h3>{linkDettagli ? <a href={`/corsi/#${c.id}`}>{c.nome}</a> : c.nome}</h3>
+        <span class="eta">{c.eta}</span>
+        <p>{c.breve}</p>
+        <span class="badge" aria-hidden="true">Fa per te</span>
+      </article>
+    ))}
+  </div>
+</div>
+
+<script>
+  import { Flip } from "gsap/Flip";
+  import { gsap, ridotto } from "../scripts/motore.js";
+  gsap.registerPlugin(Flip);
+
+  document.querySelectorAll<HTMLElement>("[data-cercatore]").forEach((box) => {
+    const eta = box.querySelector<HTMLInputElement>("[data-eta]")!;
+    const grande = box.querySelector<HTMLElement>("[data-eta-grande]")!;
+    const etaTesto = box.querySelector<HTMLElement>("[data-eta-testo]")!;
+    const esito = box.querySelector<HTMLElement>("[data-esito]")!;
+    const elenco = box.querySelector<HTMLElement>("[data-elenco]")!;
+    const chiedi = box.querySelector<HTMLAnchorElement>("[data-chiedi]")!;
+    const corsi = [...elenco.querySelectorAll<HTMLElement>(".corso")];
+    let consigliato = "";
+
+    const etichetta = (a: number) => (a >= 70 ? "70+" : String(a));
+
+    function aggiorna(anima: boolean) {
+      const a = +eta.value;
+      grande.textContent = etichetta(a);
+      etaTesto.textContent = `${etichetta(a)} anni`;
+      eta.style.setProperty("--p", `${((a - 6) / 64) * 100}%`);
+      eta.setAttribute("aria-valuetext", `${etichetta(a)} anni`);
+      const stato = anima && !ridotto ? Flip.getState(corsi) : null;
+      const adatti: string[] = [];
+      corsi.forEach((c) => {
+        const ok = a >= +c.dataset.min! && a <= +c.dataset.max! && c.dataset.indicazione !== "si";
+        c.classList.toggle("ok", ok);
+        c.classList.toggle("no", !ok);
+        if (ok) adatti.push(c.dataset.nome!);
+      });
+      corsi.slice().sort((x, y) => +y.classList.contains("ok") - +x.classList.contains("ok")).forEach((c) => elenco.appendChild(c));
+      if (stato) Flip.from(stato, { duration: 0.6, ease: "power3.inOut" });
+      consigliato = adatti[0] || "";
+      const primo = corsi.find((c) => c.dataset.nome === consigliato);
+      const ora = primo?.dataset.turno ?? "";
+      const quando = /^\d/.test(ora) ? ` Allenamento: ${box.dataset.giorni} alle ${ora}.` : "";
+      esito.innerHTML = adatti.length
+        ? `Per ${etichetta(a)} anni: <b>${adatti.join(", ")}</b>.${quando}`
+        : "Scrivici: troviamo insieme il percorso giusto.";
+      // se il modulo è nella stessa pagina ci si arriva con lo scroll, altrimenti si apre /contatti/ già compilato
+      const parametri = new URLSearchParams({ eta: String(Math.min(a, 99)), corso: consigliato || "Non lo so ancora" });
+      chiedi.href = document.getElementById("scrivi") ? "#scrivi" : `/contatti/?${parametri}#scrivi`;
+    }
+
+    eta.addEventListener("input", () => {
+      aggiorna(true);
+      if (!ridotto) gsap.fromTo(grande, { scale: 1.08 }, { scale: 1, duration: 0.4, ease: "power3.out" });
+    });
+    chiedi.addEventListener("click", () => {
+      window.dispatchEvent(new CustomEvent("ronin:corso", { detail: { eta: Math.min(+eta.value, 99), corso: consigliato || "Non lo so ancora" } }));
+    });
+    aggiorna(false);
+  });
+</script>
