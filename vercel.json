@@ -1,0 +1,1025 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/2019/10/24/1-novembre-2",
+      "destination": "/news/1-novembre-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/10/24/1-novembre-2/",
+      "destination": "/news/1-novembre-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/10/23/1-novembre",
+      "destination": "/news/1-novembre/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/10/23/1-novembre/",
+      "destination": "/news/1-novembre/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/08/articolo-sul-ronin-karate",
+      "destination": "/news/articolo-sul-ronin-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/08/articolo-sul-ronin-karate/",
+      "destination": "/news/articolo-sul-ronin-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2016/12/29/bassai-sho",
+      "destination": "/news/bassai-sho/",
+      "permanent": true
+    },
+    {
+      "source": "/2016/12/29/bassai-sho/",
+      "destination": "/news/bassai-sho/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/10/05/beato-matteo",
+      "destination": "/news/beato-matteo/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/10/05/beato-matteo/",
+      "destination": "/news/beato-matteo/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/04/01/buona-pasqua",
+      "destination": "/news/buona-pasqua/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/04/01/buona-pasqua/",
+      "destination": "/news/buona-pasqua/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/12/25/buone-feste",
+      "destination": "/news/buone-feste/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/12/25/buone-feste/",
+      "destination": "/news/buone-feste/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/04/03/campionati-provinciali-csi-posticipati",
+      "destination": "/news/campionati-provinciali-csi-posticipati/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/04/03/campionati-provinciali-csi-posticipati/",
+      "destination": "/news/campionati-provinciali-csi-posticipati/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/26/campionati-provinciali-csi",
+      "destination": "/news/campionati-provinciali-csi/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/26/campionati-provinciali-csi/",
+      "destination": "/news/campionati-provinciali-csi/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/02/27/carnevale-2019",
+      "destination": "/news/carnevale-2019/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/02/27/carnevale-2019/",
+      "destination": "/news/carnevale-2019/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/02/19/carnevale-2020",
+      "destination": "/news/carnevale-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/02/19/carnevale-2020/",
+      "destination": "/news/carnevale-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/02/11/carnevale",
+      "destination": "/news/carnevale/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/02/11/carnevale/",
+      "destination": "/news/carnevale/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/10/06/comunicazione",
+      "destination": "/news/comunicazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/10/06/comunicazione/",
+      "destination": "/news/comunicazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/29/corso-adulti-principianti-ed-mga",
+      "destination": "/news/corso-adulti-principianti-ed-mga/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/29/corso-adulti-principianti-ed-mga/",
+      "destination": "/news/corso-adulti-principianti-ed-mga/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/06/23/dojo-kun",
+      "destination": "/news/dojo-kun/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/06/23/dojo-kun/",
+      "destination": "/news/dojo-kun/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/03/27/empi",
+      "destination": "/news/empi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/03/27/empi/",
+      "destination": "/news/empi/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/14/esami-di-dan-2",
+      "destination": "/news/esami-di-dan-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/14/esami-di-dan-2/",
+      "destination": "/news/esami-di-dan-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/12/19/esami-di-dan",
+      "destination": "/news/esami-di-dan/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/12/19/esami-di-dan/",
+      "destination": "/news/esami-di-dan/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/04/30/esami-di-graduazione",
+      "destination": "/news/esami-di-graduazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/04/30/esami-di-graduazione/",
+      "destination": "/news/esami-di-graduazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/05/29/esami-di-graduzione",
+      "destination": "/news/esami-di-graduzione/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/05/29/esami-di-graduzione/",
+      "destination": "/news/esami-di-graduzione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/23/esami-e-vacanze-di-carnevale",
+      "destination": "/news/esami-e-vacanze-di-carnevale/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/23/esami-e-vacanze-di-carnevale/",
+      "destination": "/news/esami-e-vacanze-di-carnevale/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/24/esami-febbraio-finiti",
+      "destination": "/news/esami-febbraio-finiti/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/24/esami-febbraio-finiti/",
+      "destination": "/news/esami-febbraio-finiti/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/20/esami-nazionali-di-graduazione-2",
+      "destination": "/news/esami-nazionali-di-graduazione-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/12/20/esami-nazionali-di-graduazione-2/",
+      "destination": "/news/esami-nazionali-di-graduazione-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/11/12/esami-nazionali-di-graduazione",
+      "destination": "/news/esami-nazionali-di-graduazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/11/12/esami-nazionali-di-graduazione/",
+      "destination": "/news/esami-nazionali-di-graduazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/03/30/essere-donna-oggi",
+      "destination": "/news/essere-donna-oggi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/03/30/essere-donna-oggi/",
+      "destination": "/news/essere-donna-oggi/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/10/11/festa-del-beato-matteo-2",
+      "destination": "/news/festa-del-beato-matteo-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/10/11/festa-del-beato-matteo-2/",
+      "destination": "/news/festa-del-beato-matteo-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/10/11/festa-del-beato-matteo",
+      "destination": "/news/festa-del-beato-matteo/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/10/11/festa-del-beato-matteo/",
+      "destination": "/news/festa-del-beato-matteo/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/04/17/festa-della-liberazione-2023",
+      "destination": "/news/festa-della-liberazione-2023/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/04/17/festa-della-liberazione-2023/",
+      "destination": "/news/festa-della-liberazione-2023/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/04/21/festa-della-liberazione",
+      "destination": "/news/festa-della-liberazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/04/21/festa-della-liberazione/",
+      "destination": "/news/festa-della-liberazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/06/01/festa-della-repubblica-e-pausa-estiva",
+      "destination": "/news/festa-della-repubblica-e-pausa-estiva/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/06/01/festa-della-repubblica-e-pausa-estiva/",
+      "destination": "/news/festa-della-repubblica-e-pausa-estiva/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/05/28/festa-della-repubblica",
+      "destination": "/news/festa-della-repubblica/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/05/28/festa-della-repubblica/",
+      "destination": "/news/festa-della-repubblica/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/12/07/festivita-di-dicembre",
+      "destination": "/news/festivita-di-dicembre/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/12/07/festivita-di-dicembre/",
+      "destination": "/news/festivita-di-dicembre/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/03/13/gara-provinciale-kata-csi",
+      "destination": "/news/gara-provinciale-kata-csi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/03/13/gara-provinciale-kata-csi/",
+      "destination": "/news/gara-provinciale-kata-csi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/03/gichin-funakoshi",
+      "destination": "/news/gichin-funakoshi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/03/gichin-funakoshi/",
+      "destination": "/news/gichin-funakoshi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/08/gli-stili-del-karate",
+      "destination": "/news/gli-stili-del-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/08/gli-stili-del-karate/",
+      "destination": "/news/gli-stili-del-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/11/08/gojushiho-sho",
+      "destination": "/news/gojushiho-sho/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/11/08/gojushiho-sho/",
+      "destination": "/news/gojushiho-sho/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/09/28/gradi-del-karate-1a-parte",
+      "destination": "/news/gradi-del-karate-1a-parte/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/09/28/gradi-del-karate-1a-parte/",
+      "destination": "/news/gradi-del-karate-1a-parte/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/10/04/gradi-del-karate-2a-parte",
+      "destination": "/news/gradi-del-karate-2a-parte/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/10/04/gradi-del-karate-2a-parte/",
+      "destination": "/news/gradi-del-karate-2a-parte/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/07/03/hangetsu",
+      "destination": "/news/hangetsu/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/07/03/hangetsu/",
+      "destination": "/news/hangetsu/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/16/heian-nidan",
+      "destination": "/news/heian-nidan/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/16/heian-nidan/",
+      "destination": "/news/heian-nidan/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/16/heian-shodan",
+      "destination": "/news/heian-shodan/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/16/heian-shodan/",
+      "destination": "/news/heian-shodan/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/27/heian-yondan",
+      "destination": "/news/heian-yondan/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/27/heian-yondan/",
+      "destination": "/news/heian-yondan/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/01/05/i-gradi-nel-karate",
+      "destination": "/news/i-gradi-nel-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/01/05/i-gradi-nel-karate/",
+      "destination": "/news/i-gradi-nel-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/02/il-kiai",
+      "destination": "/news/il-kiai/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/02/il-kiai/",
+      "destination": "/news/il-kiai/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/18/il-saluto",
+      "destination": "/news/il-saluto/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/18/il-saluto/",
+      "destination": "/news/il-saluto/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/02/28/incontro-formativo-mga",
+      "destination": "/news/incontro-formativo-mga/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/02/28/incontro-formativo-mga/",
+      "destination": "/news/incontro-formativo-mga/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/06/incontro-sul-bullismo",
+      "destination": "/news/incontro-sul-bullismo/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/06/incontro-sul-bullismo/",
+      "destination": "/news/incontro-sul-bullismo/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/05/%ef%bb%bfjion",
+      "destination": "/news/jion/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/05/%ef%bb%bfjion/",
+      "destination": "/news/jion/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/01/12/kanku-dai",
+      "destination": "/news/kanku-dai/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/01/12/kanku-dai/",
+      "destination": "/news/kanku-dai/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/02/kanku-sho",
+      "destination": "/news/kanku-sho/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/02/02/kanku-sho/",
+      "destination": "/news/kanku-sho/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/11/14/kimono-o-karategi",
+      "destination": "/news/kimono-o-karategi/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/11/14/kimono-o-karategi/",
+      "destination": "/news/kimono-o-karategi/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/06/15/le-origini-del-tode-divenuto-poi-karate",
+      "destination": "/news/le-origini-del-tode-divenuto-poi-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/06/15/le-origini-del-tode-divenuto-poi-karate/",
+      "destination": "/news/le-origini-del-tode-divenuto-poi-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/07/11/le-origini-del-tode-parte-2",
+      "destination": "/news/le-origini-del-tode-parte-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/07/11/le-origini-del-tode-parte-2/",
+      "destination": "/news/le-origini-del-tode-parte-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/07/30/le-origini-del-tode-parte-3",
+      "destination": "/news/le-origini-del-tode-parte-3/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/07/30/le-origini-del-tode-parte-3/",
+      "destination": "/news/le-origini-del-tode-parte-3/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/08/18/le-origini-del-tode-parte-4",
+      "destination": "/news/le-origini-del-tode-parte-4/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/08/18/le-origini-del-tode-parte-4/",
+      "destination": "/news/le-origini-del-tode-parte-4/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/08/28/linee-guida-per-ripresa-lezioni-settembre-2020",
+      "destination": "/news/linee-guida-per-ripresa-lezioni-settembre-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/08/28/linee-guida-per-ripresa-lezioni-settembre-2020/",
+      "destination": "/news/linee-guida-per-ripresa-lezioni-settembre-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/17/niju-kun",
+      "destination": "/news/niju-kun/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/17/niju-kun/",
+      "destination": "/news/niju-kun/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/06/08/nijushiho",
+      "destination": "/news/nijushiho/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/06/08/nijushiho/",
+      "destination": "/news/nijushiho/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/05/06/nuovi-aspiranti-allenatori",
+      "destination": "/news/nuovi-aspiranti-allenatori/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/05/06/nuovi-aspiranti-allenatori/",
+      "destination": "/news/nuovi-aspiranti-allenatori/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/10/29/nuovi-dan-in-palestra",
+      "destination": "/news/nuovi-dan-in-palestra/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/10/29/nuovi-dan-in-palestra/",
+      "destination": "/news/nuovi-dan-in-palestra/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/11/04/nuovi-dan",
+      "destination": "/news/nuovi-dan/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/11/04/nuovi-dan/",
+      "destination": "/news/nuovi-dan/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/10/13/nuovo-dpcm",
+      "destination": "/news/nuovo-dpcm/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/10/13/nuovo-dpcm/",
+      "destination": "/news/nuovo-dpcm/",
+      "permanent": true
+    },
+    {
+      "source": "/2021/04/04/pasqua-2021",
+      "destination": "/news/pasqua-2021/",
+      "permanent": true
+    },
+    {
+      "source": "/2021/04/04/pasqua-2021/",
+      "destination": "/news/pasqua-2021/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/04/03/pasqua-2023",
+      "destination": "/news/pasqua-2023/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/04/03/pasqua-2023/",
+      "destination": "/news/pasqua-2023/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/04/08/ponte-di-pasqua-25-aprile",
+      "destination": "/news/ponte-di-pasqua-25-aprile/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/04/08/ponte-di-pasqua-25-aprile/",
+      "destination": "/news/ponte-di-pasqua-25-aprile/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/04/21/ponti-25-aprile-1-maggio",
+      "destination": "/news/ponti-25-aprile-1-maggio/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/04/21/ponti-25-aprile-1-maggio/",
+      "destination": "/news/ponti-25-aprile-1-maggio/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/05/21/promemoria-esami-di-graduazione-2",
+      "destination": "/news/promemoria-esami-di-graduazione-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/05/21/promemoria-esami-di-graduazione-2/",
+      "destination": "/news/promemoria-esami-di-graduazione-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/22/promemoria-esami-di-graduazione",
+      "destination": "/news/promemoria-esami-di-graduazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/22/promemoria-esami-di-graduazione/",
+      "destination": "/news/promemoria-esami-di-graduazione/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/12/19/responsabile-safeguarding",
+      "destination": "/news/responsabile-safeguarding/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/12/19/responsabile-safeguarding/",
+      "destination": "/news/responsabile-safeguarding/",
+      "permanent": true
+    },
+    {
+      "source": "/2021/04/28/ripresa-allenamenti-allaperto",
+      "destination": "/news/ripresa-allenamenti-allaperto/",
+      "permanent": true
+    },
+    {
+      "source": "/2021/04/28/ripresa-allenamenti-allaperto/",
+      "destination": "/news/ripresa-allenamenti-allaperto/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/01/03/ripresa-delle-lezioni-2",
+      "destination": "/news/ripresa-delle-lezioni-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/01/03/ripresa-delle-lezioni-2/",
+      "destination": "/news/ripresa-delle-lezioni-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/20/ripresa-delle-lezioni-e-prossime-festivita",
+      "destination": "/news/ripresa-delle-lezioni-e-prossime-festivita/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/20/ripresa-delle-lezioni-e-prossime-festivita/",
+      "destination": "/news/ripresa-delle-lezioni-e-prossime-festivita/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/08/27/ripresa-delle-lezioni-settembre-2018",
+      "destination": "/news/ripresa-delle-lezioni-settembre-2018/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/08/27/ripresa-delle-lezioni-settembre-2018/",
+      "destination": "/news/ripresa-delle-lezioni-settembre-2018/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/08/29/ripresa-delle-lezioni-stagione-2019-2020",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2019-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/08/29/ripresa-delle-lezioni-stagione-2019-2020/",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2019-2020/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/30/ripresa-delle-lezioni-stagione-2022-2023",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2022-2023/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/08/30/ripresa-delle-lezioni-stagione-2022-2023/",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2022-2023/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/08/22/ripresa-delle-lezioni-stagione-2023-2024",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2023-2024/",
+      "permanent": true
+    },
+    {
+      "source": "/2023/08/22/ripresa-delle-lezioni-stagione-2023-2024/",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2023-2024/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/08/29/ripresa-delle-lezioni-stagione-2024-25",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2024-25/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/08/29/ripresa-delle-lezioni-stagione-2024-25/",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2024-25/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/09/08/ripresa-delle-lezioni-stagione-2025-2026",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2025-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/09/08/ripresa-delle-lezioni-stagione-2025-2026/",
+      "destination": "/news/ripresa-delle-lezioni-stagione-2025-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/24/ripresa-delle-lezioni",
+      "destination": "/news/ripresa-delle-lezioni/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/08/24/ripresa-delle-lezioni/",
+      "destination": "/news/ripresa-delle-lezioni/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/07/24/ripresa-lezioni-settembre",
+      "destination": "/news/ripresa-lezioni-settembre/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/07/24/ripresa-lezioni-settembre/",
+      "destination": "/news/ripresa-lezioni-settembre/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/02/12/ronin-karate-a-telepavia",
+      "destination": "/news/ronin-karate-a-telepavia/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/02/12/ronin-karate-a-telepavia/",
+      "destination": "/news/ronin-karate-a-telepavia/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/26/ronin",
+      "destination": "/news/ronin/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/26/ronin/",
+      "destination": "/news/ronin/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/02/27/sessione-esami-di-febbraio",
+      "destination": "/news/sessione-esami-di-febbraio/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/02/27/sessione-esami-di-febbraio/",
+      "destination": "/news/sessione-esami-di-febbraio/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/30/sessione-esami-di-maggio-conclusa",
+      "destination": "/news/sessione-esami-di-maggio-conclusa/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/05/30/sessione-esami-di-maggio-conclusa/",
+      "destination": "/news/sessione-esami-di-maggio-conclusa/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/09/21/si-dice-karate-o-karate",
+      "destination": "/news/si-dice-karate-o-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/09/21/si-dice-karate-o-karate/",
+      "destination": "/news/si-dice-karate-o-karate/",
+      "permanent": true
+    },
+    {
+      "source": "/2016/12/26/sito-ufficiale-a-s-d-ronin-karate-vigevano",
+      "destination": "/news/sito-ufficiale-a-s-d-ronin-karate-vigevano/",
+      "permanent": true
+    },
+    {
+      "source": "/2016/12/26/sito-ufficiale-a-s-d-ronin-karate-vigevano/",
+      "destination": "/news/sito-ufficiale-a-s-d-ronin-karate-vigevano/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/11/01/sochin",
+      "destination": "/news/sochin/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/11/01/sochin/",
+      "destination": "/news/sochin/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/07/21/tecnici-csi",
+      "destination": "/news/tecnici-csi/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/07/21/tecnici-csi/",
+      "destination": "/news/tecnici-csi/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/01/08/tracciabilita-oneri-detraibili",
+      "destination": "/news/tracciabilita-oneri-detraibili/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/01/08/tracciabilita-oneri-detraibili/",
+      "destination": "/news/tracciabilita-oneri-detraibili/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/03/06/ultime-disposizioni-coronavirus",
+      "destination": "/news/ultime-disposizioni-coronavirus/",
+      "permanent": true
+    },
+    {
+      "source": "/2020/03/06/ultime-disposizioni-coronavirus/",
+      "destination": "/news/ultime-disposizioni-coronavirus/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/12/16/vacanze-di-natale-2",
+      "destination": "/news/vacanze-di-natale-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2019/12/16/vacanze-di-natale-2/",
+      "destination": "/news/vacanze-di-natale-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2021/12/14/vacanze-di-natale-2021",
+      "destination": "/news/vacanze-di-natale-2021/",
+      "permanent": true
+    },
+    {
+      "source": "/2021/12/14/vacanze-di-natale-2021/",
+      "destination": "/news/vacanze-di-natale-2021/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/12/14/vacanze-di-natale-2022",
+      "destination": "/news/vacanze-di-natale-2022/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/12/14/vacanze-di-natale-2022/",
+      "destination": "/news/vacanze-di-natale-2022/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/12/12/vacanze-di-natale",
+      "destination": "/news/vacanze-di-natale/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/12/12/vacanze-di-natale/",
+      "destination": "/news/vacanze-di-natale/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/22/vacanze-di-pasqua-2",
+      "destination": "/news/vacanze-di-pasqua-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/03/22/vacanze-di-pasqua-2/",
+      "destination": "/news/vacanze-di-pasqua-2/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/04/08/vacanze-di-pasqua-2022",
+      "destination": "/news/vacanze-di-pasqua-2022/",
+      "permanent": true
+    },
+    {
+      "source": "/2022/04/08/vacanze-di-pasqua-2022/",
+      "destination": "/news/vacanze-di-pasqua-2022/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/11/vacanze-di-pasqua",
+      "destination": "/news/vacanze-di-pasqua/",
+      "permanent": true
+    },
+    {
+      "source": "/2017/04/11/vacanze-di-pasqua/",
+      "destination": "/news/vacanze-di-pasqua/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/06/21/vacanze-estive",
+      "destination": "/news/vacanze-estive/",
+      "permanent": true
+    },
+    {
+      "source": "/2018/06/21/vacanze-estive/",
+      "destination": "/news/vacanze-estive/",
+      "permanent": true
+    },
+    {
+      "source": "/chi-siamo",
+      "destination": "/il-dojo/",
+      "permanent": true
+    },
+    {
+      "source": "/chi-siamo/",
+      "destination": "/il-dojo/",
+      "permanent": true
+    },
+    {
+      "source": "/le-nostre-attivita",
+      "destination": "/corsi/",
+      "permanent": true
+    },
+    {
+      "source": "/le-nostre-attivita/",
+      "destination": "/corsi/",
+      "permanent": true
+    },
+    {
+      "source": "/dove-siamo",
+      "destination": "/contatti/",
+      "permanent": true
+    },
+    {
+      "source": "/dove-siamo/",
+      "destination": "/contatti/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home/",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
+}
