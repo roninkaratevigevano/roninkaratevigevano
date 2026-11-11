@@ -21,12 +21,16 @@ Per pubblicare basta caricare la cartella `dist/` su un qualsiasi hosting static
 |---|---|
 | Telefoni, e-mail, indirizzo, social, staff, corsi, dōjō kun | `src/data/sito.ts` |
 | Orari dei turni | `src/data/sito.ts` → `orari` |
-| News e articoli | `src/content/news/*.md` |
+| News, avvisi ed esami | Pannello **/admin/** (oppure i file `src/content/news/*.md`) |
+| Foto caricate dal pannello | `public/media/uploads/` |
+| Campi del pannello | `src/pages/admin/config.yml.ts` (allineati a `src/content.config.ts`) |
 | Immagini degli articoli e PDF | `public/media/` |
 | Pagine | `src/pages/` |
 | Colori e stile generale | `src/styles/global.css` |
 
 ### Aggiungere una news
+
+Il modo normale è il pannello `/admin/` (Sveltia CMS, accesso con GitHub): vedi [docs/GUIDA-ADMIN-E-GOOGLE.md](docs/GUIDA-ADMIN-E-GOOGLE.md) per attivarlo e per Google Analytics e Search Console. In alternativa si può creare il file a mano:
 
 Creare un file in `src/content/news/`, per esempio `esami-giugno-2026.md`: il nome del file diventa l'indirizzo (`/news/esami-giugno-2026/`).
 
@@ -34,7 +38,13 @@ Creare un file in `src/content/news/`, per esempio `esami-giugno-2026.md`: il no
 ---
 title: "Esami di graduazione di giugno"
 date: 2026-06-10
-categorie: ["News"]          # News, Karate, Kata, Storia
+categorie: ["News"]          # News, Esami, Karate, Kata, Storia
+inEvidenza: false            # true = in cima a home e News
+# evidenzaFino: 2026-12-20   # facoltativo: fino a quando resta in evidenza
+# foto: /media/uploads/foto.webp
+# galleria:
+#   - src: /media/uploads/foto-2.webp
+#     didascalia: "Testo facoltativo"
 estratto: "Due righe che compaiono negli elenchi."
 ---
 
@@ -53,11 +63,11 @@ Gli articoli sono stati importati una sola volta da WordPress con `npm run impor
 
 - **Corsi**: il cercatore propone i corsi in base all'età. Preparazione esami e approfondimento kata rimangono disponibili su indicazione degli insegnanti e non vengono consigliati automaticamente a chi inizia. L'offerta attuale non include un corso agonisti o preparazione alle gare; le notizie storiche rimangono nell'archivio.
 - **Menu mobile**: è fuori dall'header (un elemento fixed dentro un genitore con transform o blur verrebbe tagliato), blocca lo scroll della pagina, rende inerte il contenuto sotto e si chiude con Esc, con un link o allargando la finestra.
-- **Privacy**: banner e preferenze con vanilla-cookieconsent, ospitato localmente. Maps e YouTube sono categorie distinte, disattivate per impostazione predefinita. La revoca rimuove gli iframe. Preferenze salvate per 185 giorni; nessun analytics o pixel.
+- **Privacy**: banner e preferenze con vanilla-cookieconsent, ospitato localmente. Maps e YouTube sono categorie distinte, disattivate per impostazione predefinita. La revoca rimuove gli iframe. Preferenze salvate per 185 giorni. Google Analytics 4 è previsto ma resta spento finché su Vercel non si imposta `PUBLIC_GA_ID`; anche allora parte solo dopo il consenso alla categoria Statistiche. Nessun pixel pubblicitario.
 - **Modulo contatti**: nome ed età obbligatori, scelta per sé/figlio/figlia, corso, domanda facoltativa (massimo 1.000 caratteri), presa visione privacy. L'anteprima è composta nel browser; WhatsApp è il canale principale, l'email un'alternativa tramite `mailto:`. Entrambi aprono una bozza, senza invio automatico. Non servono backend, servizi form o credenziali. L'email richiede un client di posta configurato. I campi non sono memorizzati in cookie/storage né pubblicati su GitHub.
 - **Animazioni**: si disattivano se il dispositivo chiede movimento ridotto. Se gli script non partono, i contenuti compaiono comunque. L'intro con il preloader parte solo alla prima visita della sessione.
 - **Telefono**: niente sezioni bloccate durante lo scroll, solo animazioni brevi; pulsante WhatsApp fisso, che si nasconde vicino al modulo e al footer.
 
 ## Prima della pubblicazione
 
-Leggere `docs/verifica-pubblicazione.md`: include le verifiche tecniche, l'inventario cookie e i dati organizzativi da confermare con l'associazione. Privacy, cookie e termini sono bozze da validare dal titolare. GitHub ospita il codice; la configurazione corrente usa Vercel per l'hosting. Il progetto rimane statico e il modulo funziona senza endpoint di invio.
+Seguire [docs/CHECKLIST-PUBBLICAZIONE.md](docs/CHECKLIST-PUBBLICAZIONE.md) (caricamento sul repository collegato a Vercel, variabili, Search Console, Bing, profilo Google). Leggere anche `docs/verifica-pubblicazione.md`: include le verifiche tecniche, l'inventario cookie e i dati organizzativi da confermare con l'associazione. Privacy, cookie e termini sono bozze da validare dal titolare. GitHub ospita il codice; la configurazione corrente usa Vercel per l'hosting. Il progetto rimane statico e il modulo funziona senza endpoint di invio.

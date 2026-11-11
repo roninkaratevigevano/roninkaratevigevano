@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 import Testata from "../components/Testata.astro";
 import { associazione, contatti, telLink } from "../data/sito";
+// Le parti sulle statistiche compaiono solo se Google Analytics è configurato (PUBLIC_GA_ID)
+const analytics = /^G-[A-Z0-9]+$/.test((import.meta.env.PUBLIC_GA_ID ?? "").trim());
 ---
 <Base titolo="Privacy policy" descrizione="Informativa sui dati personali: navigazione, modulo per WhatsApp ed email, telefono e contenuti esterni del sito Ronin Karate Vigevano.">
   <Testata titolo="Privacy policy" kanji="秘密" intro="Quali dati trattiamo, perché e come puoi esercitare i tuoi diritti. Informativa ai sensi dell'art. 13 del Regolamento (UE) 2016/679 (GDPR)." />
@@ -13,7 +15,11 @@ import { associazione, contatti, telLink } from "../data/sito";
 
       <h2>2. Navigazione e sicurezza</h2>
       <p>Il fornitore di hosting può trattare i dati tecnici necessari a erogare e proteggere il sito, come indirizzo IP, data e ora della richiesta, pagina richiesta, informazioni sul browser e messaggi di errore. La finalità è rendere disponibili le pagine, prevenire abusi e individuare problemi. La base giuridica è il legittimo interesse alla disponibilità e alla sicurezza del sito (art. 6, par. 1, lett. f GDPR).</p>
-      <p>Il sito non installa analytics, pixel pubblicitari o sistemi di profilazione. Font, script e immagini delle pagine sono ospitati insieme al sito.</p>
+      {analytics ? (
+        <p>Solo con il tuo consenso il sito usa Google Analytics 4 (Google Ireland Limited) per statistiche aggregate sulle visite: pagine viste, provenienza, tipo di dispositivo e città approssimativa. Google Analytics non registra né conserva gli indirizzi IP completi degli utenti nell'Unione europea. Segnali pubblicitari e personalizzazione degli annunci sono disattivati e non usiamo i dati per profilarti. La base giuridica è il consenso (art. 6, par. 1, lett. a GDPR), revocabile in qualsiasi momento da “Preferenze cookie”. I dati delle statistiche sono conservati per 14 mesi. Il sito non installa pixel pubblicitari. Font, script e immagini delle pagine sono ospitati insieme al sito.</p>
+      ) : (
+        <p>Il sito non installa analytics, pixel pubblicitari o sistemi di profilazione. Font, script e immagini delle pagine sono ospitati insieme al sito.</p>
+      )}
 
       <h2 id="contatti">3. Modulo, WhatsApp, email e telefono</h2>
       <p>Per rispondere alle richieste trattiamo i dati che scegli di comunicarci: nome, numero di telefono o indirizzo email, età della persona interessata, corso e contenuto del messaggio. Li usiamo per dare informazioni e concordare una lezione di prova. La base giuridica è l'esecuzione di misure precontrattuali su tua richiesta (art. 6, par. 1, lett. b GDPR). Per altre comunicazioni la base è il legittimo interesse a dare seguito alla richiesta (art. 6, par. 1, lett. f GDPR).</p>
@@ -26,7 +32,7 @@ import { associazione, contatti, telLink } from "../data/sito";
       <p>Instagram, Facebook, TikTok, WhatsApp e le indicazioni stradali sono semplici link esterni, senza feed, chat o pixel integrati. Visitandoli si applicano le informative dei rispettivi servizi.</p>
 
       <h2>5. Fornitori e destinatari</h2>
-      <p>Accedono ai dati le persone autorizzate dell'associazione e i fornitori necessari ai servizi utilizzati, nei rispettivi ruoli. La configurazione del progetto prevede Vercel per l'hosting; la casella email dell'associazione è Gmail. WhatsApp gestisce le conversazioni avviate su quel canale. Google riceve dati quando autorizzi Maps o YouTube. Ove previsto, i fornitori devono essere nominati responsabili ai sensi dell'art. 28 GDPR.</p>
+      <p>Accedono ai dati le persone autorizzate dell'associazione e i fornitori necessari ai servizi utilizzati, nei rispettivi ruoli. La configurazione del progetto prevede Vercel per l'hosting; la casella email dell'associazione è Gmail. WhatsApp gestisce le conversazioni avviate su quel canale. Google riceve dati quando autorizzi Maps o YouTube{analytics && " o le statistiche di Google Analytics"}. Ove previsto, i fornitori devono essere nominati responsabili ai sensi dell'art. 28 GDPR.</p>
       <p>GitHub ospita il codice sorgente e supporta la pubblicazione: non riceve i campi del modulo e non viene usato per raccogliere o archiviare richieste di contatto. I messaggi non vengono pubblicati nel repository.</p>
       <p>Informative: <a href="https://vercel.com/legal/privacy-notice" target="_blank" rel="noopener noreferrer">Vercel</a>, <a href="https://policies.google.com/privacy?hl=it" target="_blank" rel="noopener noreferrer">Google</a>, <a href="https://www.whatsapp.com/legal/privacy-policy-eea" target="_blank" rel="noopener noreferrer">WhatsApp</a> e <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
 

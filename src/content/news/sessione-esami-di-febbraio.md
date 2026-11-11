@@ -1,7 +1,7 @@
 ---
 title: "Sessione esami di febbraio"
 date: 2018-02-27
-categorie: ["News"]
+categorie: ["News","Esami"]
 estratto: "Si sono conclusi oggi gli esami con esito positivo per tutti! grazie ai bambini, ragazzi e adulti che hanno sostenuto l’esame, ai genitori e parenti presenti, e ai…"
 copertina: "/media/2018-02-immagine-x-post-esami.jpg"
 video: false

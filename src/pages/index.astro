@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { tutteLeNews, inEvidenza } from "../data/news";
 import Base from "../layouts/Base.astro";
 import Cercatore from "../components/Cercatore.astro";
 import SocialLinks from "../components/SocialLinks.astro";
@@ -7,17 +7,21 @@ import Staff from "../components/Staff.astro";
 import ModuloWhatsApp from "../components/ModuloWhatsApp.astro";
 import Mappa from "../components/Mappa.astro";
 import RigaNews from "../components/RigaNews.astro";
+import Evidenza from "../components/Evidenza.astro";
 import Orari from "../components/Orari.astro";
 import { associazione, contatti, numeri, provaWhatsApp, telLink } from "../data/sito";
 
-const ultime = (await getCollection("news", (n) => n.data.categorie.includes("News")))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+const news = await tutteLeNews();
+const fissati = news.filter((n) => inEvidenza(n));
+const ultime = news.filter((n) => n.data.categorie.includes("News") && !fissati.includes(n)).slice(0, 3);
 
 const schema = {
   "@context": "https://schema.org",
   "@type": "SportsActivityLocation",
+  "@id": new URL("/#palestra", Astro.site).href,
   name: associazione.nome,
+  vatID: "IT" + associazione.piva,
+  areaServed: "Vigevano",
   description: "Associazione sportiva dilettantistica di karate Shotokan, affiliata FIJLKAM.",
   url: Astro.site?.href,
   logo: new URL("/img/logo-512.png", Astro.site).href,
@@ -127,6 +131,7 @@ const schema = {
   <section class="sezione chiara news-home" aria-labelledby="news-titolo">
     <div class="wrap">
       <div class="titolo-sez"><h2 id="news-titolo" class="display">Dalla palestra</h2><a class="pill scura magnete" href="/news/">Tutte le news</a></div>
+      <Evidenza voci={fissati} />
       {ultime.map((n) => <RigaNews voce={n} />)}
     </div>
   </section>

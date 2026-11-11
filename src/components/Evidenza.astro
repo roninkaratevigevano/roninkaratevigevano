@@ -1,0 +1,56 @@
+---
+// Avvisi fissati dal pannello admin ("In evidenza"). La scadenza viene ricontrollata nel browser,
+// così un avviso scaduto sparisce anche se nel frattempo il sito non è stato ripubblicato.
+import { dataItaliana } from "../data/sito";
+import { estrattoDi, etichettaBreve, giornoIso, type Voce } from "../data/news";
+
+interface Props { voci: Voce[]; titolo?: string }
+const { voci, titolo = "In evidenza" } = Astro.props;
+---
+{voci.length > 0 && (
+  <section class="evidenza" aria-label={titolo} data-evidenza>
+    <p class="evidenza-titolo"><span class="punto" aria-hidden="true"></span>{titolo}</p>
+    <div class="evidenza-griglia">
+      {voci.map((n) => (
+        <a class="avviso" href={`/news/${n.id}/`} data-scade={n.data.evidenzaFino ? giornoIso(n.data.evidenzaFino) : undefined}>
+          {n.data.foto && <img src={n.data.foto} alt="" loading="lazy" decoding="async">}
+          <div>
+            <p class="avviso-meta"><span>{etichettaBreve(n.data.categorie)}</span><time datetime={giornoIso(n.data.date)}>{dataItaliana(n.data.date)}</time></p>
+            <h3>{n.data.title}</h3>
+            <p class="avviso-testo">{estrattoDi(n)}</p>
+            <span class="link-freccia">Leggi l'avviso</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<style is:global>
+  .evidenza{margin-bottom:clamp(30px,4vw,48px)}
+  .evidenza-titolo{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--rosso-scuro)}
+  .evidenza-titolo .punto{width:10px;height:10px;border-radius:50%;background:var(--rosso);box-shadow:0 0 0 4px rgba(227,35,43,.18)}
+  .evidenza-griglia{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+  .avviso{display:grid;grid-template-columns:1fr;gap:0;border-radius:22px;background:#fff;color:var(--nero);overflow:hidden;box-shadow:inset 4px 0 0 var(--rosso),0 0 0 1px #e2e2e2;transition:box-shadow .3s,transform .4s var(--ease)}
+  .avviso[hidden]{display:none}
+  .avviso:has(img){grid-template-columns:minmax(120px,38%) 1fr}
+  .avviso:hover{transform:translateY(-3px);box-shadow:inset 4px 0 0 var(--rosso),0 14px 34px rgba(0,0,0,.1)}
+  .avviso img{width:100%;height:100%;min-height:180px;object-fit:cover}
+  .avviso > div{padding:24px 26px 24px 30px}
+  .avviso-meta{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 8px;font-size:14px;color:#666}
+  .avviso-meta span{font-weight:700;color:var(--rosso-scuro)}
+  .avviso h3{margin:0 0 8px;font-weight:650;font-size:clamp(22px,2.2vw,28px);line-height:1.15;letter-spacing:-.01em}
+  .avviso-testo{margin:0 0 14px;color:#444}
+  @media (max-width:560px){
+    .avviso:has(img){grid-template-columns:1fr}
+    .avviso img{min-height:0;aspect-ratio:16/9}
+  }
+</style>
+
+<script>
+  const oggi = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+  document.querySelectorAll<HTMLElement>("[data-evidenza]").forEach((box) => {
+    box.querySelectorAll<HTMLElement>("[data-scade]").forEach((a) => { if (a.dataset.scade! < oggi) a.hidden = true; });
+    if (!box.querySelector(".avviso:not([hidden])")) box.hidden = true;
+  });
+</script>

@@ -1,7 +1,7 @@
 ---
 title: "Esami di graduazione"
 date: 2019-04-30
-categorie: ["News"]
+categorie: ["News","Esami"]
 estratto: "LUNEDI’ 3 E MARTEDI’ 4 GIUGNO 2019 si terranno gli esami di graduazione. Ad esclusione dei turni delle 17 che rimarranno invariati, per poter gestire al meglio il…"
 copertina: "/media/2019-04-turni-esami-mag-19-2.jpg"
 video: false

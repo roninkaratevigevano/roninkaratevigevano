@@ -2,7 +2,7 @@
 title: "Heian-nidan"
 date: 2017-02-16
 categorie: ["Karate","Kata"]
-estratto: "Ed ecco anche il secondo dei Kata “Heian”"
+estratto: "Ed ecco anche il secondo dei kata “Heian”: Heian Nidan, con il video del kata per ripassarlo a casa."
 copertina: "/media/2017-02-heiannidan.jpg"
 video: true
 originale: "https://roninkaratevigevano.wordpress.com/2017/02/16/heian-nidan/"

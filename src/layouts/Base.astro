@@ -12,6 +12,8 @@ interface Props {
   tipo?: "website" | "article";
   schema?: object;
   classeBody?: string;
+  // Pagine da tenere fuori da Google (es. 404)
+  noindex?: boolean;
 }
 const {
   titolo,
@@ -20,10 +22,13 @@ const {
   tipo = "website",
   schema,
   classeBody = "",
+  noindex = false,
 } = Astro.props;
 
-// Finché il sito è sull'indirizzo provvisorio di Vercel non va indicizzato (il vecchio sito è ancora online)
-const indicizza = !Astro.site?.hostname.endsWith("vercel.app");
+// Google può indicizzare la produzione, anche su vercel.app. Escludiamo le anteprime Vercel.
+const indicizza = !noindex && (!process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production");
+// Verifica di Google Search Console con meta tag: impostare PUBLIC_GOOGLE_SITE_VERIFICATION su Vercel
+const verificaGoogle = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION ?? "").trim();
 const titoloCompleto = titolo ? `${titolo} · Ronin Karate Vigevano` : "Ronin Karate Vigevano · Karate Shotokan dai 6 anni";
 const canonico = new URL(Astro.url.pathname, Astro.site);
 const immagineAssoluta = new URL(immagine, Astro.site);
@@ -46,9 +51,12 @@ const iconaWa = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 1
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{titoloCompleto}</title>
   <meta name="description" content={descrizione}>
-  <link rel="canonical" href={canonico}>
+  {indicizza && <link rel="canonical" href={canonico}>}
   <meta name="theme-color" content="#000000">
-  {!indicizza && <meta name="robots" content="noindex, nofollow">}
+  {indicizza
+    ? <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    : <meta name="robots" content={noindex ? "noindex, follow" : "noindex, nofollow"}>}
+  {verificaGoogle && <meta name="google-site-verification" content={verificaGoogle}>}
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="sitemap" href="/sitemap.xml">

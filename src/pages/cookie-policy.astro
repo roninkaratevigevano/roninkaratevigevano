@@ -1,13 +1,15 @@
 ---
 import Base from "../layouts/Base.astro";
 import Testata from "../components/Testata.astro";
+// La riga su Google Analytics compare solo se è configurato (PUBLIC_GA_ID)
+const analytics = /^G-[A-Z0-9]+$/.test((import.meta.env.PUBLIC_GA_ID ?? "").trim());
 ---
 <Base titolo="Cookie policy" descrizione="Cookie tecnici e preferenze per Google Maps e YouTube: scegli i servizi facoltativi sul sito Ronin Karate Vigevano.">
   <Testata titolo="Cookie policy" kanji="選択" intro="Mappe e video sono facoltativi. Puoi navigare, chiamare e scriverci anche rifiutando tutti i cookie non necessari." />
   <section class="sezione bianca">
     <div class="stretto prosa">
       <h2>Che cosa sono i cookie</h2>
-      <p>I cookie sono piccoli file memorizzati nel browser. Altri strumenti, come la memoria di sessione, ricordano informazioni sul dispositivo. Gli strumenti tecnici necessari al sito non richiedono consenso preventivo e sono descritti qui. Google Maps e YouTube sono invece disattivati per impostazione predefinita e richiedono il consenso alla rispettiva categoria. Il sito non installa analytics o pixel pubblicitari.</p>
+      <p>I cookie sono piccoli file memorizzati nel browser. Altri strumenti, come la memoria di sessione, ricordano informazioni sul dispositivo. Gli strumenti tecnici necessari al sito non richiedono consenso preventivo e sono descritti qui. Google Maps e YouTube sono invece disattivati per impostazione predefinita e richiedono il consenso alla rispettiva categoria. {analytics ? " Le statistiche di Google Analytics sono attive solo se le autorizzi. Il sito non installa pixel pubblicitari." : " Il sito non installa analytics o pixel pubblicitari."}</p>
       <h2>Strumenti usati dal sito</h2>
       <div class="tabella-legale" role="region" aria-label="Elenco di cookie e memorie tecniche" tabindex="0">
         <table>
@@ -15,6 +17,7 @@ import Testata from "../components/Testata.astro";
           <tbody>
             <tr><td><code>ronin_consensi</code><br>Questo sito, cookie proprietario</td><td>Ricorda le categorie accettate o rifiutate e la versione dell'informativa.</td><td>185 giorni dalla scelta o modifica.</td><td>Tecnico. Non richiede consenso.</td></tr>
             <tr><td><code>ronin-intro</code><br>Questo sito, sessionStorage</td><td>Evita di ripetere l'introduzione animata. Non è un identificatore pubblicitario.</td><td>Sessione della scheda.</td><td>Tecnico. Non richiede consenso.</td></tr>
+            {analytics && <tr><td><code>_ga</code>, <code>_ga_*</code><br>Google Analytics 4, Google Ireland Limited</td><td>Statistiche aggregate sulle visite: distingue i visitatori e le sessioni senza segnali pubblicitari.</td><td>Fino a 13 mesi.</td><td>Statistiche facoltative. Richiede consenso alla categoria Statistiche.</td></tr>}
             <tr><td>Google Maps<br>Domini di Google e relativi fornitori</td><td>Mostra la mappa della palestra; può usare cookie e identificatori di terze parti.</td><td>Variabile per cookie, browser e account; dettagli nella policy di Google.</td><td>Servizio esterno facoltativo. Richiede consenso alla categoria Google Maps.</td></tr>
             <tr><td>YouTube<br>youtube-nocookie.com e domini collegati di Google/YouTube</td><td>Riproduce i video selezionati in modalità privacy avanzata; durante la riproduzione può usare cookie e altri identificatori.</td><td>Variabile per strumento e servizio; dettagli nella policy di Google.</td><td>Servizio esterno facoltativo. Richiede consenso alla categoria Video YouTube e selezione del video.</td></tr>
           </tbody>

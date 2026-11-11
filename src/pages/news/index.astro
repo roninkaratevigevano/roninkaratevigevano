@@ -1,24 +1,30 @@
 ---
-import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import Testata from "../../components/Testata.astro";
+import Evidenza from "../../components/Evidenza.astro";
 import { dataItaliana } from "../../data/sito";
+import { categorieNews } from "../../content.config";
+import { tutteLeNews, estrattoDi, etichette, inEvidenza } from "../../data/news";
 
-const tutte = (await getCollection("news")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const categorie = ["News", "Karate", "Kata", "Storia"] as const;
+const tutte = await tutteLeNews();
+const fissati = tutte.filter((n) => inEvidenza(n));
+const categorie = categorieNews;
 const conteggio = Object.fromEntries(categorie.map((c) => [c, tutte.filter((n) => n.data.categorie.includes(c)).length]));
 const perAnno = new Map<number, typeof tutte>();
 for (const n of tutte) {
   const anno = n.data.date.getFullYear();
   perAnno.set(anno, [...(perAnno.get(anno) ?? []), n]);
 }
-const etichetta: Record<string, string> = { News: "Avvisi e notizie", Karate: "Karate", Kata: "Kata", Storia: "Storia" };
+const etichetta = etichette;
+const cartellino = (c: readonly string[]) =>
+  c.includes("Esami") ? "Esami" : c.includes("News") ? "Avviso" : c.filter((x) => x !== "News").join(" e ");
 ---
-<Base titolo="News" descrizione="Avvisi, esami e approfondimenti su kata e storia del karate dalla palestra Ronin Karate Vigevano.">
+<Base titolo="News" descrizione="Bacheca della palestra: avvisi, esami di graduazione e approfondimenti su kata e storia del karate dal Ronin Karate Vigevano.">
   <Testata titolo="News" kanji="便り" intro={`${tutte.length} articoli dal 2016 a oggi: avvisi per gli allievi, esami e approfondimenti su kata e storia del karate.`} />
 
   <section class="sezione chiara archivio" aria-label="Archivio delle news">
     <div class="wrap">
+      <Evidenza voci={fissati} />
       <div class="filtri-news" role="search">
         <div class="chip" role="group" aria-label="Filtra per argomento">
           <button type="button" aria-pressed="true" data-cat="">Tutte <span>{tutte.length}</span></button>
@@ -37,10 +43,10 @@ const etichetta: Record<string, string> = { News: "Avvisi e notizie", Karate: "K
           <h2 class="anno-titolo">{anno}</h2>
           <div>
             {voci.map((n) => (
-              <a class="articolo" href={`/news/${n.id}/`} data-voce data-cat={n.data.categorie.join(" ")} data-testo={`${n.data.title} ${n.data.estratto}`.toLowerCase()}>
+              <a class="articolo" href={`/news/${n.id}/`} data-voce data-cat={n.data.categorie.join(" ")} data-testo={`${n.data.title} ${estrattoDi(n)}`.toLowerCase()}>
                 <time datetime={n.data.date.toISOString().slice(0, 10)}>{dataItaliana(n.data.date, { day: "numeric", month: "short" })}</time>
-                <div><h3>{n.data.title}</h3><p>{n.data.estratto}</p></div>
-                <span class="cat">{n.data.categorie.includes("News") ? "Avviso" : n.data.categorie.filter((c) => c !== "News").join(" e ")}{n.data.video && ", con video"}</span>
+                <div><h3>{n.data.title}</h3><p>{estrattoDi(n)}</p></div>
+                <span class="cat">{cartellino(n.data.categorie)}{n.data.video && ", con video"}{n.data.galleria?.length ? ", con foto" : ""}</span>
               </a>
             ))}
           </div>

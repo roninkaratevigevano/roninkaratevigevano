@@ -1,12 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import { dataItaliana } from "../data/sito";
-interface Props { voce: CollectionEntry<"news"> }
+import { estrattoDi, etichettaBreve, type Voce } from "../data/news";
+interface Props { voce: Voce }
 const { voce } = Astro.props;
-const { title, date, estratto, categorie } = voce.data;
+const { title, date, categorie } = voce.data;
 ---
 <a class="articolo" href={`/news/${voce.id}/`} data-rivela>
   <time datetime={date.toISOString().slice(0, 10)}>{dataItaliana(date, { day: "numeric", month: "short", year: "numeric" })}</time>
-  <div><h3>{title}</h3><p>{estratto}</p></div>
-  <span class="cat">{categorie.includes("News") ? "Avviso" : categorie.join(" e ")}</span>
+  <div><h3>{title}</h3><p>{estrattoDi(voce)}</p></div>
+  <span class="cat">{etichettaBreve(categorie)}</span>
 </a>

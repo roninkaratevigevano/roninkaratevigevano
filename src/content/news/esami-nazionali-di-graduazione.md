@@ -1,7 +1,7 @@
 ---
 title: "Esami nazionali di graduazione"
 date: 2017-11-12
-categorie: ["Karate","News"]
+categorie: ["Karate","News","Esami"]
 estratto: "Ieri e oggi si sono svolti gli esami di graduazione nazionale per il 4° e 5° dan al Pala Pellicone di Lido di Ostia. I senpai Gabriele Miceli e Daniele Palermo hanno…"
 video: false
 originale: "https://roninkaratevigevano.wordpress.com/2017/11/12/esami-nazionali-di-graduazione/"

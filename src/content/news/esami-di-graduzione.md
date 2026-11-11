@@ -1,7 +1,7 @@
 ---
 title: "Esami di graduazione"
 date: 2018-05-29
-categorie: ["Karate","News"]
+categorie: ["Karate","News","Esami"]
 estratto: "Si sono conclusi oggi gli esami con esito positivo per tutti! 1 bianca-gialla, 3 gialle, 8 gialle-arancio, 13 arancioni, 9 arancio-verdi, 6 verdi, 4 verdi-blu, 7 blu, 10…"
 copertina: "/media/2018-05-belt_colours_meaning.jpg"
 video: false

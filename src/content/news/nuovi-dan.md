@@ -1,7 +1,7 @@
 ---
 title: "Nuovi dan!"
 date: 2018-11-04
-categorie: ["News"]
+categorie: ["News","Esami"]
 estratto: "Nella giornata di oggi si sono svolti al Palabisterzo di Busto Arsizio gli esami di dan. Otto dei nostri ragazzi hanno brillantemente superato le prove: Alessandro…"
 video: false
 originale: "https://roninkaratevigevano.wordpress.com/2018/11/04/nuovi-dan/"

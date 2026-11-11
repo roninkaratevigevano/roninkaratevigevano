@@ -1,7 +1,7 @@
 ---
 title: "Esami di dan"
 date: 2025-12-14
-categorie: ["News"]
+categorie: ["News","Esami"]
 estratto: "Nella giornata di oggi si sono svolti al Palabisterzo di Busto Arsizio gli esami di dan. Sei dei nostri ragazzi hanno brillantemente superato le prove: I dan: BAUER…"
 video: false
 originale: "https://roninkaratevigevano.wordpress.com/2025/12/14/esami-di-dan-2/"

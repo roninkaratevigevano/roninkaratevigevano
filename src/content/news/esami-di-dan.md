@@ -1,7 +1,7 @@
 ---
 title: "Esami di dan"
 date: 2022-12-19
-categorie: ["News"]
+categorie: ["News","Esami"]
 estratto: "Nella giornata di ieri si sono svolti al Palabisterzo di Busto Arsizio gli esami di dan. Sei dei nostri ragazzi hanno brillantemente superato le prove: I dan: Horry Abed…"
 copertina: "/media/2022-12-20221218_143832-1.jpg"
 video: false

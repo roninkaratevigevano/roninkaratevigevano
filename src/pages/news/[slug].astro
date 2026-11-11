@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import { dataItaliana } from "../../data/sito";
+import { estrattoDi, immagineDi } from "../../data/news";
 
 export async function getStaticPaths() {
   const tutte = (await getCollection("news")).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
@@ -13,15 +14,22 @@ export async function getStaticPaths() {
 interface Props { voce: CollectionEntry<"news">; piuNuova?: CollectionEntry<"news">; piuVecchia?: CollectionEntry<"news">; tutte: CollectionEntry<"news">[] }
 const { voce, piuNuova, piuVecchia, tutte } = Astro.props;
 const { Content } = await render(voce);
-const { title, date, categorie, estratto, copertina } = voce.data;
+const { title, date, categorie, foto, fotoAlt, galleria } = voce.data;
+const estratto = estrattoDi(voce);
 
 const parole = (voce.body ?? "").replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
 const minuti = Math.max(1, Math.round(parole / 200));
 const tema = categorie.find((c) => c !== "News");
+const foto_ = galleria?.filter((g) => g.src) ?? [];
 const correlate = tutte
   .filter((n) => n.id !== voce.id && (tema ? n.data.categorie.includes(tema) : n.data.categorie.includes("News")))
   .slice(0, 3);
-const immagine = copertina && !/logo/.test(copertina) ? copertina : undefined;
+const immagine = immagineDi(voce);
+// Post con lo stesso titolo in anni diversi (es. "Vacanze di Natale"): l'anno nel <title> evita doppioni su Google
+const anno = date.getFullYear();
+const titoloDoppio = tutte.some((n) => n.id !== voce.id && n.data.title.trim().toLowerCase() === title.trim().toLowerCase());
+const titoloPagina = titoloDoppio && !title.includes(String(anno)) ? `${title} (${anno})` : title;
+const associazioneSchema = { "@type": "SportsOrganization", "@id": new URL("/#associazione", Astro.site).href, name: "A.S.D. Ronin Karate Vigevano", url: Astro.site?.href, logo: { "@type": "ImageObject", url: new URL("/img/logo-512.png", Astro.site).href } };
 const schema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -29,11 +37,13 @@ const schema = {
   datePublished: date.toISOString(),
   description: estratto,
   inLanguage: "it",
-  publisher: { "@type": "Organization", name: "A.S.D. Ronin Karate Vigevano", logo: { "@type": "ImageObject", url: new URL("/img/logo-512.png", Astro.site).href } },
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+  author: associazioneSchema,
+  publisher: associazioneSchema,
   ...(immagine ? { image: new URL(immagine, Astro.site).href } : {}),
 };
 ---
-<Base titolo={title} descrizione={estratto} immagine={immagine} tipo="article" schema={schema}>
+<Base titolo={titoloPagina} descrizione={estratto} immagine={immagine} tipo="article" schema={schema}>
   <header class="testa-articolo">
     <div class="stretto">
       <nav class="briciole" aria-label="Percorso"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/news/">News</a></nav>
@@ -48,8 +58,30 @@ const schema = {
 
   <article class="sezione bianca corpo-articolo">
     <div class="stretto prosa">
+      {foto && <figure class="foto-articolo"><img src={foto} alt={fotoAlt ?? ""} decoding="async"></figure>}
       <Content />
     </div>
+    {foto_.length > 0 && (
+      <div class="stretto galleria" data-galleria>
+        <h2 class="vh">Foto</h2>
+        <ul>
+          {foto_.map((g, i) => (
+            <li>
+              <a href={g.src} data-foto={i} aria-label={`Apri la foto ${i + 1} di ${foto_.length}${g.didascalia ? `: ${g.didascalia}` : ""}`}>
+                <img src={g.src} alt={g.didascalia ?? ""} loading="lazy" decoding="async">
+              </a>
+              {g.didascalia && <p>{g.didascalia}</p>}
+            </li>
+          ))}
+        </ul>
+        <dialog class="lightbox" aria-label="Foto" data-lenis-prevent>
+          <img alt="">
+          <p class="lightbox-testo"></p>
+          <button type="button" class="lb-chiudi" aria-label="Chiudi">×</button>
+          {foto_.length > 1 && <><button type="button" class="lb-prec" aria-label="Foto precedente">‹</button><button type="button" class="lb-succ" aria-label="Foto successiva">›</button></>}
+        </dialog>
+      </div>
+    )}
     <div class="stretto azioni-articolo">
       <a class="link-freccia" href="/news/">Tutte le news</a>
       <button class="pill contorno-chiaro" type="button" data-condividi data-titolo={title}>Condividi</button>
@@ -70,7 +102,7 @@ const schema = {
               <a class="carta-studio" href={`/news/${n.id}/`}>
                 <span class="cat">{dataItaliana(n.data.date, { month: "long", year: "numeric" })}</span>
                 <h3>{n.data.title}</h3>
-                <p>{n.data.estratto}</p>
+                <p>{estrattoDi(n)}</p>
               </a>
             ))}
           </div>
@@ -102,6 +134,25 @@ const schema = {
   .vicino b{font-size:20px;font-weight:650;line-height:1.2}
   .correlate-titolo{margin:70px 0 24px;font-weight:750;font-stretch:80%;font-size:clamp(30px,3.4vw,48px);letter-spacing:-.02em}
   .correlate{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .foto-articolo{margin:0 0 2em}
+  .foto-articolo img{width:100%;max-height:none;margin:0;border-radius:20px}
+  .galleria{margin-top:40px}
+  .galleria ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+  .galleria li{margin:0}
+  .galleria a{display:block;border-radius:14px;overflow:hidden;aspect-ratio:1;background:#eee}
+  .galleria a img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+  .galleria a:hover img{transform:scale(1.04)}
+  .galleria li p{margin:6px 2px 0;font-size:14px;color:#555}
+  .lightbox{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:#0b0b0b;color:#fff}
+  .lightbox[open]{display:grid;place-items:center}
+  .lightbox::backdrop{background:transparent}
+  .lightbox img{max-width:calc(100vw - 32px);max-height:calc(100dvh - 120px);border-radius:10px;object-fit:contain}
+  .lightbox-testo{position:absolute;bottom:20px;left:16px;right:16px;margin:0;text-align:center;font-size:15px;color:#ddd}
+  .lightbox button{position:absolute;width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:30px;line-height:1;cursor:pointer}
+  .lightbox button:hover{background:rgba(255,255,255,.25)}
+  .lb-chiudi{top:16px;right:16px}
+  .lb-prec{left:16px;top:50%;transform:translateY(-50%)}
+  .lb-succ{right:16px;top:50%;transform:translateY(-50%)}
   @media (max-width:760px){
     .prec-succ,.correlate{grid-template-columns:1fr}
     .testa-articolo::before{width:60vw;right:-30vw;top:-20vw}
@@ -109,6 +160,28 @@ const schema = {
 </style>
 
 <script>
+  document.querySelectorAll<HTMLElement>("[data-galleria]").forEach((g) => {
+    const link = [...g.querySelectorAll<HTMLAnchorElement>("[data-foto]")];
+    const box = g.querySelector<HTMLDialogElement>("dialog")!;
+    const img = box.querySelector("img")!;
+    const testo = box.querySelector<HTMLElement>(".lightbox-testo")!;
+    let i = 0;
+    const mostra = (n: number) => {
+      i = (n + link.length) % link.length;
+      const fonte = link[i].querySelector("img")!;
+      img.src = link[i].href;
+      img.alt = fonte.alt;
+      testo.textContent = fonte.alt ? `${fonte.alt} · ${i + 1}/${link.length}` : `${i + 1}/${link.length}`;
+    };
+    link.forEach((a, n) => a.addEventListener("click", (e) => { e.preventDefault(); mostra(n); box.showModal(); }));
+    box.querySelector(".lb-chiudi")!.addEventListener("click", () => box.close());
+    box.querySelector(".lb-prec")?.addEventListener("click", () => mostra(i - 1));
+    box.querySelector(".lb-succ")?.addEventListener("click", () => mostra(i + 1));
+    box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+    box.addEventListener("keydown", (e) => { if (e.key === "ArrowLeft") mostra(i - 1); if (e.key === "ArrowRight") mostra(i + 1); });
+    box.addEventListener("close", () => link[i]?.focus());
+  });
+
   document.querySelectorAll<HTMLButtonElement>("[data-condividi]").forEach((b) => {
     b.addEventListener("click", async () => {
       const dati = { title: b.dataset.titolo, url: location.href };

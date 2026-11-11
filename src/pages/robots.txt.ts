@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
 
-// Sull'indirizzo provvisorio di Vercel i motori di ricerca restano fuori (il vecchio sito è ancora online)
+// La produzione è pubblica anche su vercel.app; le anteprime Vercel restano escluse.
 export const GET: APIRoute = ({ site }) => {
-  const provvisorio = site?.hostname.endsWith("vercel.app");
-  const testo = provvisorio
-    ? "User-agent: *\nDisallow: /\n"
-    : `User-agent: *\nAllow: /\n\nSitemap: ${new URL("/sitemap.xml", site)}\n`;
+  const indicizza = !process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production";
+  const testo = indicizza
+    ? `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: ${new URL("/sitemap.xml", site)}\n`
+    : "User-agent: *\nDisallow: /\n";
   return new Response(testo, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 };
