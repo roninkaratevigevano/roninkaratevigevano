@@ -8,7 +8,7 @@ video: false
 originale: "https://roninkaratevigevano.wordpress.com/2017/04/18/il-saluto/"
 ---
 
-<p><img src="/media/2017-04-f2290-j0409515.jpg" alt="https://roninkaratevigevano.wordpress.com/wp-content/uploads/2017/04/f2290-j0409515" loading="lazy" decoding="async"></p>
+<p><img src="/media/2017-04-f2290-j0409515.jpg" alt="Il saluto nel karate" loading="lazy" decoding="async"></p>
 <p>Per ingannare il tempo durante la pausa di Pasqua, vediamo qualche curiosità sul saluto che generalmente facciamo in palestra all’inizio e alla fine della lezione:</p>
 <p><i><b>Seiza</b></i> (正座, letteralmente “sedersi correttamente”) è il termine giapponese per indicare la posizione seduta tradizionale.</p>
 <p>Generalmente, per sedersi correttamente, il ginocchio sinistro deve essere posato a terra per primo, seguito dal destro e dai glutei, che infine appoggiano sui talloni.</p>
