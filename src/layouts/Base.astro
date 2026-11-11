@@ -29,7 +29,7 @@ const {
 const indicizza = !noindex && (!process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production");
 // Verifica di Google Search Console con meta tag: impostare PUBLIC_GOOGLE_SITE_VERIFICATION su Vercel
 const verificaGoogle = (import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION ?? "").trim();
-const titoloCompleto = titolo ? `${titolo} · Ronin Karate Vigevano` : "Ronin Karate Vigevano · Karate Shotokan dai 6 anni";
+const titoloCompleto = titolo ? `${titolo} · Ronin Karate Vigevano` : "Ronin Karate Vigevano · Corsi di karate a Vigevano dai 6 anni";
 const canonico = new URL(Astro.url.pathname, Astro.site);
 const immagineAssoluta = new URL(immagine, Astro.site);
 const percorso = Astro.url.pathname;

@@ -21,6 +21,11 @@ export const associazione = {
     { nome: "Facebook", url: "https://www.facebook.com/roninkaratevigevano", descrizione: "Notizie e appuntamenti del Ronin", account: "Ronin Karate Vigevano" },
     { nome: "TikTok", url: "https://www.tiktok.com/@ronin.karate.vige", descrizione: "Il karate, un video alla volta", account: "@ronin.karate.vige" },
   ],
+  // Altre pagine ufficiali dell'associazione, usate solo nei dati strutturati per Google
+  altriProfili: [
+    "https://roninkaratevigevano.wordpress.com/",
+    "https://golee.it/clubs/asd-ronin-karate-vigevano",
+  ],
 };
 
 export const contatti = {

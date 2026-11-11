@@ -15,14 +15,26 @@ const news = await tutteLeNews();
 const fissati = news.filter((n) => inEvidenza(n));
 const ultime = news.filter((n) => n.data.categorie.includes("News") && !fissati.includes(n)).slice(0, 3);
 
-const schema = {
-  "@context": "https://schema.org",
+// WebSite: suggerisce a Google il nome del sito da mostrare nei risultati.
+// sameAs: collega il nuovo sito agli altri profili dell'associazione (vecchio WordPress compreso),
+// così Google capisce che sono la stessa realtà.
+const sito = {
+  "@type": "WebSite",
+  "@id": new URL("/#sito", Astro.site).href,
+  name: associazione.breve,
+  alternateName: [associazione.nome, "Ronin Karate"],
+  url: Astro.site?.href,
+  inLanguage: "it",
+  publisher: { "@id": new URL("/#palestra", Astro.site).href },
+};
+const palestra = {
   "@type": "SportsActivityLocation",
   "@id": new URL("/#palestra", Astro.site).href,
   name: associazione.nome,
+  alternateName: [associazione.breve, "Ronin Karate"],
   vatID: "IT" + associazione.piva,
   areaServed: "Vigevano",
-  description: "Associazione sportiva dilettantistica di karate Shotokan, affiliata FIJLKAM.",
+  description: "Associazione sportiva dilettantistica di karate Shotokan a Vigevano, affiliata FIJLKAM. Corsi per ragazzi dai 6 anni, amatori e adulti.",
   url: Astro.site?.href,
   logo: new URL("/img/logo-512.png", Astro.site).href,
   image: new URL("/img/og.jpg", Astro.site).href,
@@ -31,8 +43,9 @@ const schema = {
   sport: "Karate",
   address: { "@type": "PostalAddress", streetAddress: "Via Mondetti 15", postalCode: "27029", addressLocality: "Vigevano", addressRegion: "PV", addressCountry: "IT" },
   geo: { "@type": "GeoCoordinates", latitude: associazione.palestra.lat, longitude: associazione.palestra.lng },
-  sameAs: associazione.social.map((s) => s.url),
+  sameAs: [...associazione.social.map((s) => s.url), ...associazione.altriProfili],
 };
+const schema = { "@context": "https://schema.org", "@graph": [sito, palestra] };
 ---
 <Base schema={schema} classeBody="home">
   <script is:inline>
@@ -60,7 +73,7 @@ const schema = {
     <span class="kanji-lato sx" aria-hidden="true">浪人</span>
     <span class="kanji-lato dx" aria-hidden="true">空手</span>
     <div class="hero-basso">
-      <div><h1 id="hero-titolo">A.S.D. Ronin Karate Vigevano</h1><p>Karate Shotokan per ragazze e ragazzi dai 6 anni, amatori e adulti.</p></div>
+      <div><h1 id="hero-titolo">A.S.D. Ronin Karate Vigevano</h1><p>Corsi di karate Shotokan a Vigevano per ragazze e ragazzi dai 6 anni, amatori e adulti.</p></div>
       <div class="azioni"><a class="pill magnete" href={provaWhatsApp} target="_blank" rel="noopener">Prova su WhatsApp</a><a class="pill contorno" href={telLink(contatti.principale.wa)}>Chiama</a></div>
     </div>
   </section>
