@@ -4,19 +4,35 @@
 // JSON sicuro dentro <script>: niente "</script>" anche se GitHub restituisse testo inatteso
 const js = (v) => JSON.stringify(v).replace(/</g, "\\u003c");
 
+// Testo sicuro dentro l'HTML
+const html = (v) => String(v).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
 const pagina = (stato, contenuto, origini) => `<!doctype html>
-<html lang="it"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Accesso al pannello</title></head>
-<body style="font-family:system-ui,sans-serif;padding:24px">
-<p>${stato === "success" ? "Accesso eseguito, puoi chiudere questa finestra." : "Accesso non riuscito. Chiudi la finestra e riprova."}</p>
+<html lang="it"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Accesso al pannello</title></head>
+<body style="font-family:system-ui,sans-serif;padding:24px;line-height:1.5">
+<p id="esito">${stato === "success" ? "Collegamento al pannello in corso…" : "Accesso non riuscito."}</p>
+${stato === "success" ? "" : `<p>Motivo: <strong>${html(contenuto.error)}</strong></p><p>Chiudi la finestra e riprova. Se si ripete, manda questo messaggio a chi gestisce il sito.</p>`}
 <script>
 (() => {
   const consentite = ${js(origini)};
   const messaggio = "authorization:github:${stato}:" + ${js(JSON.stringify(contenuto))};
-  if (!window.opener) return;
-  window.addEventListener("message", (e) => {
+  const esito = document.getElementById("esito");
+  if (!window.opener) {
+    if (${js(stato === "success")}) esito.textContent = "Questa finestra ha perso il collegamento con il pannello. Chiudila, ricarica la pagina /admin/ e riprova senza aprire altre schede.";
+    return;
+  }
+  // Niente { once: true }: altri messaggi (es. estensioni del browser) non devono consumare l'ascolto
+  const ascolta = (e) => {
     if (e.data !== "authorizing:github" || !consentite.includes(e.origin)) return;
+    window.removeEventListener("message", ascolta);
+    clearTimeout(attesa);
     window.opener.postMessage(messaggio, e.origin);
-  }, { once: true });
+    if (${js(stato === "success")}) esito.textContent = "Accesso eseguito, puoi chiudere questa finestra.";
+  };
+  window.addEventListener("message", ascolta);
+  const attesa = setTimeout(() => {
+    if (${js(stato === "success")}) esito.textContent = "Il pannello non ha risposto. Chiudi la finestra, ricarica /admin/ e riprova (se usi estensioni del browser, prova in una finestra di navigazione in incognito).";
+  }, 8000);
   window.opener.postMessage("authorizing:github", "*");
 })();
 </script></body></html>`;
@@ -35,8 +51,13 @@ export default async function handler(req, res) {
   res.setHeader("Set-Cookie", "ronin_cms_stato=; Path=/api; HttpOnly; Secure; SameSite=Lax; Max-Age=0");
 
   const errore = (testo) => res.status(400).send(pagina("error", { error: testo }, origini));
-  const { code, state } = req.query;
-  if (!code || !state || state !== leggiCookie(req, "ronin_cms_stato")) return errore("Richiesta non valida o scaduta.");
+  const { code, state, error, error_description } = req.query;
+  // GitHub rimanda qui anche quando l'accesso viene negato o l'OAuth App è configurata male
+  if (error) return errore(`GitHub: ${error_description || error}`);
+  if (!code || !state) return errore("GitHub non ha inviato il codice di accesso.");
+  const statoSalvato = leggiCookie(req, "ronin_cms_stato");
+  if (!statoSalvato) return errore("Cookie di sicurezza mancante (scaduto dopo 10 minuti o bloccato dal browser).");
+  if (state !== statoSalvato) return errore("Codice di sicurezza non corrispondente: chiudi le altre finestre di accesso e riprova.");
 
   try {
     const risposta = await fetch("https://github.com/login/oauth/access_token", {
